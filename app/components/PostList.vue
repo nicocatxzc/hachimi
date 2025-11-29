@@ -1,0 +1,155 @@
+<script setup>
+const props = defineProps({
+    postList: {
+        type: Object,
+        required: true,
+    },
+    api: {
+        type: Object,
+        default: () => {},
+    },
+});
+
+let postList = ref(props.postList);
+let page = ref(1);
+let api = computed(() => (props?.api?.key ? props.api : null));
+let haveMore = computed(() => Boolean(postList.value?.pageInfo.hasNextPage));
+
+const pagination = useTemplateRef("pagination");
+let observer = null;
+onMounted(() => {
+    if (api.value == null) return;
+
+    observer = new IntersectionObserver(
+        (entires) => {
+            if (entires[0]?.isIntersecting) {
+                if (!haveMore.value) {
+                    observer.disconnect();
+                }
+                loadMore();
+            }
+        },
+        {
+            threshold: 0.1,
+            rootMargin: "50px",
+        }
+    );
+
+    let stopwatch = watch(
+        () => pagination.value,
+        () => {
+            if (pagination.value) {
+                observer.observe(pagination.value);
+                stopwatch();
+            }
+        }
+    );
+
+    nextTick(() => {
+        if (pagination.value) {
+            observer.observe(pagination.value);
+            if (stopwatch) stopwatch();
+        }
+    });
+
+    onUnmounted(() => {
+        observer.disconnect();
+    });
+});
+
+let timer = null;
+let message = ref("加载更多");
+function loadMore(inst = false) {
+    if (inst == true) {
+        if (timer) {
+            timer = null;
+            loadPosts();
+        }
+    }
+    if (timer) return;
+    timer = setTimeout(async () => {
+        await loadPosts();
+        clearTimeout(timer);
+        timer = null;
+    }, 3000);
+    async function loadPosts() {
+        page.value += 1;
+        api.value.query = api.value?.query ?? {};
+        api.value.query.page = page.value;
+        api.value.query.after = postList.value.pageInfo.endCursor;
+        let { data, promise, error } = useCachedFetch(
+            `${api.value?.key}-${page.value}`,
+            api.value?.url,
+            {
+                ...api.value?.option,
+                fetchOptions: {
+                    query: {
+                        ...api.value?.query,
+                    },
+                },
+            }
+        );
+        message.value = "正在加载...";
+        await promise;
+        message.value = "加载更多";
+        if (error.value) {
+            ElMessage.error("文章加载出错");
+        }
+        if (data.value) {
+            postList.value = {
+                nodes: [...postList.value.nodes, ...data.value.posts.nodes],
+                pageInfo: {
+                    ...data.value.posts.pageInfo,
+                },
+            };
+        }
+        if (api.value.query.after) {
+            api.value.query.after = postList.value.pageInfo.endCursor;
+        }
+    }
+}
+const posts = computed(() => postList.value?.nodes);
+</script>
+
+<template>
+    <div class="post-list">
+        <post-card v-for="(post, index) in posts" :key="index" :post="post" />
+        <div v-if="api" ref="pagination" class="pagination">
+            <button v-if="haveMore" @click="loadMore(true)">
+                <a>{{ message }}</a>
+            </button>
+            <span v-if="!haveMore">没有更多了</span>
+        </div>
+    </div>
+</template>
+
+<style scoped>
+.post-list {
+    --button-color: rgba(255, 255, 255, 0.5);
+    --shadow: 0 0.1rem 2rem -0.25rem #ffffff;
+    --border: 0.1rem solid #ffffff;
+}
+:root.dark .post-list {
+    --button-color: rgba(26, 26, 26, 0.6);
+    --shadow: 0 0.1rem 2rem -0.25rem rgba(26, 26, 26, 0.8);
+    --border: 0.1rem solid #7d7d7d30;
+}
+.post-list {
+    display: flex;
+    flex-direction: column;
+}
+.pagination {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 1rem 0;
+    margin: 2.5rem 0 5rem 0;
+}
+.pagination button {
+    padding: 0.8rem 2rem;
+    background-color: var(--button-color);
+    box-shadow: var(--shadow);
+    border: var(--border);
+    border-radius: 3rem;
+}
+</style>

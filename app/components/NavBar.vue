@@ -1,0 +1,260 @@
+<script setup>
+import { useScrollStore } from "@/stores/progress";
+
+const themeConfig = useThemeConfig();
+
+const scroll = useScrollStore();
+
+// 从api获取菜单
+const { data: menuData } = await useCachedFetch("navbar","/api/menu")
+
+const menuItems = computed(() => menuData.value?.items || []);
+
+// 转换为相对链接
+const convertWpUrl = (wpUrl) => {
+    try {
+        const url = new URL(wpUrl);
+        return url.pathname;
+    } catch {
+        return wpUrl;
+    }
+};
+
+onMounted(() => {
+    //防止子菜单量子叠加
+    const menuItems = document.querySelectorAll("nav .menu > li");
+    let activeSubMenu = null;
+
+    menuItems.forEach((item) => {
+        const subMenu = item.querySelector(".sub-menu");
+
+        if (!subMenu) return;
+
+        //鼠标移入时激活子菜单
+        item.addEventListener("mouseenter", () => {
+            if (activeSubMenu && activeSubMenu !== subMenu) {
+                //有且仅有一个激活
+                activeSubMenu.classList.remove("active");
+            }
+
+            //更新并激活当前子菜单
+            subMenu.classList.add("active");
+            activeSubMenu = subMenu;
+        });
+    });
+    //放叠加结束
+
+    //子菜单对齐
+    const subMenus = document.querySelectorAll("nav .menu > li .sub-menu");
+
+    subMenus.forEach((subMenu) => {
+        const MainMenu = subMenu.parentElement;
+
+        // 获取渲染后的宽度
+        const MainMenuWidth = MainMenu.getBoundingClientRect().width;
+        const subMenuWidth = subMenu.getBoundingClientRect().width;
+
+        // 偏移计算，确保子菜单居中
+        const offsetX = (subMenuWidth - MainMenuWidth) / 2;
+
+        // 设置初始样式
+        const BasicSubMenuStyle = `translateY(-10px) translateX(-${offsetX}px)`;
+        subMenu.style.transform = BasicSubMenuStyle;
+
+        // 设置偏移量
+        MainMenu.addEventListener("mouseenter", () => {
+            subMenu.style.transform = `translateY(0) translateX(-${offsetX}px)`;
+        });
+        MainMenu.addEventListener("mouseleave", () => {
+            subMenu.style.transform = BasicSubMenuStyle;
+        });
+    });
+});
+</script>
+
+<template>
+    <header class="site-header" :class="(scroll.progress>=5 || scroll.direction == `down`) ? `bg` : ''">
+        <div class="site-branding">
+            <NuxtImg
+                :src="`https://nicocat.cc/wp-content/uploads/2025/11/avatar.png`"
+                alt="site logo"
+            />
+            <NuxtLink :to="'/'">
+                <span class="site-title">站点标题</span>
+            </NuxtLink>
+        </div>
+
+        <div class="menu-wrapper">
+            <nav>
+                <ul
+                    class="menu"
+                    :style="{
+                        justifyContent: themeConfig.navbar.distribution,
+                        margin: `0 ${themeConfig.navbar.margin}px`,
+                    }"
+                >
+                    <template v-for="item in menuItems" :key="item.id">
+                        <li
+                            v-if="item.children && item.children.length"
+                            :index="item.id + ''"
+                        >
+                            <NuxtLink :to="convertWpUrl(item.url)">
+                                {{ item.title }}
+                            </NuxtLink>
+
+                            <ul class="sub-menu">
+                                <li
+                                    v-for="child in item.children"
+                                    :key="child.id"
+                                    :index="child.id + ''"
+                                >
+                                    <NuxtLink :to="convertWpUrl(child.url)">
+                                        {{ child.title }}
+                                    </NuxtLink>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li v-else :index="item.id + ''">
+                            <NuxtLink :to="convertWpUrl(item.url)">
+                                {{ item.title }}
+                            </NuxtLink>
+                        </li>
+                    </template>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="avata">
+            <el-avatar
+                size="default"
+                src="https://nicocat.cc/wp-content/uploads/2025/11/avatar.png"
+            />
+        </div>
+    </header>
+</template>
+
+<style scoped>
+.site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    gap: 0.15rem;
+    width: 100%;
+    height: 3.75rem;
+    padding: 0 1.25rem;
+    display: flex;
+    align-items: center;
+    background: transparent;
+    border-bottom: 0.1rem solid transparent;
+    transition: all 0.6s ease;
+    user-select: none;
+}
+.site-header.bg,
+.site-header:hover {
+    border-bottom: 0.1rem solid #ffffff;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: saturate(180%) blur(10px);
+    transition: border-bottom 0.5s ease, all 0.5s ease;
+}
+
+.site-branding {
+    border-radius: 0;
+    background: transparent;
+    border: 0;
+    height: 100%;
+    line-height: 4.7rem;
+    position: relative;
+    padding-left: 0.3rem;
+    display: flex;
+    align-items: center;
+    transition: all 0.4s ease-in-out;
+}
+.site-branding img {
+    max-width: 20vw;
+    max-height: 3.2rem;
+    height: 100%;
+    width: auto;
+}
+
+.site-title {
+    display: flex;
+    white-space: nowrap;
+    width: auto;
+    color: var(--theme-skin);
+    font-weight: 400;
+    white-space: nowrap;
+    padding: 0.32rem 0.64rem;
+    letter-spacing: 1px;
+    font-size: 1.2rem;
+    transition: all 0.4s ease-out;
+}
+
+.menu-wrapper,
+.menu-wrapper nav,
+.menu-wrapper nav > ul {
+    width: 100%;
+    display: flex;
+}
+
+.menu li {
+    position: relative;
+    list-style: none;
+    margin: 0 0.9rem;
+    padding: 10px 0;
+}
+
+nav > ul > li > a:after {
+    content: "";
+    display: block;
+    position: absolute;
+    bottom: -0.32rem;
+    height: 0.25rem;
+    background-color: var(--active-color);
+    width: 100%;
+    border-radius: 2rem;
+    max-width: 0;
+    transition: max-width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+nav > ul > li > a:hover:after {
+    max-width: 100%;
+}
+
+li .sub-menu {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    top: 110%;
+    min-width: 5.62rem;
+    white-space: nowrap;
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-0.63rem);
+    border-radius: 0.63rem;
+    padding: 0.31rem 0;
+    border: 1px solid #f7f7f7;
+    transition: all 0.4s ease-in-out;
+}
+
+li:hover > .sub-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+li .sub-menu li {
+    display: flex;
+    justify-content: center;
+}
+
+li .sub-menu li:last-child {
+    border-bottom: none;
+}
+
+li .sub-menu a {
+    display: block;
+    font-size: 14px;
+}
+</style>

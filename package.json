@@ -1,0 +1,37 @@
+{
+  "name": "hachimi",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt build && nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "@element-plus/icons-vue": ">=0.2.6",
+    "@element-plus/nuxt": "1.1.4",
+    "@nuxt/eslint": "1.10.0",
+    "@nuxt/fonts": "0.12.1",
+    "@nuxt/hints": "1.0.0-alpha.2",
+    "@nuxt/icon": "2.1.0",
+    "@nuxt/image": "2.0.0",
+    "@nuxt/scripts": "0.13.0",
+    "@pinia/nuxt": "0.11.3",
+    "@unhead/vue": "^2.0.3",
+    "axios": "^1.13.2",
+    "dayjs": "^1.11.19",
+    "element-plus": ">=2",
+    "eslint": "^9.0.0",
+    "htmlparser2": "^10.0.0",
+    "lodash-es": "^4.17.21",
+    "nuxt": "^4.2.1",
+    "pinia": "^3.0.4",
+    "vue": "^3.5.25",
+    "vue-router": "^4.6.3"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.1"
+  }
+}

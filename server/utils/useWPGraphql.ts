@@ -1,0 +1,16 @@
+import useWP from "./useWP";
+
+export default async function (query: string,variables?:Record<string, any>) {
+    try {
+        let res = await useWP.post("/graphql", {
+            query: query,
+            variables: variables,
+        });
+        delete res.data.extensions;
+        return res.data;
+
+    } catch (error) {
+        console.error("请求失败",query);
+        throw error;
+    }
+}
