@@ -1,3 +1,5 @@
+<script lang="ts" setup></script>
+
 <template>
     <div class="page">
         <div class="content">
@@ -5,8 +7,6 @@
         </div>
     </div>
 </template>
-
-<script lang="ts" setup></script>
 
 <style scoped>
 .page {
