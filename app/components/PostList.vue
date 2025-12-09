@@ -13,6 +13,7 @@ const props = defineProps({
 let postList = ref(props.postList);
 let page = ref(1);
 let api = computed(() => (props?.api?.key ? props.api : null));
+let query = ref({});
 let haveMore = computed(() => Boolean(postList.value?.pageInfo.hasNextPage));
 
 const pagination = useTemplateRef("pagination");
@@ -49,7 +50,7 @@ onMounted(() => {
     );
 
     onUnmounted(() => {
-        stopwatch()
+        stopwatch();
         observer.disconnect();
     });
 });
@@ -57,23 +58,25 @@ onMounted(() => {
 let timer = null;
 let message = ref("加载更多");
 function loadMore(inst = false) {
-    if (inst == true) {
+    if (inst == true) { // 清理计划并立即执行
         if (timer) {
+            clearTimeout(timer);
             timer = null;
             loadPosts();
+            return;
         }
     }
     if (timer) return;
-    timer = setTimeout(async () => {
+    timer = setTimeout(async () => { // 设置定时计划
         await loadPosts();
-        clearTimeout(timer);
         timer = null;
     }, 3000);
     async function loadPosts() {
-        page.value += 1;
-        api.value.query = api.value?.query ?? {};
-        api.value.query.page = page.value;
-        api.value.query.after = postList.value.pageInfo.endCursor;
+        page.value += 1; // 页码递增
+        query.value = api.value?.option?.fetchOptions?.query ?? {};
+        query.value.page = page.value; // 查询附上页码
+        query.value.after = postList.value.pageInfo.endCursor; // 查询附上游标
+
         let { data, promise, error } = useCachedFetch(
             `${api.value?.key}-${page.value}`,
             api.value?.url,
@@ -81,7 +84,7 @@ function loadMore(inst = false) {
                 ...api.value?.option,
                 fetchOptions: {
                     query: {
-                        ...api.value?.query,
+                        ...query.value, // 展开查询参数
                     },
                 },
             }
@@ -94,14 +97,11 @@ function loadMore(inst = false) {
         }
         if (data.value) {
             postList.value = {
-                nodes: [...postList.value.nodes, ...data.value.posts.nodes],
+                nodes: [...postList.value.nodes, ...data.value.posts.nodes], // 合并内容
                 pageInfo: {
-                    ...data.value.posts.pageInfo,
+                    ...data.value.posts.pageInfo, // 使用最新的页码
                 },
             };
-        }
-        if (api.value.query.after) {
-            api.value.query.after = postList.value.pageInfo.endCursor;
         }
     }
 }
