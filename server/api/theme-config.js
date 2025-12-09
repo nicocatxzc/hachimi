@@ -17,9 +17,9 @@ export default defineEventHandler(async () => {
         backgroundTransparencyDark: 0.7, // 深色模式背景透明度
         imgBrightDark: 0.8, // 深色模式图像亮度
         // 字体相关
-        globalFontWeight:300,
-        globalFontSize:16,
-        extraFonts:[
+        globalFontWeight:300, // 全局非强调文本字重
+        globalFontSize:16, // 全局字体大小
+        extraFonts:[ // 外部字体列表
             {
                 fontName:"方正喵呜",
                 link:"https://files.nicocat.cc/wp-content/uploads/2024/12/miaowu.woff2"
@@ -39,18 +39,18 @@ export default defineEventHandler(async () => {
             margin: "15" // 导航栏选项间距
         },
         // 页尾
-        footerSakura:true,
-        footerFont:"小赖",
-        footerHTML:`<span>html</span>`,
+        footerSakura:true, // 页尾樱花
+        footerFont:"小赖", // 页尾字体
+        footerHTML:`<span>html</span>`, // 页尾html
 
         // 其他
-        topScrollProgress:true,
-        topLoadingProgress:true,
-        pageAutoLoad:3,
-        missingImgPlaceholder:"https://files.moecat.cc/sakurairo/basic/friendlink.jpg",
-        missingAvatarPlaceholder:"https://files.moecat.cc/sakurairo/basic/image-404.png",
-        paginationAnimation:"",
-        loadingAnimation:"",
+        topScrollProgress:true, // 顶部阅读进度条
+        topLoadingProgress:true, // 顶部加载进度条
+        pageAutoLoad:3, // 文章列表自动加载等待时间
+        missingImgPlaceholder:"https://files.moecat.cc/sakurairo/basic/friendlink.jpg", // 丢失图片占位
+        missingAvatarPlaceholder:"https://files.moecat.cc/sakurairo/basic/image-404.png", // 丢失头像占位
+        paginationAnimation:"", // 分页加载动画
+        loadingAnimation:"", // 图片加载动画
 
         // 首页封面
     };

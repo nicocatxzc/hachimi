@@ -7,17 +7,24 @@ useHead({
         {
             innerHTML: `
             :root {
+                --global-font-size:${themeConfig.value.globalFontSize};
+                --global-font-weight:${themeConfig.value.globalFontWeight};
+            }
+            :root {
                 --word-color: ${themeConfig.value.wordColor};
                 --active-color: ${themeConfig.value.activeColor};
-                --global-font-weight: 300;
+                --widget-transparency: ${themeConfig.value.widgetTransparency};
+                --background-transparency: ${themeConfig.value.backgroundTransparency};
             }
-
             :root.dark {
                 --word-color: ${themeConfig.value.wordColorDark};
                 --active-color: ${themeConfig.value.activeColorDark};
+                --widget-transparency: ${themeConfig.value.widgetTransparencyDark};
+                --background-transparency: ${themeConfig.value.backgroundTransparencyDark};
+                --image-bright:${themeConfig.value.imgBrightDark};
             }
             `,
-            type:"text/css"
+            type: "text/css",
         },
     ],
 });
@@ -66,12 +73,12 @@ html {
 }
 
 ::-webkit-scrollbar-track {
-    background-color: #eee
+    background-color: #eee;
 }
 
 ::-webkit-scrollbar-thumb {
     background-color: var(--word-color);
-    border-radius: 25px
+    border-radius: 25px;
 }
 
 body {
