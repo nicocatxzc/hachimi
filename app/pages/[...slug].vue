@@ -37,4 +37,8 @@ let page = computed(()=>{
     </section>
 </template>
 
-<style scoped></style>
+<style scoped>
+    section.main-container {
+        min-height: 85dvh;
+    }
+</style>
