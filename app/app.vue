@@ -2,7 +2,11 @@ import { ThemeConfig } from './types/themeConfig';
 <script setup>
 const { data: themeConfig } = await useFetch("/api/theme-config");
 useState("themeConfig").value = toRaw(themeConfig.value ?? {});
+const darkmode = useDarkmodeStore();
 useHead({
+    htmlAttrs: {
+        class: computed(() => (darkmode.state ? "dark" : "light")),
+    },
     style: [
         {
             innerHTML: `

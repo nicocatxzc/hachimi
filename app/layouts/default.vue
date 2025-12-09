@@ -7,6 +7,7 @@
         <NavBar class="nav-bar" />
         <slot class="layout-slot" />
         <SiteFooter class="site-footer"/>
+        <SiteWidget class="site-widget"/>
     </div>
 </template>
 
@@ -29,5 +30,11 @@
 }
 .layout-slot {
     z-index: 1;
+}
+.site-footer {
+    z-index: 1;
+}
+.site-widget {
+    z-index: 10;
 }
 </style>
