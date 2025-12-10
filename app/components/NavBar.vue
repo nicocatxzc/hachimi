@@ -149,8 +149,8 @@ onMounted(() => {
 }
 .site-header.bg,
 .site-header:hover {
-    border-bottom: 0.1rem solid #ffffff;
-    background: rgba(255, 255, 255, 0.8);
+    border-bottom: var(--boarder);
+    background: var(--widget-background-color);
     backdrop-filter: saturate(180%) blur(10px);
     transition: border-bottom 0.5s ease, all 0.5s ease;
 }
@@ -165,7 +165,6 @@ onMounted(() => {
     padding-left: 0.3rem;
     display: flex;
     align-items: center;
-    transition: all 0.4s ease-in-out;
 }
 .site-branding img {
     max-width: 20vw;
@@ -184,7 +183,6 @@ onMounted(() => {
     padding: 0.32rem 0.64rem;
     letter-spacing: 1px;
     font-size: 1.2rem;
-    transition: all 0.4s ease-out;
 }
 
 .menu-wrapper,
@@ -224,14 +222,14 @@ li .sub-menu {
     top: 110%;
     min-width: 5.62rem;
     white-space: nowrap;
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: var(--widget-background-color);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     opacity: 0;
     visibility: hidden;
     transform: translateY(-0.63rem);
     border-radius: 0.63rem;
     padding: 0.31rem 0;
-    border: 1px solid #f7f7f7;
+    border: var(--boarder);
     transition: all 0.4s ease-in-out;
 }
 

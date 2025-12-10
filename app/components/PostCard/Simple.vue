@@ -16,7 +16,7 @@ let { post } = defineProps({
             </h3>
         </NuxtLink>
         <NuxtLink :to="post.uri">
-            <span v-html="post.excerpt" />
+            <span class="post-excerpt" v-html="post.excerpt" />
         </NuxtLink>
         <div class="post-metas">
             <div class="post-meta-date">
@@ -41,7 +41,7 @@ let { post } = defineProps({
                     :to="tag.uri"
                     class="tag"
                 >
-                    {{ tag.name }}
+                    #{{ tag.name }}
                 </NuxtLink>
             </div>
         </div>
@@ -76,13 +76,6 @@ let { post } = defineProps({
     box-shadow: var(--widget-shine);
     transform: translateY(-0.35rem);
 }
-.post-metas {
-    display: flex;
-    gap: 1rem;
-    margin-top: 0.2rem;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
 .post-title {
     font-size: 1.4rem;
     color: var(--main-word-color);
@@ -91,6 +84,18 @@ let { post } = defineProps({
     color: var(--main-word-color);
     overflow: hidden;
     text-overflow: ellipsis;
+}
+.post-metas {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.2rem;
+
+    font-size: 0.9rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.category,.tag {
+    margin-left: 0.3rem;
 }
 
 @keyframes loading-animation {
