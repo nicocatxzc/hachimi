@@ -1,4 +1,3 @@
-<!-- pages/PostRender.vue -->
 <template>
     <HtmlRender
         :html="htmlContent"
@@ -8,6 +7,7 @@
 </template>
 
 <script setup>
+import CodeHighlight from "@/components/CodeHighlight.vue";
 const { html } = defineProps({
     html: {
         type: String,
@@ -16,12 +16,6 @@ const { html } = defineProps({
 });
 
 const htmlContent = html ? html : "";
-
-// 高亮组件占位
-const CodeHighlighter = {
-    props: ["class", "style", "node"],
-    template: `<pre style="border:1px solid #ddd;padding:6px"><code><slot/></code></pre>`,
-};
 
 // swiper占位
 const SwiperGallery = {
@@ -49,15 +43,47 @@ const componentsMap = {
     // 高亮组件
     codeBlock: {
         conditions(node) {
-            // 匹配标签
             return node.type === "tag" && node.name === "pre";
         },
-        component: CodeHighlighter,
+        component: CodeHighlight,
+
         propsMapper(node) {
-            // 传入原始节点和class
+            // 查找<code>
+            const codeNode = node.children?.find(
+                (c) => c.type === "tag" && c.name === "code"
+            );
+
+            let codeText = "";
+            let detectedLang = "auto";
+
+            if (codeNode) {
+                // 收集code内容
+                codeText = codeNode.children
+                    .filter((c) => c.type === "text")
+                    .map((c) => c.text)
+                    .join("");
+
+                // 获取language
+                const classText = codeNode.attrs?.class || "";
+                const m = classText.match(/language-([\w-]+)/);
+                if (m) {
+                    detectedLang = m[1];
+                }
+            } else {
+                // 没有code
+                codeText = node.children
+                    .filter((c) => c.type === "text")
+                    .map((c) => c.text)
+                    .join("");
+
+                detectedLang = "auto";
+            }
+
+            // 传递code和lang
             return {
-                node,
-                class: node.attrs?.class,
+                code: codeText,
+                lang: detectedLang,
+                ...node.attrs
             };
         },
     },

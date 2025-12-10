@@ -2,8 +2,8 @@
 let config = useThemeConfig();
 </script>
 
+<!-- eslint-disable vue/no-v-html -->
 <template>
-    <!-- eslint-disable vue/no-v-html -->
     <footer class="site-footer">
         <div class="site-info" v-html="config.footerHTML" />
         <div class="theme-info">

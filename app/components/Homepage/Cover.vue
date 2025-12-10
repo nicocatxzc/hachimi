@@ -1,3 +1,5 @@
+<script lang="ts" setup></script>
+
 <template>
     <div class="homepage-cover">
         <figure class="cover">
@@ -5,8 +7,6 @@
         </figure>
     </div>
 </template>
-
-<script lang="ts" setup></script>
 
 <style scoped>
 .homepage-cover,.cover,.cover-image {

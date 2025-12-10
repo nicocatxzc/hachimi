@@ -66,7 +66,7 @@ useHead({
 <style>
 :root {
     --border-color: rgba(255, 255, 255, 0.8);
-    --border: 0.06rem solid var(--border-color);
+    --border: 0.1rem solid var(--border-color);
     --widget-background: 255, 255, 255;
     --widget-background-color: rgba(255, 255, 255, var(--widget-transparency));
     --widget-shadow: 0 0.1rem 1.2rem -0.25rem #e8e8e8;
@@ -77,16 +77,18 @@ useHead({
         255,
         var(--background-transparency)
     );
+    --code-background:#e1e4e8;
 }
 
 :root.dark {
     --border-color: #7d7d7d30;
-    --border: 0.06rem solid var(--border-color);
+    --border: 0.1rem solid var(--border-color);
     --widget-background: 26, 26, 26;
     --widget-background-color: rgba(26, 26, 26, var(--widget-transparency));
     --widget-shadow: 0 0.1rem 1.2rem -0.25rem rgba(26, 26, 26, 0.8);
     --widget-shine: 0 0.1rem 2rem -0.25rem var(--active-color);
     --page-background-color: rgba(51, 51, 51, var(--background-transparency));
+    --code-background:#24292e;
 }
 
 html {

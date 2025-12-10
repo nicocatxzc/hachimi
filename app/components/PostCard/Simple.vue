@@ -7,8 +7,8 @@ let { post } = defineProps({
 });
 </script>
 
+<!-- eslint-disable vue/no-v-html -->
 <template>
-    <!-- eslint-disable vue/no-v-html -->
     <article class="post-card">
         <NuxtLink :to="post.uri">
             <h3 class="post-title">
