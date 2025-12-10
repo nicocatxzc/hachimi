@@ -3,11 +3,15 @@
 <template>
     <div class="background">
         <div class="background-filter" />
-        <ProgressBar class="progress-bar" />
+        <ClientOnly>
+            <ProgressBar class="progress-bar" />
+        </ClientOnly>
         <NavBar class="nav-bar" />
         <slot class="layout-slot" />
         <SiteFooter class="site-footer" />
-        <SiteWidget class="site-widget" />
+        <ClientOnly>
+            <SiteWidget class="site-widget" />
+        </ClientOnly>
     </div>
 </template>
 

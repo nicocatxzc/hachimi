@@ -6,8 +6,8 @@ const props = defineProps({
     },
 });
 let author = computed(() => {
-    let { name,author_id, description, slug, avatar, post_count } = props.page;
-    return { name,author_id, description, slug, avatar, post_count };
+    let { name, author_id, description, slug, avatar, post_count } = props.page;
+    return { name, author_id, description, slug, avatar, post_count };
 });
 const api = computed(() => {
     return {
@@ -16,9 +16,9 @@ const api = computed(() => {
         option: {
             promise: true,
             fetchOptions: {
-                query:{
-                    authorId:author.value?.author_id
-                }
+                query: {
+                    authorId: author.value?.author_id,
+                },
             },
         },
     };
@@ -36,7 +36,10 @@ let postList = computed(() => {
     <ContentContainer>
         <div class="author-info-container">
             <div class="author-info">
-                <ElAvatar class="author-avatar" :style="{'--post-count':`'${author.post_count}'`}">
+                <ElAvatar
+                    class="author-avatar"
+                    :style="{ '--post-count': `'${author.post_count}'` }"
+                >
                     <NuxtImg
                         :src="author.avatar?.url_150"
                         :alt="`avatar of ${author.name}`"
@@ -45,12 +48,12 @@ let postList = computed(() => {
                 <div class="author-desc">
                     <h3 class="name">{{ author.name }}</h3>
                     <div class="description">
-                        {{ author.description }}12345678
+                        {{ author.description }}
                     </div>
                 </div>
             </div>
         </div>
-        <PostList :post-list="postList" :api="api"/>
+        <PostList :post-list="postList" :api="api" />
     </ContentContainer>
 </template>
 
@@ -74,34 +77,36 @@ let postList = computed(() => {
     flex-direction: column;
     align-items: center;
 
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: rgba(var(--widget-background), 0.5);
+    border: var(--border);
     border-radius: 1rem;
 }
 .author-avatar {
     --el-avatar-size: 4.6rem;
     position: absolute;
-    top: -2.3rem;
+    top: -2.5rem;
     overflow: visible;
 }
 .author-avatar img {
     border-radius: 50%;
 }
 .author-avatar::after {
-        content: var(--post-count) " \f044";
-        font-family: 'FontAwesome';
-        position: absolute;
-        right: -0.5rem;
-        bottom: 0;
-        background-color: #fff;
-        padding: 5px;
-        border-radius: 5px;
-        font-size: 12px;
-        color: var(--theme-skin-matching, #505050);
-        box-shadow: 0 1px 30px -4px #e8e8e8;
-        background: rgba(255, 255, 255, 0.7);
-        padding: 0.12rem 0.5rem;
-        border-radius: 1rem;
-        border: 1px solid #FFFFFF;
-		backdrop-filter: saturate(180%) blur(10px);
-    }
+    content: var(--post-count) "🖊";
+    position: absolute;
+    right: -0.5rem;
+    bottom: 0;
+    padding: 0.3rem;
+    border-radius: 0.3rem;
+    font-size: 0.75rem;
+    color: var(--active-color);
+    box-shadow: var(--widget-shadow);
+    background: var(--widget-background-color);
+    padding: 0.12rem 0.5rem;
+    border-radius: 1rem;
+    border: var(--border);
+    backdrop-filter: saturate(180%) blur(10px);
+}
+.author-desc {
+    margin-top: 1rem;
+}
 </style>

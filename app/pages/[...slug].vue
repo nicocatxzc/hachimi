@@ -18,7 +18,6 @@ if(error.value) {
 }
 
 let page = computed(()=>{
-    console.log(data.value)
     if (data.value?.type == "404") {
         showError({ statusCode: 404, statusMessage: "页面不存在" });
     }

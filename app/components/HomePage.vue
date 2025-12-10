@@ -6,7 +6,6 @@ const { postList } = defineProps({
     },
 });
 let list = toRaw(postList)?.nodes
-console.log("文章列表",list)
 </script>
 
 <template>

@@ -5,7 +5,6 @@ let { post } = defineProps({
         required: true,
     },
 });
-console.log(post)
 </script>
 
 <template>

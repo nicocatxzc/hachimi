@@ -18,7 +18,6 @@ onMounted(() => {
         }
     );
 });
-console.log(scroll.progress)
 </script>
 
 <template>

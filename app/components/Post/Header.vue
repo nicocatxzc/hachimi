@@ -6,7 +6,6 @@ const props = defineProps({
     },
 });
 const post = computed(() => props?.post);
-console.log(post.value)
 </script>
 
 <template>
