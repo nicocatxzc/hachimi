@@ -18,13 +18,18 @@ const highlighted = computed(() => {
     }
     return hljs.highlight(props.code, { language: props.lang }).value.trim();
 });
+
+function copy() {
+    navigator.clipboard.writeText(props?.code || "")
+    ElMessage.success("代码已复制到剪切板!")
+}
 </script>
 
 <!-- eslint-disable vue/no-v-html -->
 <!-- pre标签内的内容会严格按照格式渲染,格式化会导致布局问题 -->
 <template>
     <!-- prettier-ignore -->
-    <pre class="code"><Icon class="copy-button" :name="'fa-solid:copy'"/><code v-html="highlighted"/></pre>
+    <pre class="code"><Icon class="copy-button" :name="'fa-solid:copy'" @click="copy"/><code v-html="highlighted"/></pre>
 </template>
 <style>
 pre {
