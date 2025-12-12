@@ -2,14 +2,25 @@ import useWPsettings from "../utils/useWPsettings";
 import useWPGraphql from "../utils/useWPGraphql";
 
 function usePostQuery(settings, query = {}) {
+    let queryPart = '';
+    if (query?.after || query?.search) {
+        queryPart = `
+        (
+            ${query?.after ? `$after: String` : ""}
+            ${query?.search ? `$search: String` : ""}
+        )
+        `
+    }
     const GetPosts = /* GraphQL */ `
-        query Posts {
+        query Posts
+            ${queryPart}
+         {
             posts(
-                first: ${query?.first ? query.first : 10}
-                after: ${query?.after ? `"${query.after}"` : null}
+                first: ${query?.first ? Number(query.first) : 10}
+                ${query?.after ? `after: $after` : ""}
                 where: {
                     orderby: { field: DATE, order: DESC }
-                    ${query?.search ? 'search: "' + query.search + '"' : ""}
+                    ${query?.search ? `search: $search` : ""}
                     ${
                         query?.sticky
                             ? `in: [${settings.sticky_post_ids.join(",")}]`
@@ -20,9 +31,9 @@ function usePostQuery(settings, query = {}) {
                             ? `notIn: [${settings.sticky_post_ids.join(",")}]`
                             : ""
                     }
-                    ${query?.tagId ? "tagId:" + query.tagId : ""}
-                    ${query?.categoryId ? "categoryId:" + query.categoryId : ""}
-                    ${query?.authorId ? "author:" + query.authorId : ""}
+                    ${query?.tagId ? "tagId:" + Number(query.tagId) : ""}
+                    ${query?.categoryId ? "categoryId:" + Number(query.categoryId) : ""}
+                    ${query?.authorId ? "author:" + Number(query.authorId) : ""}
                 }
             ) {
                 nodes {
@@ -65,7 +76,14 @@ function usePostQuery(settings, query = {}) {
             }
         }
     `;
-    return useWPGraphql(GetPosts);
+    let queryVar = {}
+    if (query?.after) {
+        queryVar.after = query.after
+    }
+    if (query?.search) {
+        queryVar.search = query.search
+    }
+    return useWPGraphql(GetPosts,queryVar);
 }
 
 export default defineEventHandler(async (event) => {
