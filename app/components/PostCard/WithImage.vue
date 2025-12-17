@@ -26,7 +26,7 @@ let { post } = defineProps({
 
         <div class="post-title">
           <nuxt-link :to="post.uri" :aria-label="`link to post ${post.title}`">
-            <h3>{{ post.title }}</h3>
+            <h3 v-html="post.title"/>
           </nuxt-link>
         </div>
         <div class="post-excerpt">

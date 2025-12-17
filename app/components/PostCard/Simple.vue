@@ -11,9 +11,7 @@ let { post } = defineProps({
 <template>
     <article class="post-card">
         <NuxtLink :to="post.uri">
-            <h3 class="post-title">
-                {{ post.title }}
-            </h3>
+            <h3 class="post-title" v-html="post.title"/>
         </NuxtLink>
         <NuxtLink :to="post.uri">
             <span class="post-excerpt" v-html="post.excerpt" />
