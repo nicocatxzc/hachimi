@@ -24,6 +24,7 @@ const GetPost = /* GraphQL */ `
             hasPassword
             modifiedGmt
             commentStatus
+            commentCount
             title(format: RENDERED)
             excerpt(format: RENDERED)
             categories {
