@@ -120,7 +120,7 @@ onMounted(() => {
     height: 1.5rem;
 }
 .icon {
-    background-color: var(--word-color-second);
+    background-color: #7d7d7d;
 }
 .control button:hover {
     color: var(--word-color-first-reverse);
