@@ -1,4 +1,3 @@
-import decrypt from "../../utils/useDecrypt";
 import { useWP } from "#imports";
 
 export default defineEventHandler(async (event) => {
@@ -6,7 +5,7 @@ export default defineEventHandler(async (event) => {
 
     if (event.method == "POST") {
         post = await readBody(event);
-        let res = decrypt(post?.verify,post?.token, post?.payload);
+        let res:any = await useDecrypt(post?.verify,post?.token, post?.payload);
         try {
             res = JSON.parse(res);
         } catch (e) {

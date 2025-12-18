@@ -1,39 +1,46 @@
 import * as OTPAuth from "otpauth";
 import { useAuth } from "#imports";
+import { CompactEncrypt } from "jose";
 
-export function useEncrypt(payload: string) {
+export async function useEncrypt(payload: string) {
     const auth = useAuth();
-    const commSecret = auth.secret as string;
+    const dailySecret = auth.secret as string;
 
     const totp = new OTPAuth.TOTP({
-        secret: OTPAuth.Secret.fromHex(commSecret),
-        digits: 6,
+        secret: OTPAuth.Secret.fromHex(dailySecret),
+        digits: 8,
         period: 30,
     });
+    const token = totp.generate();
+    const verify = auth.verify;
+    const jwe = await encryptWithTotp(dailySecret, token, payload);
 
-    function encrypt(payload: any) {
-        const token = totp.generate();
-        const json = JSON.stringify(payload);
-
-        const encrypted = btoa(xor(json, token));
-
-        return {
-            token,
-            verify: auth.verify,
-            payload: encrypted,
-        };
-    }
-    const encrypted = encrypt(payload);
-
-    return encrypted;
+    return {
+        token,
+        verify,
+        payload: jwe,
+    };
 }
 
-function xor(data: string, key: string) {
-    let out = "";
-    for (let i = 0; i < data.length; i++) {
-        out += String.fromCharCode(
-            data.charCodeAt(i) ^ key.charCodeAt(i % key.length)
-        );
-    }
-    return out;
+async function deriveKey(dailySecret: string, totp: string) {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(`${dailySecret}:${totp}`);
+    const hash = await crypto.subtle.digest("SHA-256", data); // ArrayBuffer 32 bytes
+    return new Uint8Array(hash);
+}
+
+async function encryptWithTotp(
+    dailySecret: string,
+    totp: string,
+    payloadStr: string
+) {
+    const key = await deriveKey(dailySecret, totp); // Uint8Array(32)
+    const encoder = new TextEncoder();
+    const plaintext = encoder.encode(payloadStr);
+
+    const jwe = await new CompactEncrypt(plaintext)
+        .setProtectedHeader({ alg: "dir", enc: "A256GCM" })
+        .encrypt(key);
+
+    return jwe;
 }

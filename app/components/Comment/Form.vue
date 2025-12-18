@@ -32,7 +32,7 @@ async function submit() {
         email: email.value,
         link: link.value,
     };
-    const data = useEncrypt(JSON.stringify(payload));
+    const data = await useEncrypt(JSON.stringify(payload));
     const res = await $fetch("/api/comment", {
         method: "PUT",
         body: data,

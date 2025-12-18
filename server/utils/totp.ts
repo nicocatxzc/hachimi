@@ -1,6 +1,6 @@
 import * as OTPAuth from "otpauth";
 
-export function createTotp(secret: string, period = 30, digits = 6) {
+export function createTotp(secret: string, period = 30, digits = 8) {
     return new OTPAuth.TOTP({
         issuer: "hachimi",
         label: "front-totp",

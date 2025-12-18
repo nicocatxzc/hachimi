@@ -27,7 +27,7 @@ export default defineEventHandler(async (event) => {
             });
         }
 
-        const pair = getVerifyPair();
+        const pair = await getVerifyPair();
 
         return {
             commSecret: pair.daily,

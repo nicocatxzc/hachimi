@@ -14,7 +14,7 @@ onMounted(() => {
     });
 });
 async function submitLogin() {
-    let info = useEncrypt(
+    let info = await useEncrypt(
         JSON.stringify({
             username: username.value,
             password: password.value,

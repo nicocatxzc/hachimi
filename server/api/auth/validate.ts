@@ -18,7 +18,7 @@ export default defineEventHandler(async (event) => {
             message: "认证失败,令牌无效或已过期",
         });
     }
-    const pair = getVerifyPair();
+    const pair = await getVerifyPair();
     return {
         ...auth.data,
         token: pair.daily,
