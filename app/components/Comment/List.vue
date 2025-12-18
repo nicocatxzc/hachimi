@@ -6,7 +6,7 @@ const props = defineProps({
     },
     commentsCount: {
         type: Number,
-        required: true,
+        default: 0,
     },
     couldComment: {
         type: String,
@@ -99,7 +99,7 @@ const pageList = computed(() => {
         <h3 class="comment-list-title">
             Comments
             <span class="comment-count"
-                >{{ props.commentsCount || 0 }} 条评论</span
+                >{{ props?.commentsCount || 0 }} 条评论</span
             >
         </h3>
         <ul v-if="Boolean(props.postId)" class="comment-list">

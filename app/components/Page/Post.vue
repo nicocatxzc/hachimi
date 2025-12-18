@@ -15,6 +15,7 @@ const props = defineProps({
     },
 });
 let post = computed(() => {
+    console.log(props.page)
     return props.page.content;
 });
 </script>
@@ -33,7 +34,7 @@ let post = computed(() => {
         </ContentContainer>
     </article>
     <ContentContainer>
-        <CommentList :post-id="props.page.id" :comments-count="post.commentCount" :could-comment="post.commentStatus"/>
+        <CommentList :post-id="props.page.id" :comments-count="post?.commentCount ?? 0" :could-comment="post.commentStatus"/>
     </ContentContainer>
 </template>
 

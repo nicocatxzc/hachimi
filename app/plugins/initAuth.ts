@@ -25,20 +25,22 @@ export default defineNuxtPlugin(async (nuxtApp) => {
         auth.clearAuth();
     }
 
-    // 检查登录信息是否快过期
-    const now = Date.now() / 1000;
-    const timeUntilExpire = auth.expire - now;
-    if (timeUntilExpire <= 24 * 60 * 60 && timeUntilExpire > 0) {
-        try {
-            const res = await $fetch("/api/auth/refresh", {
-                method: "POST",
-            });
-            if (res.expire) {
-                auth.expire = res.expire;
+    if(authorized){
+        // 检查登录信息是否快过期
+        const now = Date.now() / 1000;
+        const timeUntilExpire = auth.expire - now;
+        if (timeUntilExpire <= 24 * 60 * 60 && timeUntilExpire > 0) {
+            try {
+                const res = await $fetch("/api/auth/refresh", {
+                    method: "POST",
+                });
+                if (res.expire) {
+                    auth.expire = res.expire;
+                }
+                console.log("登录信息续期成功");
+            } catch (error) {
+                console.log("登录信息续期失败,原因:", error);
             }
-            console.log("登录信息续期成功");
-        } catch (error) {
-            console.log("登录信息续期失败,原因:", error);
         }
     }
 });
