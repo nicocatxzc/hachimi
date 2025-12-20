@@ -21,6 +21,9 @@ function navigateBack() {
     } else {
         navigateTo("/");
     }
+    if (expand.value == true) {
+        navigateTo("/");
+    }
 }
 </script>
 
@@ -41,8 +44,15 @@ function navigateBack() {
                     <h2>{{ title || "主题" }}</h2>
                 </span>
                 <div class="controls">
-                    <ElButton class='button' type="button" @click="saveSettings">保存</ElButton>
-                    <ElButton class="button" type="button" @click="expand = !expand">{{ expand ? '<<<' : '>>>' }}</ElButton>
+                    <ElButton class="button" type="button" @click="saveSettings"
+                        >保存</ElButton
+                    >
+                    <ElButton
+                        class="button"
+                        type="button"
+                        @click="expand = !expand"
+                        >{{ expand ? "<<<" : ">>>" }}</ElButton
+                    >
                 </div>
             </div>
             <div class="settings-form">
@@ -147,7 +157,9 @@ function navigateBack() {
     display: flex;
     flex-direction: column;
     position: relative;
+
     background-color: whitesmoke;
+    transition: all 0.5s ease;
 }
 .settings.expand {
     width: 100dvw;
@@ -180,26 +192,38 @@ function navigateBack() {
 }
 
 .settings-form {
+    position: relative;
     display: flex;
     height: 100%;
     overflow: auto;
 }
 .settings-menu,
 .settings-area {
-    width: 0;
+    position: absolute;
+    width: 100%;
+    background-color: whitesmoke;
     overflow: hidden;
     transition: all 0.5s ease;
 }
+.settings-menu {
+    transform: translateX(-100%);
+}
+.settings-area {
+    transform: translateX(20dvw);
+}
 .settings-menu.show,
 .settings-area.show {
-    width: 100%;
+    transform: translateX(0);
     overflow: auto;
 }
 .expand .settings-menu.show {
     max-width: 20dvw;
 }
+.expand .settings-area.show {
+    transform: translateX(20dvw);
+}
 .settings-area.show {
-    padding:3%;
+    padding: 3%;
 }
 :deep(.el-collapse-item__content) {
     padding: 0;

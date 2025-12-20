@@ -114,7 +114,7 @@ console.log(props.context);
 }
 .group-inputs {
     width: 100%;
-    padding: .5rem;
+    padding: 1rem;
     display: flex;
     flex-direction: column;
 }
