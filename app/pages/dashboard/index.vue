@@ -9,37 +9,47 @@ const formData = ref(themeSettings.settings); // 表单数据
 const groups = formSchema;
 let current = ref("word");
 let title = ref("");
+let expand = ref(true);
 
 function saveSettings() {
     console.log(formData.value);
 }
 
 function navigateBack() {
-    if(title.value !='') {
-        title.value = '';
+    if (title.value != "") {
+        title.value = "";
     } else {
-        navigateTo("/")
+        navigateTo("/");
     }
 }
 </script>
 
 <template>
     <div class="dashboard">
-        <div class="settings">
+        <div
+            class="settings"
+            :class="{
+                expand: expand == true,
+            }"
+        >
             <div class="settings-info">
-                <button class="back" type="button" @click="navigateBack">
-                    <Icon :name="'fa7-solid:angle-left'" />
-                </button>
+                <ElButton class="back" type="button" @click="navigateBack">
+                    <Icon class="icon" :name="'fa7-solid:angle-left'" />
+                </ElButton>
                 <span class="info">
                     正在编辑:<br />
                     <h2>{{ title || "主题" }}</h2>
                 </span>
+                <div class="controls">
+                    <ElButton class='button' type="button" @click="saveSettings">保存</ElButton>
+                    <ElButton class="button" type="button" @click="expand = !expand">{{ expand ? '<<<' : '>>>' }}</ElButton>
+                </div>
             </div>
             <div class="settings-form">
                 <aside
                     class="settings-menu"
                     :class="{
-                        show: title == '',
+                        show: title == '' || expand == true,
                     }"
                 >
                     <ElMenu
@@ -84,7 +94,7 @@ function navigateBack() {
                 <div
                     class="settings-area"
                     :class="{
-                        show: title != '',
+                        show: title != '' || expand == true,
                     }"
                 >
                     <FormKit v-model="formData" type="form" :actions="false">
@@ -108,15 +118,19 @@ function navigateBack() {
                                 </div>
                             </template>
                         </template>
-                        <button type="button" @click="saveSettings">
-                            保存
-                        </button>
                         <pre>{{ current }} {{ formData }}</pre>
                     </FormKit>
                 </div>
             </div>
         </div>
-        <iframe class="preview" src="/" frameborder="0" />
+        <iframe
+            class="preview"
+            src="/"
+            frameborder="0"
+            :class="{
+                show: expand !== true,
+            }"
+        />
     </div>
 </template>
 
@@ -135,6 +149,9 @@ function navigateBack() {
     position: relative;
     background-color: whitesmoke;
 }
+.settings.expand {
+    width: 100dvw;
+}
 .settings-info {
     height: 4.5rem;
     top: 0;
@@ -144,7 +161,24 @@ function navigateBack() {
 .settings-info .back {
     height: 100%;
     width: 3rem;
+    max-width: 3rem;
 }
+.back .icon {
+    transform: scale(1.5);
+}
+.settings-info .info {
+    width: 100%;
+}
+.settings-info .controls {
+    width: 5rem;
+    display: flex;
+    flex-direction: column;
+}
+.controls .button {
+    width: 100%;
+    margin: 0;
+}
+
 .settings-form {
     display: flex;
     height: 100%;
@@ -159,12 +193,24 @@ function navigateBack() {
 .settings-menu.show,
 .settings-area.show {
     width: 100%;
+    overflow: auto;
+}
+.expand .settings-menu.show {
+    max-width: 20dvw;
+}
+.settings-area.show {
+    padding:3%;
 }
 :deep(.el-collapse-item__content) {
     padding: 0;
 }
 .preview {
     height: 100%;
+    width: 0;
     flex: 1;
+    transition: all 0.5s ease;
+}
+.preview.show {
+    width: unset;
 }
 </style>
