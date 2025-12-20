@@ -32,6 +32,9 @@ export default defineNuxtConfig({
             wp: WPendpoint,
         },
     },
+    formkit: {
+        autoImport: true,
+    },
     modules: [
       "@nuxt/eslint",
       "@nuxt/fonts",
@@ -43,5 +46,7 @@ export default defineNuxtConfig({
       "@pinia/nuxt",
       "@vueuse/nuxt",
       "pinia-plugin-persistedstate/nuxt",
+      "@formkit/nuxt",
+      "nuxt-monaco-editor",
     ],
 });
