@@ -6,7 +6,7 @@ const api = {
         promise: true,
     },
 };
-const { data, promise } = useCachedFetch(api.key, api.url, api.option);
+const { data, promise } = await useCachedFetch(api.key, api.url, api.option);
 await promise;
 const posts = computed(() => (data.value?.posts ? data.value.posts : {}));
 </script>

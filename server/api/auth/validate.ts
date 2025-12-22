@@ -6,7 +6,11 @@ export default defineEventHandler(async (event) => {
     try {
         const token = getCookie(event, "auth_token");
         if (!token) {
-            return;
+            throw createError({
+                statusCode: 401,
+                statusMessage: "Unauthorized",
+                message: "缺少认证令牌",
+            });
         }
         auth = await useWP.post("/wp-json/hachimi/v1/auth/validate", {
             token,

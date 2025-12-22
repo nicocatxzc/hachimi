@@ -10,6 +10,7 @@ const props = defineProps({
     },
 });
 
+// 初始的文章列表
 let postList = ref(props.postList);
 let page = ref(1);
 let api = computed(() => (props?.api?.key ? props.api : null));
@@ -77,7 +78,7 @@ function loadMore(inst = false) {
         query.value.page = page.value; // 查询附上页码
         query.value.after = postList.value.pageInfo.endCursor; // 查询附上游标
 
-        let { data, promise, error } = useCachedFetch(
+        let { data, promise, error } = await useCachedFetch(
             `${api.value?.key}-${page.value}`,
             api.value?.url,
             {
