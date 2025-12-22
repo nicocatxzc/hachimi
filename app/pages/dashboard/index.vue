@@ -11,6 +11,9 @@ let current = ref("basicSettings");
 let title = ref("");
 let expand = ref(true);
 
+onMounted(()=>{
+    formData.value = themeConfig.config
+})
 async function saveSettings() {
     // try {
         let data = await useEncrypt(JSON.stringify(toRaw(formData.value)))
