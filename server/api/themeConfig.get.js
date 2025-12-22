@@ -5,7 +5,7 @@ export default defineEventHandler(async () => {
     } catch (error) {
         throw createError({
             statusCode: 500,
-            statusMessage: "耄耋死了",
+            statusMessage: "Internal Server Error",
             message: error?.toString() || "请求出错",
         });
     }

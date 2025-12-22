@@ -224,7 +224,7 @@ export default defineEventHandler(async (event) => {
     } catch (error) {
         throw createError({
             statusCode: 500,
-            statusMessage: "耄耋死了",
+            statusMessage: "Internal Server Error",
             message: error?.message,
         });
     }
