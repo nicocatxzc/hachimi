@@ -12,10 +12,26 @@ const posts = computed(() => (data.value?.posts ? data.value.posts : {}));
 </script>
 
 <template>
-    <HomepageCover />
-    <ContentContainer>
-        <PostList :post-list="posts" :api="api"/>
-    </ContentContainer>
+    <div>
+        <HomepageCover />
+        <ContentContainer>
+            <h2 class="block-title">展栏</h2>
+            <HomepageShow />
+            <h2 class="block-title">破事水</h2>
+            <PostList :post-list="posts" :api="api" />
+        </ContentContainer>
+    </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.block-title {
+    font-size: 1.2rem;
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding-bottom: .6rem;
+}
+</style>
