@@ -24,18 +24,15 @@ onMounted(() => {
     );
 });
 const extraFontsCss = getExtraFontsCss();
-const themeCss = getThemeCss()
-useHead({
-    style: [
-        {
-            innerHTML: /*css*/ `
+const themeCss = getThemeCss();
+useStyleTag(
+    computed(
+        () => `
 ${extraFontsCss.value}
 ${themeCss.value}
-            `,
-            type: "text/css",
-        },
-    ],
-});
+`
+    )
+);
 </script>
 
 <template>

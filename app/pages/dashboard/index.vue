@@ -11,21 +11,44 @@ let current = ref("basicSettings");
 let title = ref("");
 let expand = ref(true);
 
-onMounted(()=>{
-    formData.value = themeConfig.config
-})
+let preview = useTemplateRef("preview");
+const postPreviewConfig = useDebounceFn(() => {
+    preview.value?.contentWindow?.postMessage(
+        {
+            type: "previewData",
+            data: JSON.parse(JSON.stringify(toRaw(formData.value))),
+        },
+        "*"
+    );
+},100);
+
+onMounted(() => {
+    Object.assign(
+        themeConfig.tempConfig,
+        structuredClone(toRaw(themeConfig.config))
+    );
+    const stopwatch = watch(
+        () => themeConfig.tempConfig,
+        () => postPreviewConfig(),
+        { deep: true }
+    );
+    onUnmounted(() => {
+        stopwatch();
+    });
+});
 async function saveSettings() {
     try {
-        let data = await useEncrypt(JSON.stringify(toRaw(formData.value)))
-        let res = await $fetch("/api/theme/themeConfig",{
-            method:"PUT",
-            body:data
-        })
-        if(res.success) {
-            ElMessage.success("配置已成功保存")
+        let data = await useEncrypt(JSON.stringify(toRaw(formData.value)));
+        let res = await $fetch("/api/theme/themeConfig", {
+            method: "PUT",
+            body: data,
+        });
+        if (res.success) {
+            ElMessage.success("配置已成功保存");
         }
+        themeConfig.config = formData.value;
     } catch (error) {
-        ElMessage.error(`保存失败,错误详情${error}`)
+        ElMessage.error(`保存失败,错误详情${error}`);
     }
 }
 
@@ -131,9 +154,7 @@ function navigateBack() {
                                 <!-- 顶层 -->
                                 <div
                                     v-if="group.schema"
-                                    v-show="
-                                        current === group.key
-                                    "
+                                    v-show="current === group.key"
                                 >
                                     <FormKitSchema :schema="group.schema" />
                                 </div>
@@ -142,9 +163,7 @@ function navigateBack() {
                                 <template v-if="group.subGroup">
                                     <div
                                         v-for="sub in group.subGroup"
-                                        v-show="
-                                            current === sub.key
-                                        "
+                                        v-show="current === sub.key"
                                         :key="sub.key"
                                     >
                                         <FormKitSchema :schema="sub.schema" />
@@ -157,6 +176,7 @@ function navigateBack() {
                 </div>
             </div>
             <iframe
+                ref="preview"
                 class="preview"
                 src="/"
                 frameborder="0"

@@ -3,8 +3,8 @@ import { defineStore } from "pinia";
 export const useThemeConfigStore = defineStore(
     "themeConfig",
     () => {
-        let config = ref({});
-        let tempConfig = ref({});
+        let config = reactive({});
+        let tempConfig = reactive({});
         return { config,tempConfig };
     },
     {

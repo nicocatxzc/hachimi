@@ -4,7 +4,6 @@ import Typed from "typed.js";
 let config = useThemeConfig();
 
 const typedRef = useTemplateRef("typedRef");
-
 onMounted(() => {
     let typed
     try{
