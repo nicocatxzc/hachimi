@@ -50,6 +50,7 @@
   },
   "devDependencies": {
     "@iconify-json/fa7-solid": "^1.2.3",
-    "@types/node": "^24.10.1"
+    "@types/node": "^24.10.1",
+    "cross-env": "^10.1.0"
   }
 }
