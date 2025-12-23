@@ -7,7 +7,7 @@ let token = ref("");
 let hash = ref("");
 let image = ref("");
 let answer = ref("");
-const captchaContainer = useTemplateRef("captchaContainer")
+const captchaContainer = useTemplateRef("captchaContainer");
 let inputRef = useTemplateRef("captchaInput");
 
 onMounted(async () => {
@@ -46,21 +46,23 @@ async function getCaptcha() {
     token.value = res.token;
 }
 async function verifyCaptcha(answer) {
-    let res = await captcha.verify(answer, token.value, hash.value);
-    if (res?.commSecret) {
+    try {
+        let res = await captcha.verify(answer, token.value, hash.value);
+        auth.setSecret(res.commSecret, res.verifyToken);
         ElMessage.success("验证通过");
-        auth.setSecret(res.commSecret,res.verifyToken);
-        return true;
-    } else {
-        ElMessage.error("回答错误或验证码已过期");
+    } catch (error) {
+        ElMessage.error(`回答错误或验证码已过期,错误详情${error}`);
         getCaptcha();
-        return false;
     }
 }
 </script>
 
 <template>
-    <div v-show="auth.needCaptcha" ref="captchaContainer" class="captcha-container">
+    <div
+        v-show="auth.needCaptcha"
+        ref="captchaContainer"
+        class="captcha-container"
+    >
         <div class="image-button">
             <Icon
                 :name="'fa7-solid:circle-info'"
@@ -88,12 +90,15 @@ async function verifyCaptcha(answer) {
             @focus="setImageShow(true)"
             @blur="hideTimer.start()"
         />
-        <button class="button" type="button" @click="verifyCaptcha(answer)">点击验证</button>
+        <button class="button" type="button" @click="verifyCaptcha(answer)">
+            点击验证
+        </button>
     </div>
 </template>
 
 <style scoped>
 .captcha-container {
+    position: relative;
     display: flex;
     gap: 0.3rem;
     align-items: center;
@@ -102,7 +107,6 @@ async function verifyCaptcha(answer) {
     background-color: var(--widget-background-color);
     border: var(--border-sketch);
     border-radius: 0.5rem;
-    overflow: hidden;
 }
 .image-button {
     display: flex;
@@ -119,7 +123,7 @@ async function verifyCaptcha(answer) {
     height: fit-content;
     width: fit-content;
     object-fit: contain;
-    transform: translateY(-70%);
+    transform: translateY(-70%) translateX(40%);
     border-radius: 0.5rem;
 }
 .image.show {

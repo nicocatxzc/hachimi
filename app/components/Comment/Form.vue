@@ -146,7 +146,7 @@ async function submit() {
                     class="input link"
                 />
             </div>
-            <div class="checks"><AuthCaptcha /></div>
+            <div class="checks"><AuthCaptcha class="captcha"/></div>
             <div class="functions">
                 <button type="submit" class="submit">留言</button>
             </div>
@@ -202,17 +202,22 @@ async function submit() {
     border: var(--border-sketch);
 }
 .infos {
+    width: 100%;
     display: flex;
     justify-content: space-between;
     margin-bottom: 2em;
 }
 .infos .input {
+    width: 25%;
     padding: 0.5rem;
     outline: none;
     border: var(--border-shine);
 }
 .infos .input:focus {
     border: var(--border-sketch);
+}
+.checks .captcha {
+    max-width: 20rem;
 }
 .functions {
     display: flex;
