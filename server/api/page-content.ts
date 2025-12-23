@@ -1,5 +1,3 @@
-import useWP from "../utils/useWP";
-
 export default defineEventHandler(async (event) => {
     try {
         const query = getQuery(event);
@@ -69,10 +67,10 @@ export default defineEventHandler(async (event) => {
             //     ...page,
             //     content:content.data.posts
             // }
-
+                break;
             case "single":
                 // 获取文章内容
-                content = await $fetch("/api/post", {
+                content = await $fetch("/api/content/post", {
                     query: {
                         id: page.id,
                     },
@@ -84,7 +82,7 @@ export default defineEventHandler(async (event) => {
 
             case "page":
                 // 获取页面内容
-                content = await $fetch("/api/page", {
+                content = await $fetch("/api/content/page", {
                     query: {
                         id: page.id,
                     },

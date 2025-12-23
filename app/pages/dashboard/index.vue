@@ -17,7 +17,7 @@ onMounted(()=>{
 async function saveSettings() {
     try {
         let data = await useEncrypt(JSON.stringify(toRaw(formData.value)))
-        let res = await $fetch("/api/themeConfig",{
+        let res = await $fetch("/api/theme/themeConfig",{
             method:"PUT",
             body:data
         })

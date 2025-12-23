@@ -74,7 +74,7 @@ async function submit() {
             parent: replyTarget.value?.id ?? "",
         };
         const data = await useEncrypt(JSON.stringify(payload));
-        const res = await $fetch("/api/comment", {
+        const res = await $fetch("/api/content/comments", {
             method: "PUT",
             body: data,
         });

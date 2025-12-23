@@ -35,7 +35,7 @@ let stopwatch = watch(
         }
         const { data, promise, error } = await useCachedFetch(
             `comments-${props.postId}-${page.value}`,
-            "/api/comments",
+            "/api/content/comments",
             {
                 promise: true,
                 fetchOptions: {

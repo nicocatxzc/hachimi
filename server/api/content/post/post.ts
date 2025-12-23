@@ -1,7 +1,6 @@
-import useWPGraphql from "../utils/useWPGraphql";
-const GetPage = /* GraphQL */ `
-    query GetPage($pageId: ID!) {
-        page(id: $pageId, idType: DATABASE_ID) {
+const GetPost = /* GraphQL */ `
+    query GetPost($postId: ID!) {
+        post(id: $postId, idType: DATABASE_ID) {
             author {
                 node {
                     nicename
@@ -12,6 +11,7 @@ const GetPage = /* GraphQL */ `
                 }
             }
             content(format: RENDERED)
+            gutenbergStyles
             featuredImage {
                 node {
                     sourceUrl
@@ -23,15 +23,30 @@ const GetPage = /* GraphQL */ `
             hasPassword
             modifiedGmt
             commentStatus
+            commentCount
             title(format: RENDERED)
+            excerpt(format: RENDERED)
+            categories {
+                nodes {
+                    name
+                    uri
+                }
+            }
+            tags {
+                nodes {
+                    name
+                    uri
+                }
+            }
         }
     }
 `;
+
 export default defineEventHandler(async (event) => {
     try {
         const query = getQuery(event);
         if (query.id) {
-            let content = await useWPGraphql(GetPage, { pageId: query.id });
+            let content = await useWPGraphql(GetPost, { postId: query.id });
             return content.data;
         }
     } catch (error) {

@@ -9,7 +9,7 @@ const themeConfig = useThemeConfig();
 const scroll = useScrollStore();
 
 // 从api获取菜单
-const { data: menuData } = await useCachedFetch("navbar", "/api/menu");
+const { data: menuData } = await useCachedFetch("navbar", "/api/content/menu");
 
 const menuItems = computed(() => Array.isArray(menuData.value) ? menuData.value : []);
 

@@ -1,6 +1,3 @@
-import useWPGraphql from "../utils/useWPGraphql";
-import useWPsettings from "../utils/useWPsettings";
-
 function useCommentQuery(query = {}) {
     let queryPart = "";
     if (query?.after || query?.search) {

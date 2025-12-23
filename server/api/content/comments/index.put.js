@@ -1,5 +1,3 @@
-import useWPGraphql from "../utils/useWPGraphql";
-
 const insertComment = /* GraphQL */ `
     mutation InsertComment($input: CreateCommentInput!) {
         createComment(input: $input) {

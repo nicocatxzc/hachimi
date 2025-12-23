@@ -1,5 +1,3 @@
-import { useWP } from "#imports";
-
 export default defineEventHandler(async (event) => {
     let post: any = {};
 
