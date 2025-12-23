@@ -68,7 +68,7 @@ useHead({
 </script>
 
 <template>
-    <article v-if="post">
+    <article v-if="post" class="post">
         <PostHeaderWithImage
             v-if="post.featuredImage?.node.sourceUrl"
             :post="post"
@@ -85,4 +85,11 @@ useHead({
     </ContentContainer>
 </template>
 
-<style scoped></style>
+<style scoped>
+article.post {
+    width: 100%;
+}
+.post-content {
+    width: 100%;
+}
+</style>

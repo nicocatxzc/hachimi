@@ -32,10 +32,11 @@ onMounted(() => {
                     <h1
                         class="cover-title"
                         :style="{
-                            fontSize: `${config?.cover_title_font_size}rem`,
+                            fontFamily:config?.coverTitleFont,
+                            fontSize: `${config?.coverTitleFontSize}rem`,
                         }"
                     >
-                        {{ config?.cover_title }}
+                        {{ config?.coverTitle }}
                     </h1>
                     <div class="socials">
                         <div class="typed-container">
