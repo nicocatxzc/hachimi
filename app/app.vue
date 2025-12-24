@@ -2,37 +2,45 @@
 import "element-plus/theme-chalk/dark/css-vars.css";
 
 const themeConfig = useThemeConfig();
-
 const darkmode = useDarkmodeStore();
 
-onBeforeMount(() => {
-    // 立即初始化
-    darkmode.mountCheck();
-});
-onMounted(() => {
-    // 自动更新主题
-    watch(
-        () => darkmode.state,
-        () => {
-            if (darkmode.state) {
-                document.documentElement.classList.add("dark");
-            } else {
-                document.documentElement.classList.remove("dark");
-            }
-        },
-        { immediate: true }
-    );
-});
+// 初始化样式
 const extraFontsCss = getExtraFontsCss();
 const themeCss = getThemeCss();
+const { data } = await useCachedFetch(
+    "global-block-style",
+    "/api/system/settings"
+);
+useHead({
+    style: [
+        {
+            innerHTML: data.value?.global_style,
+        },
+        {
+            innerHTML: `
+        ${extraFontsCss.value}
+        ${themeCss.value}`,
+        },
+    ],
+});
 useStyleTag(
     computed(
         () => `
-${extraFontsCss.value}
-${themeCss.value}
-`
+        ${extraFontsCss.value}
+        ${themeCss.value}
+        `
     )
 );
+
+
+// 初始化客户端逻辑
+onBeforeMount(() => {
+    darkmode.mountCheck();
+});
+
+onMounted(() => {
+    watchDarkmode();
+});
 </script>
 
 <template>
