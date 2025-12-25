@@ -29,7 +29,7 @@ function copy() {
 <!-- pre标签内的内容会严格按照格式渲染,格式化会导致布局问题 -->
 <template>
     <!-- prettier-ignore -->
-    <pre class="code"><Icon class="copy-button" :name="'fa-solid:copy'" @click="copy"/><code v-html="highlighted"/></pre>
+    <pre class="code"><Icon class="copy-button" :name="'fluent:copy-16-regular'" @click="copy"/><code v-html="highlighted"/></pre>
 </template>
 <style>
 pre {
