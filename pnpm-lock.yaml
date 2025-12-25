@@ -20,6 +20,18 @@ importers:
       '@formkit/nuxt':
         specifier: ^1.7.1
         version: 1.7.1(@nuxt/kit@4.2.2(magicast@0.5.1))(esbuild@0.27.2)(rollup@4.54.0)(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue@3.5.26(typescript@5.9.3))
+      '@iconify-json/fa7-solid':
+        specifier: ^1.2.3
+        version: 1.2.3
+      '@iconify-json/fluent':
+        specifier: ^1.2.36
+        version: 1.2.36
+      '@iconify-json/ic':
+        specifier: ^1.2.4
+        version: 1.2.4
+      '@iconify-json/line-md':
+        specifier: ^1.2.11
+        version: 1.2.11
       '@nuxt/eslint':
         specifier: 1.10.0
         version: 1.10.0(@typescript-eslint/utils@8.50.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(@vue/compiler-sfc@3.5.26)(eslint@9.39.2(jiti@2.6.1))(magicast@0.5.1)(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))
@@ -123,9 +135,6 @@ importers:
         specifier: ^4.6.3
         version: 4.6.4(vue@3.5.26(typescript@5.9.3))
     devDependencies:
-      '@iconify-json/fa7-solid':
-        specifier: ^1.2.3
-        version: 1.2.3
       '@types/node':
         specifier: ^24.10.1
         version: 24.10.4
@@ -816,6 +825,15 @@ packages:
 
   '@iconify-json/fa7-solid@1.2.3':
     resolution: {integrity: sha512-QMpjaoljKlJ33jnwIlvE/BF449AD+aVUe2o46Wl8oKUHCy+M2E4GRM4LvRaGdCOTUSE3VIQlXkqkYBug8WHEVQ==}
+
+  '@iconify-json/fluent@1.2.36':
+    resolution: {integrity: sha512-DhxwOu5Qiq09o2ehHeUK0I9lC01OeWFlxXP7pIslM0vbi8VuplrrJ7kMg21GJy87iOCevzxf6gTU7TLPGgSknw==}
+
+  '@iconify-json/ic@1.2.4':
+    resolution: {integrity: sha512-pzPMmrZrBQuwT7nmtrYdkttun8KalRGgZPIL1Ny9KpF2zjRGIUPN+npTfuD3lrgO/OnSwAoJWuekQwBpt/Cqrw==}
+
+  '@iconify-json/line-md@1.2.11':
+    resolution: {integrity: sha512-JYczKuKvTq/Pf9rSCoxwdBbAiWqceNrb3EtM3acD4YkzCAdp3co+CdNE/pb5lTURGbIA9GrGuqentHqVwXyVWA==}
 
   '@iconify/collections@1.0.631':
     resolution: {integrity: sha512-n54Bocfg8MFcZI5v4kioXClQhSsSVscWmSk07pb21vt2VBfMa/Q1AB/uzE9A1P08pqFEhKbjx2+OaHsPgjHyzg==}
@@ -5862,6 +5880,18 @@ snapshots:
   '@humanwhocodes/retry@0.4.3': {}
 
   '@iconify-json/fa7-solid@1.2.3':
+    dependencies:
+      '@iconify/types': 2.0.0
+
+  '@iconify-json/fluent@1.2.36':
+    dependencies:
+      '@iconify/types': 2.0.0
+
+  '@iconify-json/ic@1.2.4':
+    dependencies:
+      '@iconify/types': 2.0.0
+
+  '@iconify-json/line-md@1.2.11':
     dependencies:
       '@iconify/types': 2.0.0
 
