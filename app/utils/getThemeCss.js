@@ -1,7 +1,7 @@
 export default function getThemeCss() {
     const themeConfig = useThemeConfig();
-    const themeCss = computed(()=>{
-      return /*css */ `
+    const themeCss = computed(() => {
+        return /*css */ `
 :root {
     --global-font-size:${themeConfig.value.globalFontSize};
     --global-font-weight:${themeConfig.value.globalFontWeight};
@@ -47,7 +47,11 @@ export default function getThemeCss() {
     --page-background-color: rgba(51, 51, 51, var(--background-transparency));
     --code-background: #24292e;
     --image-bright:${themeConfig.value.imgBrightDark};
-}`;
+}
+:root {
+    --border-active: 0.1rem solid var(--active-color);
+}
+`;
     });
 
     return themeCss;
