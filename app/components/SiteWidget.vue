@@ -19,7 +19,7 @@ onMounted(() => {
     );
 });
 function scrollToTop() {
-    scrollTo(0,0)
+    scrollTo(0, 0);
 }
 </script>
 
@@ -28,11 +28,11 @@ function scrollToTop() {
         <div
             class="control"
             :class="{
-                hide: scroll.progress==0,
+                hide: scroll.progress == 0,
             }"
         >
             <button @click="scrollToTop" id="goToTop" title="回到顶部">
-                <Icon class="icon" name="fa7-solid:sort-up" />
+                <Icon class="icon" name="fluent:caret-up-20-filled" />
             </button>
             <button
                 id="widgetToggle"
@@ -78,59 +78,129 @@ function scrollToTop() {
     position: fixed;
     right: 0.5rem;
     bottom: 1rem;
-
     display: flex;
     flex-flow: row-reverse;
     align-items: flex-end;
     gap: 0.5rem;
-}
-.site-widget * {
-    transition: all 0.5s cubic-bezier(0.07, 0.53, 0.65, 0.95);
-}
-</style>
 
-<style>
-.control {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-}
-.control button {
-    font-size: 1.1rem;
-    background-color: var(--widget-background-color);
-    border-radius: 0.5rem;
-    border: var(--border-shine);
-    cursor: pointer;
-}
-.control.hide button {
-    transform: scale(0);
-}
-#goToTop {
-    padding: 0.2rem 0.8rem;
-}
-#goToTop .icon {
-    width: 1.3rem;
-    height: 1.3rem;
-    transform: translateY(30%);
-}
-#widgetToggle {
-    padding: 0.6rem 0.8rem;
-}
-#widgetToggle .icon {
-    animation: rotateY 3s linear infinite;
-    transform-style: preserve-3d;
-    width: 1.5rem;
-    height: 1.5rem;
-}
-.icon {
-    background-color: #7d7d7d;
-}
-.control button:hover {
-    color: var(--word-color-first-reverse);
-    box-shadow: var(--widget-shadow-shine);
-}
-.control button:hover .icon {
-    background-color: var(--active-color);
+    * {
+        transition: all 0.5s cubic-bezier(0.07, 0.53, 0.65, 0.95);
+    }
+
+    .control {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+
+        &.hide {
+            button {
+                transform: scale(0);
+            }
+        }
+
+        button {
+            font-size: 1.1rem;
+            background-color: var(--widget-background-color);
+            border-radius: 0.5rem;
+            border: var(--border-shine);
+            cursor: pointer;
+
+            &:hover {
+                color: var(--word-color-first-reverse);
+                box-shadow: var(--widget-shadow-shine);
+
+                .icon {
+                    background-color: var(--active-color);
+                }
+            }
+        }
+
+        #goToTop {
+            padding: 0.2rem 0.8rem;
+
+            .icon {
+                width: 1.3rem;
+                height: 1.3rem;
+                transform: translateY(15%);
+            }
+        }
+
+        #widgetToggle {
+            padding: 0.6rem 0.8rem;
+
+            .icon {
+                animation: rotateY 3s linear infinite;
+                transform-style: preserve-3d;
+                width: 1.5rem;
+                height: 1.5rem;
+            }
+        }
+
+        .icon {
+            background-color: #7d7d7d;
+        }
+    }
+
+    .panel {
+        position: absolute;
+        right: 4rem;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+        &.hide {
+            transform: translateY(200%);
+        }
+
+        .widget-groups {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+            gap: 0.4rem;
+            align-items: stretch;
+
+            .group {
+                display: flex;
+                justify-content: space-between;
+                flex-direction: row;
+                text-align: center;
+                padding: 0.3rem;
+                flex-grow: 1;
+                background-color: var(--widget-background-color);
+                border-radius: 0.5rem;
+                max-width: 8rem;
+
+                button {
+                    margin: 0.15rem;
+                    width: 3.125rem;
+                    height: 3.125rem;
+                    line-height: 3.125rem;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    background-color: var(--widget-background-color);
+                    box-shadow: var(--widget-shadow-shine);
+                    border-radius: 0.5rem;
+                    border: var(--border-color-shine);
+                    color: var(--word-color-first);
+                    flex-grow: 1;
+                    cursor: pointer;
+
+                    .icon {
+                        width: 1.5rem;
+                        height: 1.5rem;
+                    }
+
+                    &:hover {
+                        color: var(--word-color-first-reverse);
+                        box-shadow: var(--widget-shadow-shine);
+                        background-color: var(--active-color);
+                    }
+                }
+            }
+        }
+    }
 }
 
 @keyframes rotateY {
@@ -140,70 +210,5 @@ function scrollToTop() {
     to {
         transform: rotateY(360deg);
     }
-}
-</style>
-
-<style scoped>
-.panel {
-    position: absolute;
-    right: 4rem;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    transition: all .8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-}
-.panel.hide {
-    transform: translateY(200%);
-}
-.widget-groups {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    gap: 0.4rem;
-
-    /* 让所有 group 共享最大高度 */
-    align-items: stretch;
-}
-.group {
-    display: flex;
-    justify-content: space-between;
-    flex-direction: row;
-    text-align: center;
-
-    padding: 0.3rem;
-    flex-grow: 1;
-
-    background-color: var(--widget-background-color);
-    border-radius: 0.5rem;
-    max-width: 8rem;
-}
-.group button {
-    margin: 0.15rem;
-    width: 3.125rem;
-    height: 3.125rem;
-    line-height: 3.125rem;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    background-color: var(--widget-background-color);
-    box-shadow: var(--widget-shadow-shine);
-    border-radius: 0.5rem;
-    border: var(--border-color-shine);
-    color: var(--word-color-first);
-
-    flex-grow: 1;
-
-    cursor: pointer;
-}
-.group button .icon {
-    width: 1.5rem;
-    height: 1.5rem;
-}
-.group button:hover {
-    color: var(--word-color-first-reverse);
-    box-shadow: var(--widget-shadow-shine);
-    background-color: var(--active-color);
 }
 </style>
