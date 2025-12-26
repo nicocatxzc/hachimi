@@ -8,22 +8,10 @@ const openLoginForm = authStore.openLoginForm;
 const themeConfig = useThemeConfig();
 const scroll = useScrollStore();
 
-// 从api获取菜单
-const { data: menuData } = await useCachedFetch("navbar", "/api/content/menu");
-
-const menuItems = computed(() =>
-    Array.isArray(menuData.value) ? menuData.value : []
-);
-
-// 转换为相对链接
-const convertWpUrl = (wpUrl) => {
-    try {
-        const url = new URL(wpUrl);
-        return url.pathname;
-    } catch {
-        return wpUrl;
-    }
-};
+const headerBg = computed(() => {
+    console.log(scroll.direction)
+    return scroll.progress >= 5 || scroll.direction == `down`;
+});
 
 const menuRef = useTemplateRef("menu");
 const activeSubMenu = ref(null);
@@ -61,12 +49,32 @@ onMounted(async () => {
         });
     });
 });
+
+// 从api获取菜单
+const { data: menuData } = await useCachedFetch("navbar", "/api/content/menu");
+
+const menuItems = computed(() =>
+    Array.isArray(menuData.value) ? menuData.value : []
+);
+
+// 转换为相对链接
+const convertWpUrl = (wpUrl) => {
+    try {
+        const url = new URL(wpUrl);
+        return url.pathname;
+    } catch {
+        return wpUrl;
+    }
+};
+
 </script>
 
 <template>
     <header
         class="site-header"
-        :class="scroll.progress >= 5 || scroll.direction == `down` ? `bg` : ''"
+        :class="{
+            bg: headerBg,
+        }"
     >
         <div class="site-branding">
             <NuxtImg
