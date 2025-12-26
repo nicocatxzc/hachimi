@@ -1,28 +1,40 @@
 import { defineStore } from "pinia";
+type scrollDirection = 'down' | 'up' | 'none'
 
 // 滚动进度
 export const useScrollStore = defineStore("scroll", () => {
-    const { y: scrollY } = useWindowScroll()
-    const { height: winHeight } = useWindowSize()
-    
-    // 自动计算进度
-    const progress = computed(() => {
-        if (import.meta.server) return 0
-        const docHeight = document.documentElement.scrollHeight;
-        const maxScroll = docHeight - winHeight.value;
-        if (maxScroll <= 0) return 100;
-        return Math.min(100, Math.max(0, (scrollY.value / maxScroll) * 100));
-    })
+    let progress = ref(0);
+    let direction = ref<scrollDirection>("down"); // down up none
+    let lastScrollY = ref(0);
 
-    // 自动计算方向
-    const direction = ref('down')
-    watch(scrollY, (newVal, oldVal) => {
-        if (Math.abs(newVal - oldVal) > 5) {
-            direction.value = newVal > oldVal ? 'down' : 'up'
+    function update(scrollY:number, winHeight:number, docHeight:number) {
+        const maxScroll = docHeight - winHeight;
+        if (maxScroll <= 0) {
+            progress.value = 100;
+            return;
         }
-    })
 
-    return { progress, direction, scrollY };
+        const newPercent = Math.min(
+            100,
+            Math.max(0, (scrollY / maxScroll) * 100)
+        );
+        progress.value = Number(newPercent.toFixed(2));
+
+        // 计算方向
+        if (Math.abs(scrollY - lastScrollY.value) > 5) {
+            // 5px 阈值防抖动
+            direction.value = scrollY > lastScrollY.value ? "down" : "up";
+        }
+        lastScrollY.value = scrollY;
+    }
+
+    function reset() {
+        progress.value = 0;
+        direction.value = "none";
+        lastScrollY.value = 0;
+    }
+
+    return { progress, direction, update, reset };
 });
 
 // 加载进度
