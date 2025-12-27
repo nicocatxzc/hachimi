@@ -426,7 +426,7 @@ export default [
 
                     {
                         $formkit: elText,
-                        name: "pcRandomPicUrl",
+                        name: "randomPicUrlPc",
                         label: "PC端封面随机图片地址",
                         value: "https://moeapi.moecat.cc/imgs/pc",
                         placeholder: "请输入图片链接或api地址",
@@ -434,7 +434,7 @@ export default [
 
                     {
                         $formkit: elText,
-                        name: "mbRandomPicUrl",
+                        name: "randomPicUrlMb",
                         label: "移动端封面随机图片地址",
                         value: "https://moeapi.moecat.cc/imgs/mb",
                         placeholder: "请输入图片链接或api地址",
