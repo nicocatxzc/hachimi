@@ -3,19 +3,19 @@ export default function getThemeCss() {
     const themeCss = computed(() => {
         return /*css */ `
 :root {
-    --global-font-size:${themeConfig.value.globalFontSize || 16};
-    --global-font-weight:${themeConfig.value.globalFontWeight || 300};
+    --global-font-size:${themeConfig.value?.globalFontSize || 16};
+    --global-font-weight:${themeConfig.value?.globalFontWeight || 300};
 }
 :root {
-    --active-color: ${themeConfig.value.activeColor || "#00b0f0"};
-    --widget-transparency: ${themeConfig.value.widgetTransparency || 0.8};
+    --active-color: ${themeConfig.value?.activeColor || "#00b0f0"};
+    --widget-transparency: ${themeConfig.value?.widgetTransparency || 0.8};
     --background-transparency: ${
         themeConfig.value.backgroundTransparency || 0.8
     };
-    --word-color-first: ${themeConfig.value.wordColorFirst || "#505050"};
-    --word-color-second: ${themeConfig.value.WordColorSecond || "#00000080"};
+    --word-color-first: ${themeConfig.value?.wordColorFirst || "#505050"};
+    --word-color-second: ${themeConfig.value?.WordColorSecond || "#00000080"};
     --word-color-third: #00000080;
-    --word-color-first-reverse:${themeConfig.value.wordColorFirstDark || "#CCCCCC"};
+    --word-color-first-reverse:${themeConfig.value?.wordColorFirstDark || "#CCCCCC"};
     --widget-background: 255, 255, 255;
     --widget-background-color: rgba(var(--widget-background), var(--widget-transparency));
     --widget-shadow-shine: 0 0.1rem 1.8rem -0.25rem rgb(232, 232, 232);
@@ -29,14 +29,14 @@ export default function getThemeCss() {
     --code-background: #e1e4e8;
 }
 :root.dark {
-    --active-color: ${themeConfig.value.activeColorDark || 
+    --active-color: ${themeConfig.value?.activeColorDark || 
 "#FCCD00"};
-    --widget-transparency: ${themeConfig.value.widgetTransparencyDark || 0.8};
-    --background-transparency: ${themeConfig.value.backgroundTransparencyDark || 0.7};
-    --word-color-first: ${themeConfig.value.wordColorFirstDark || "#CCCCCC"};
-    --word-color-second: ${themeConfig.value.wordColorSecondDark || "#7d7d7d"};
+    --widget-transparency: ${themeConfig.value?.widgetTransparencyDark || 0.8};
+    --background-transparency: ${themeConfig.value?.backgroundTransparencyDark || 0.7};
+    --word-color-first: ${themeConfig.value?.wordColorFirstDark || "#CCCCCC"};
+    --word-color-second: ${themeConfig.value?.wordColorSecondDark || "#7d7d7d"};
     --word-color-third: #7d7d7d;
-    --word-color-first-reverse:${themeConfig.value.wordColorFirst || "#505050"};
+    --word-color-first-reverse:${themeConfig.value?.wordColorFirst || "#505050"};
     --widget-background: 26, 26, 26;
     --widget-background-color: rgba(var(--widget-background), var(--widget-transparency));
     --widget-shadow-shine: 0 0.1rem 1.2rem -0.25rem rgba(26, 26, 26, 0.8);
@@ -48,7 +48,7 @@ export default function getThemeCss() {
     --border-shine: 0.1rem solid var(--border-color-shine);
     --page-background-color: rgba(51, 51, 51, var(--background-transparency));
     --code-background: #24292e;
-    --image-bright:${themeConfig.value.imgBrightDark || 0.7};
+    --image-bright:${themeConfig.value?.imgBrightDark || 0.7};
 }
 :root {
     --border-active: 0.1rem solid var(--active-color);
