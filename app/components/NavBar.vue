@@ -80,7 +80,12 @@ const convertWpUrl = (wpUrl) => {
                 alt="site logo"
             />
             <NuxtLink :to="'/'">
-                <span class="site-title">{{ themeConfig?.navTitle }}</span>
+                <span
+                    class="site-title"
+                    :style="{ fontFamily: themeConfig?.navTitleFont || '' }"
+                >
+                    {{ themeConfig?.navTitle }}</span
+                >
             </NuxtLink>
         </div>
 
@@ -92,6 +97,7 @@ const convertWpUrl = (wpUrl) => {
                     :style="{
                         justifyContent: themeConfig?.navbarDistribution,
                         margin: `0 ${themeConfig?.navbarOptionMargin}px`,
+                        fontFamily: themeConfig?.navOptionFont || '',
                     }"
                 >
                     <template v-for="item in menuItems" :key="item.id">
@@ -221,7 +227,7 @@ const convertWpUrl = (wpUrl) => {
     white-space: nowrap;
     padding: 0.32rem 0.64rem;
     letter-spacing: 1px;
-    font-size: 1.2rem;
+    font-size: 1.5rem;
 }
 .site-title:hover {
     color: var(--active-color);

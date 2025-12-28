@@ -55,7 +55,7 @@ html {
         "Microsoft YaHei", Roboto, Ubuntu, "Helvetica Neue", Arial, sans-serif;
     overflow-x: hidden;
     box-sizing: border-box;
-    font-size: 16px;
+    font-size: var(--global-font-size,16px);
     scroll-behavior: smooth;
 }
 

@@ -40,8 +40,8 @@ const headerBg = computed(() => {
     );
 });
 const headerHide = computed(() => {
-    if(scroll.direction=="down") {
-        collpase()
+    if (scroll.direction == "down") {
+        collpase();
         return true;
     }
     return false;
@@ -133,7 +133,12 @@ function collpase() {
                 alt="site logo"
             />
             <NuxtLink :to="'/'">
-                <span class="site-title">{{ themeConfig?.navTitle }}</span>
+                <span
+                    class="site-title"
+                    :style="{ fontFamily: themeConfig?.navTitleFont || '' }"
+                >
+                    {{ themeConfig?.navTitle }}
+                </span>
             </NuxtLink>
         </div>
 
@@ -142,7 +147,12 @@ function collpase() {
         </div>
 
         <nav ref="menuScope" class="menu-wrapper">
-            <ul class="menu">
+            <ul
+                class="menu"
+                :style="{
+                    fontFamily: themeConfig?.navOptionFont || '',
+                }"
+            >
                 <li
                     v-for="(item, index) in menuItems"
                     :key="index"

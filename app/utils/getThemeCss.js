@@ -3,7 +3,7 @@ export default function getThemeCss() {
     const themeCss = computed(() => {
         return /*css */ `
 :root {
-    --global-font-size:${themeConfig.value?.globalFontSize || 16};
+    --global-font-size:${themeConfig.value?.globalFontSize || 16}px;
     --global-font-weight:${themeConfig.value?.globalFontWeight || 300};
 }
 :root {
