@@ -88,6 +88,7 @@ body {
 @media (max-width: 860px) {
     .cover {
         background: var(--background-img-mb);
+        background-size: cover;
     }
 }
 .cover.transparent {
