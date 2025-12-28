@@ -166,5 +166,10 @@ html {
             object-fit: cover;
         }
     }
+    .flex-center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 }
 </style>
