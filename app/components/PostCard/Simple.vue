@@ -67,7 +67,7 @@ let { post } = defineProps({
 
     background-color: var(--widget-background-color);
     box-shadow: var(--widget-shadow-shine);
-    border-radius: 0.62rem;
+    border-radius: var(--post-card-border-radius,0.62rem);
     overflow: hidden;
 }
 .post-card:hover {

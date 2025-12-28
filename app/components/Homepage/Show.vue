@@ -1,24 +1,27 @@
 <script setup>
 const themeConfig = useThemeConfig();
-const list = themeConfig.value?.showAreaContent;
 </script>
 
 <!-- eslint-disable vue/no-v-html -->
 <template>
     <ul class="showcard-list">
-        <div v-for="(item, index) in list" class="showcard" :key="index">
+        <div v-for="(item, index) in themeConfig?.showAreaContent || []" :key="index" class="showcard">
             <div class="title">
                 <h3 v-html="item?.title" />
             </div>
             <NuxtLink
                 :href="item?.target"
-                :target="item?.target.match(/http/)?'_blank':'_self'"
-                :rel="item?.target.match(/http/)?'external nofollow noreferrer':''"
+                :target="item?.target.match(/http/) ? '_blank' : '_self'"
+                :rel="
+                    item?.target.match(/http/)
+                        ? 'external nofollow noreferrer'
+                        : ''
+                "
                 class="card-link"
             >
                 <div class="card-image">
                     <NuxtPicture
-                    class="nuxtpic"
+                        class="nuxtpic"
                         format="webp"
                         :quality="100"
                         :alt="'showcard-image'"
@@ -45,14 +48,14 @@ const list = themeConfig.value?.showAreaContent;
 
     z-index: 0;
 }
-@media screen and (min-width: 50rem){
+@media screen and (min-width: 50rem) {
     .showcard-list {
-        grid-template-columns: repeat(2,1fr);
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 @media screen and (min-width: 70rem) {
     .showcard-list {
-        grid-template-columns: repeat(3,1fr);
+        grid-template-columns: repeat(3, 1fr);
     }
 }
 .showcard {

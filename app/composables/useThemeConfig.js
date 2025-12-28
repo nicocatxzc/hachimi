@@ -10,7 +10,6 @@ export const useThemeConfig = () => {
             if (e.data?.type === "previewData") {
                 previewMode.value = true;
                 previewData.value = {...e.data.data};
-                console.log(previewData)
             }
         });
     }

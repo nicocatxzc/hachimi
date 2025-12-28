@@ -64,7 +64,7 @@ let { post } = defineProps({
     position: relative;
     background-color: var(--widget-background-color);
     box-shadow: var(--widget-shadow-shine);
-    border-radius: 0.62rem;
+    border-radius: var(--post-card-border-radius,0.62rem);
     overflow: hidden;
 }
 .post-card:hover {
@@ -96,7 +96,7 @@ let { post } = defineProps({
     color: var(--meta-color);
     background-color: var(--meta-background);
     border: 0.08rem solid #7d7d7d30;
-    border-radius: 0.4rem;
+    border-radius: var(--post-card-meta-border-radius,0.4rem);
     backdrop-filter: saturate(180%) blur(10px);
 }
 .post-date {
@@ -114,6 +114,7 @@ let { post } = defineProps({
     color: var(--meta-color);
 }
 .post-title {
+    font-size: var(--post-card-title-font-size,1.1rem);
     position: absolute;
     bottom: 22%;
     left: 2%;
@@ -125,7 +126,7 @@ let { post } = defineProps({
     color: var(--word-color-first);
     background-color: rgba(var(--widget-background), 0.7);
     border: 0.01rem solid var(--border-shine);
-    border-radius: 0.4rem;
+    border-radius: var(--post-card-title-border-radius,0.4rem);
     backdrop-filter: saturate(180%) blur(0.75px);
 }
 .post-excerpt {

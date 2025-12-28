@@ -10,6 +10,8 @@ const props = defineProps({
     },
 });
 
+const config = useThemeConfig();
+
 // 初始的文章列表
 let postList = ref(props.postList);
 let page = ref(1);
@@ -59,7 +61,8 @@ onMounted(() => {
 let timer = null;
 let message = ref("加载更多");
 function loadMore(inst = false) {
-    if (inst == true) { // 清理计划并立即执行
+    if (inst == true) {
+        // 清理计划并立即执行
         if (timer) {
             clearTimeout(timer);
             timer = null;
@@ -68,7 +71,8 @@ function loadMore(inst = false) {
         }
     }
     if (timer) return;
-    timer = setTimeout(async () => { // 设置定时计划
+    timer = setTimeout(async () => {
+        // 设置定时计划
         await loadPosts();
         timer = null;
     }, 3000);
@@ -110,9 +114,20 @@ const posts = computed(() => postList.value?.nodes);
 </script>
 
 <template>
-    <div class="post-list">
+    <div
+        class="post-list"
+        :style="{
+            '--post-card-border-radius': `${config?.postCardBorderRadius || 0.5}rem`,
+            '--post-card-meta-border-radius': `${config?.postCardMetaBorderRadius || 0.5}rem`,
+            '--post-card-title-border-radius': `${config?.postCardTitleBorderRadiusrem || 0.5}rem`,
+            '--post-card-title-font-size': `${config?.postCardTitleFontSize || 1.1}rem`,
+        }"
+    >
         <template v-for="(post, index) in posts" :key="index">
-            <PostCardWithImage v-if="post.featuredImage?.node?.sourceUrl" :post="post"></PostCardWithImage>
+            <PostCardWithImage
+                v-if="post.featuredImage?.node?.sourceUrl"
+                :post="post"
+            />
             <PostCardSimple v-else :post="post" />
         </template>
         <div v-if="api" ref="pagination" class="pagination">
