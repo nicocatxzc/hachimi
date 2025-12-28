@@ -17,9 +17,7 @@ onMounted(() => {
         <NavBarMobile :key="headerKey" class="nav-bar-mobile" />
 
         <!-- 主页封面 -->
-        <div id="homepage-cover">
-            <HomepageCover v-if="route.path=='/'" />
-        </div>
+        <HomepageCover v-if="route.path=='/'" />
 
         <!-- 内容区域 -->
         <div class="layout-slot">

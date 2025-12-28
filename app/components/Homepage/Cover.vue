@@ -79,6 +79,7 @@ body {
 .cover-info {
     height: 100dvh;
     width: 100dvw;
+    overflow-anchor: none;
 }
 .cover {
     background: var(--background-img-pc);
