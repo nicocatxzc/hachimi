@@ -69,12 +69,12 @@ const convertWpUrl = (wpUrl) => {
 
 <template>
     <header
-        class="site-header"
+        class="site-header flex-center"
         :class="{
             bg: headerBg,
         }"
     >
-        <div class="site-branding">
+        <div class="site-branding flex-center">
             <NuxtImg
                 :src="`https://nicocat.cc/wp-content/uploads/2025/11/avatar.png`"
                 alt="site logo"
@@ -114,6 +114,7 @@ const convertWpUrl = (wpUrl) => {
                                     v-for="child in item.children"
                                     :key="child.id"
                                     :index="child.id + ''"
+                                    class="flex-center"
                                 >
                                     <NuxtLink :to="convertWpUrl(child.url)">
                                         {{ child.title }}
@@ -186,8 +187,6 @@ const convertWpUrl = (wpUrl) => {
     width: 100%;
     height: 3.75rem;
     padding: 0 1.25rem;
-    display: flex;
-    align-items: center;
     background: transparent;
     border-bottom: 0.1rem solid transparent;
     transition: all 0.6s ease;
@@ -208,8 +207,6 @@ const convertWpUrl = (wpUrl) => {
     line-height: 4.7rem;
     position: relative;
     padding-left: 0.3rem;
-    display: flex;
-    align-items: center;
 }
 .site-branding img {
     max-width: 20vw;
@@ -288,11 +285,6 @@ li:hover > .sub-menu,
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
-}
-
-li .sub-menu li {
-    display: flex;
-    justify-content: center;
 }
 
 li .sub-menu li:last-child {

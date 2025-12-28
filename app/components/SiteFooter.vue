@@ -4,8 +4,8 @@ let config = useThemeConfig();
 
 <!-- eslint-disable vue/no-v-html -->
 <template>
-    <footer class="site-footer">
-        <div class="site-info" v-html="config.footerHTML" />
+    <footer class="site-footer flex-center">
+        <div class="site-info" v-html="config?.footerHTML || ''" />
         <div class="theme-info">
             <a
                 href="https://github.com/mirai-mamori/Sakurairo"
@@ -24,10 +24,7 @@ let config = useThemeConfig();
 <style scoped>
 .site-footer {
     width: 100%;
-    display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
     padding: 2rem;
     margin-left: auto;
     margin-right: auto;

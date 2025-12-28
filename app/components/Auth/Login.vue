@@ -38,7 +38,7 @@ async function submitLogin() {
 <template>
     <form
         ref="loginForm"
-        class="login-form"
+        class="login-form flex-center"
         :class="{
             show: loginModel,
         }"
@@ -82,10 +82,7 @@ async function submitLogin() {
     top: 50dvh;
     left: 50dvw;
 
-    display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
 
     padding: 2rem;
     gap: 0.5rem;

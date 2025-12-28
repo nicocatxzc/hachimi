@@ -1,7 +1,7 @@
 <script lang="ts" setup></script>
 
 <template>
-    <div class="content">
+    <div class="content flex-center">
         <div class="container">
             <slot />
         </div>
@@ -11,8 +11,6 @@
 <style scoped>
 .content {
     width: 100vw;
-    display: flex;
-    justify-content: center;
 }
 .container {
     max-width: 860px;

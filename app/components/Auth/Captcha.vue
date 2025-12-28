@@ -61,9 +61,9 @@ async function verifyCaptcha(answer) {
     <div
         v-show="auth.needCaptcha"
         ref="captchaContainer"
-        class="captcha-container"
+        class="captcha-container flex-center"
     >
-        <div class="image-button">
+        <div class="image-button flex-center">
             <Icon
                 :name="'fa7-solid:circle-info'"
                 class="icon"
@@ -99,9 +99,7 @@ async function verifyCaptcha(answer) {
 <style scoped>
 .captcha-container {
     position: relative;
-    display: flex;
     gap: 0.3rem;
-    align-items: center;
     height: 2.75rem;
     padding: 0.2rem;
     background-color: var(--widget-background-color);
@@ -109,9 +107,6 @@ async function verifyCaptcha(answer) {
     border-radius: 0.5rem;
 }
 .image-button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     height: 2rem;
     width: 2rem;
     border: var(--border-sketch);

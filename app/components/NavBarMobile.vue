@@ -117,18 +117,19 @@ function collpase() {
 <template>
     <header
         ref="header"
-        class="site-header"
+        class="site-header flex-center"
         :class="{
             bg: headerBg,
             hide: headerHide,
         }"
     >
-        <div class="menu-toggle" @click="toggleMenu('menu')">
+        <div class="menu-toggle flex-center" @click="toggleMenu('menu')">
             <Icon class="icon" :name="'ic:round-menu'"></Icon>
         </div>
 
-        <div class="site-branding">
-            <NuxtImg
+        <div class="site-branding flex-center">
+            <NuxtPicture
+            class="nuxtpic flex-center"
                 :src="`https://nicocat.cc/wp-content/uploads/2025/11/avatar.png`"
                 alt="site logo"
             />
@@ -142,7 +143,7 @@ function collpase() {
             </NuxtLink>
         </div>
 
-        <div class="user-toggle" @click="toggleMenu('user')">
+        <div class="user-toggle flex-center" @click="toggleMenu('user')">
             <Icon class="icon" :name="'fluent:bookmark-16-regular'"></Icon>
         </div>
 
@@ -193,7 +194,7 @@ function collpase() {
         <ClientOnly>
             <div ref="userScope" class="user-wrapper">
                 <div class="user-menu-container">
-                    <div class="user-menu">
+                    <div class="user-menu flex-center">
                         <ElAvatar size="default" class="avatar">
                             <NuxtImg
                                 :src="getUserAvatar(user?.avatar)"
@@ -228,7 +229,7 @@ function collpase() {
                             >退出登录</a
                         >
                     </div>
-                    <div v-else class="visitor-option">
+                    <div v-else class="visitor-option flex-center">
                         <a @click="openLoginForm">登录</a>
                     </div>
                 </div>
@@ -270,9 +271,6 @@ function collpase() {
     height: 2.4rem;
     width: 2.4rem;
     border-radius: 0.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 
     .icon {
         transform: scale(1.5);
@@ -318,9 +316,6 @@ function collpase() {
         margin: 1rem 3rem;
     }
     .user-menu {
-        display: flex;
-        justify-content: center;
-        align-items: center;
         flex-direction: column;
     }
     .user-option {
@@ -329,10 +324,6 @@ function collpase() {
         gap: 0.5rem;
         grid-template-columns: 1fr 1fr;
         grid-template-rows: 1fr 1fr;
-    }
-    .visitor-option {
-        display: flex;
-        align-items: center;
     }
 }
 </style>
@@ -346,8 +337,6 @@ function collpase() {
     width: 100%;
     height: 3rem;
     padding: 0 1.25rem;
-    display: flex;
-    align-items: center;
     background: transparent;
     border-bottom: 0.1rem solid transparent;
     transform: translateY(0);
@@ -373,11 +362,8 @@ function collpase() {
     position: relative;
     padding-left: 0.3rem;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
     flex: 1;
-    img {
+    .nuxtpic {
         max-width: 20vw;
         max-height: 3.2rem;
         height: 90%;

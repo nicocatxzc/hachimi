@@ -124,7 +124,7 @@ function getSubmit(comment) {
                 @reply="getReply"
             />
         </ul>
-        <div v-if="pageList.pages.length != 1" class="comment-pagination">
+        <div v-if="pageList.pages.length != 1" class="comment-pagination flex-center">
             <!-- 跳到首页 -->
             <span v-if="page !== 1" class="page-item" @click="page = 1">
                 {{ "<" }}
@@ -134,7 +134,7 @@ function getSubmit(comment) {
             <span
                 v-for="p in pageList.pages"
                 :key="p"
-                class="page-item"
+                class="page-item flex-center"
                 :class="{ active: p === page }"
                 @click="page = p"
             >
@@ -144,7 +144,7 @@ function getSubmit(comment) {
             <!-- 跳到末页 -->
             <span
                 v-if="page !== pageList.lastPage"
-                class="page-item"
+                class="page-item flex-center"
                 @click="page = pageList.lastPage"
             >
                 {{ ">" }}
@@ -176,16 +176,11 @@ function getSubmit(comment) {
 }
 .comment-pagination {
     width: 100%;
-    display: flex;
-    justify-content: center;
     margin-bottom: 1rem;
 }
 .page-item {
     font-size: 1rem;
     line-height: 1rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     box-sizing: content-box;
     min-width: 1.5rem;
     min-height: 1.5rem;

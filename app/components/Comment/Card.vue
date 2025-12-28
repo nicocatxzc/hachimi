@@ -30,7 +30,7 @@ const emit = defineEmits(["reply"]);
                         :src="comment.author.node.avatar?.url"
                     />
                 </ElAvatar>
-                <div class="comment-metas">
+                <div class="comment-metas flex-center">
                     <span class="author-name">{{
                         comment.author.node.name
                     }}</span>
@@ -73,9 +73,7 @@ const emit = defineEmits(["reply"]);
     gap: 0.5rem;
 }
 .comment-metas {
-    display: flex;
     flex-direction: column;
-    justify-content: center;
 }
 .comment-content .reply {
     color: var(--active-color);
