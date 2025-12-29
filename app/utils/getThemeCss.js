@@ -10,7 +10,7 @@ export default function getThemeCss() {
     --active-color: ${themeConfig.value?.activeColor || "#00b0f0"};
     --widget-transparency: ${themeConfig.value?.widgetTransparency || 0.8};
     --background-transparency: ${
-        themeConfig.value.backgroundTransparency || 0.8
+        themeConfig.value?.backgroundTransparency || 0.8
     };
     --word-color-first: ${themeConfig.value?.wordColorFirst || "#505050"};
     --word-color-second: ${themeConfig.value?.WordColorSecond || "#00000080"};
