@@ -75,9 +75,10 @@ const convertWpUrl = (wpUrl) => {
         }"
     >
         <div class="site-branding flex-center">
-            <NuxtImg
+            <NuxtPicture
                 :src="themeConfig?.navLogo || ''"
                 alt="site logo"
+                class="nuxtpic"
             />
             <NuxtLink :to="'/'">
                 <span
@@ -201,18 +202,20 @@ const convertWpUrl = (wpUrl) => {
 }
 
 .site-branding {
-    background: transparent;
     border: 0;
     height: 100%;
+    padding-left: 0.3rem;
     line-height: 4.7rem;
     position: relative;
-    padding-left: 0.3rem;
+    justify-content: flex-start;
+    background: transparent;
 }
-.site-branding img {
+.site-branding .nuxtpic {
     max-width: 20vw;
     max-height: 3.2rem;
     height: 100%;
     width: auto;
+    flex-shrink: 0;
 }
 
 .site-title {
