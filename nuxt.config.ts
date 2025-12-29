@@ -27,6 +27,9 @@ export default defineNuxtConfig({
     },
     image: {
         provider: "ipx",
+        inject: true,
+        format: ["webp"],
+        quality: 100,
         domains: [WPendpoint],
         alias: {
             wp: WPendpoint,
