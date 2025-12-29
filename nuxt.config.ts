@@ -26,14 +26,15 @@ export default defineNuxtConfig({
         },
     },
     image: {
-        provider: "ipx",
+        provider: "hachimi",
         inject: true,
         format: ["webp"],
         quality: 100,
-        domains: [WPendpoint],
-        alias: {
-            wp: WPendpoint,
-        },
+        providers:{
+            'hachimi':{
+                provider:'~/providers/hachimi'
+            }
+        }
     },
     formkit: {
         autoImport: true,
