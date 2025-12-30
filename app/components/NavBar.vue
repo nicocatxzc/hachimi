@@ -7,6 +7,7 @@ const user = computed(() => authStore.user);
 const openLoginForm = authStore.openLoginForm;
 const themeConfig = useThemeConfig();
 const scroll = useScrollStore();
+const modelStore = useModelStore();
 
 const headerBg = computed(
     () => scroll.progress >= 5 || scroll.direction == `down`
@@ -97,7 +98,6 @@ const convertWpUrl = (wpUrl) => {
                     class="menu"
                     :style="{
                         justifyContent: themeConfig?.navbarDistribution,
-                        margin: `0 ${themeConfig?.navbarOptionMargin}px`,
                         fontFamily: themeConfig?.navOptionFont || '',
                     }"
                 >
@@ -105,6 +105,9 @@ const convertWpUrl = (wpUrl) => {
                         <li
                             v-if="item.children && item.children.length"
                             :index="item.id + ''"
+                            :style="{
+                                margin: `0 ${themeConfig?.navbarOptionMargin}px`,
+                            }"
                         >
                             <NuxtLink :to="convertWpUrl(item.url)">
                                 {{ item.title }}
@@ -132,6 +135,9 @@ const convertWpUrl = (wpUrl) => {
                     </template>
                 </ul>
             </nav>
+        </div>
+        <div class="button search flex-center" @click="modelStore.search = true">
+            <Icon :name="'fa7-solid:search'" class="icon" />
         </div>
 
         <ClientOnly>
@@ -220,7 +226,6 @@ const convertWpUrl = (wpUrl) => {
 
 .site-title {
     display: flex;
-    white-space: nowrap;
     width: auto;
     color: var(--word-color-first);
     font-weight: 400;
@@ -236,7 +241,7 @@ const convertWpUrl = (wpUrl) => {
 .menu-wrapper,
 .menu-wrapper nav,
 .menu-wrapper nav > ul {
-    width: 100%;
+    flex: 1;
     display: flex;
 }
 
@@ -325,5 +330,29 @@ li .sub-menu a {
 .user-menu-info *,
 .user-menu-option * {
     margin: 0 0.3rem;
+}
+</style>
+
+<style lang="scss" scoped>
+.button {
+    height: 2.5rem;
+    width: 2.5rem;
+    flex-shrink: 0;
+    border-radius: 0.5rem;
+    border: 0.15rem solid transparent;
+    cursor: pointer;
+    & , * {
+        transition: all .3s ease-in-out;
+    }
+    .icon {
+        background-color: var(--word-color-first);
+        transform: scale(1.5);
+    }
+    &:hover {
+        border-color: var(--active-color);
+        .icon {
+            background-color: var(--active-color);
+        }
+    }
 }
 </style>
