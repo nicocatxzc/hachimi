@@ -91,7 +91,7 @@ function gotoSearch() {
 
 <style lang="scss" scoped>
 .page-search {
-    min-height: 90dvh;
+    min-height: 85dvh;
     padding-top: 8rem;
 }
 
