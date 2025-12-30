@@ -20,7 +20,7 @@ onMounted(() => {
     });
 });
 function gotoSearch() {
-    console.log("search");
+    navigateTo(`/search?keyword=${keyword.value}`)
 }
 let inited = false;
 async function initData() {
@@ -46,7 +46,7 @@ async function initData() {
             </div>
             <el-input
                 v-model="keyword"
-                class="responsive-input"
+                class="search-input"
                 placeholder="想找点什么呢?"
                 :prefix-icon="Search"
                 @keyup.enter="gotoSearch"

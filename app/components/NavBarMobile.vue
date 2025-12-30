@@ -1,6 +1,7 @@
 <script setup>
 import { useAnimate } from "motion-v";
 import { onClickOutside } from "#imports";
+import { Search } from "@element-plus/icons-vue";
 const authStore = useAuth();
 const user = computed(() => authStore.user);
 const openLoginForm = authStore.openLoginForm;
@@ -14,15 +15,10 @@ const menuItems = computed(() =>
     Array.isArray(menuData.value) ? menuData.value : []
 );
 
-// 转换为相对链接
-const convertWpUrl = (wpUrl) => {
-    try {
-        const url = new URL(wpUrl);
-        return url.pathname;
-    } catch {
-        return wpUrl;
-    }
-};
+const searchKeyword = ref("")
+function gotoSearch() {
+    navigateTo(`/search?keyword=${searchKeyword.value}`);
+}
 
 const expandedMenuItem = ref(null);
 function toggleMenuItem(id) {
@@ -83,6 +79,9 @@ onMounted(() => {
             });
         }
     });
+    document.addEventListener("pjax:complete",()=>{
+        collpase();
+    })
 });
 
 const [menuScope, menuAnimate] = useAnimate();
@@ -92,8 +91,8 @@ function animateOpen(name) {
     const animate = name === "menu" ? menuAnimate : userAnimate;
     animate(
         name === "menu" ? menuScope.value : userScope.value,
-        { maxHeight: ["0", "30dvh"] },
-        { duration: 0.4 }
+        { maxHeight: ["0", "70dvh"] },
+        { duration: 0.5 }
     );
 }
 
@@ -101,8 +100,8 @@ function animateClose(name) {
     const animate = name === "menu" ? menuAnimate : userAnimate;
     return animate(
         name === "menu" ? menuScope.value : userScope.value,
-        { maxHeight: ["30dvh", "0"] },
-        { duration: 0.3 }
+        { maxHeight: ["70dvh", "0"] },
+        { duration: 0.5 }
     ).finished; // 等待动画完成
 }
 
@@ -129,7 +128,7 @@ function collpase() {
 
         <div class="site-branding flex-center">
             <NuxtPicture
-            class="nuxtpic flex-center"
+                class="nuxtpic flex-center"
                 :src="themeConfig?.navLogo || ''"
                 alt="site logo"
             />
@@ -148,6 +147,15 @@ function collpase() {
         </div>
 
         <nav ref="menuScope" class="menu-wrapper">
+            <div class="search-form">
+                <ElInput
+                    v-model="searchKeyword"
+                    class="search-input"
+                    placeholder="想找点什么呢?"
+                    :prefix-icon="Search"
+                    @keyup.enter="gotoSearch()"
+                />
+            </div>
             <ul
                 class="menu"
                 :style="{
@@ -160,7 +168,7 @@ function collpase() {
                     class="item"
                 >
                     <div class="item-head">
-                        <NuxtLink class="link" :to="convertWpUrl(item.url)">
+                        <NuxtLink class="link" :to="item.url">
                             {{ item.title }}
                         </NuxtLink>
                         <Icon
@@ -181,7 +189,7 @@ function collpase() {
                             }"
                         >
                             <li v-for="child in item.children" :key="child.id">
-                                <NuxtLink :to="convertWpUrl(child.url)">
+                                <NuxtLink :to="child.url">
                                     {{ child.title }}
                                 </NuxtLink>
                             </li>
@@ -212,22 +220,25 @@ function collpase() {
                             v-if="user?.management?.admin"
                             :href="user?.management?.admin"
                             target="_blank"
-                            >管理后台</a
                         >
+                            管理后台
+                        </a>
                         <NuxtLink
                             v-if="user?.role == 'administrator'"
                             :to="'/dashboard'"
-                            >主题设置</NuxtLink
                         >
+                            主题设置
+                        </NuxtLink>
                         <a
                             v-if="user?.management?.newpost"
                             :href="user?.management?.newpost"
                             target="_blank"
-                            >撰写文章</a
                         >
-                        <a target="_top" @click="authStore.clearAuth()"
-                            >退出登录</a
-                        >
+                            撰写文章
+                        </a>
+                        <a target="_top" @click="authStore.clearAuth()">
+                            退出登录
+                        </a>
                     </div>
                     <div v-else class="visitor-option flex-center">
                         <a @click="openLoginForm">登录</a>
@@ -287,7 +298,7 @@ function collpase() {
 .menu-wrapper,
 .user-wrapper {
     max-height: 0;
-    overflow: hidden;
+    overflow: auto;
     width: 100dvw;
     top: 100%;
     left: 0;
@@ -299,6 +310,17 @@ function collpase() {
     }
 }
 .menu-wrapper {
+    .search-form {
+        padding: 0.5rem;
+        border-bottom: 0.1rem solid rgba(var(--border-color-sketch), 0.1);
+        .search-input {
+            font-size: 1rem;
+            height: 2.5rem;
+            :deep(.el-input__wrapper) {
+                border-radius: 0.5rem;
+            }
+        }
+    }
     ul {
         list-style: none;
     }
