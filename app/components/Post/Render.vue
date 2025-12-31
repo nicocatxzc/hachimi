@@ -31,6 +31,7 @@ const ShortcodeRenderer = {
 /* componentsMap 规则：
  - conditions(node): 判断是否匹配
  - component: Vue 组件名称
+ - renderChildren: 是否递归渲染子节点，默认true
  - propsMapper 传递给组件的数据
  - listenersMapper 事件映射
 */
@@ -86,12 +87,19 @@ const componentsMap = {
     // 链接
     alink: {
         conditions(node) {
-            return (
-                node.type === "tag" &&
-                node.name === "a" &&
-                typeof node.attrs?.href === "string" &&
-                node.attrs.href.startsWith("/")
-            );
+            // a标签
+            if (!(node.type === "tag" && node.name === "a")) return false;
+            // 相对链接
+            if (!node?.attrs?.href?.startsWith("/")) return false;
+            // 排除灯箱
+            if (
+                (node.children || []).some(
+                    (child) => child.type === "tag" && child.name === "img"
+                )
+            )
+                return false;
+
+            return true;
         },
         component: "a",
         propsMapper(node) {
@@ -113,6 +121,42 @@ const componentsMap = {
                     e.preventDefault();
                     navigateTo(node.attrs.href);
                 },
+            };
+        },
+    },
+
+    lightboxImage: {
+        conditions(node) {
+            // 必须是 a 标签
+            if (!(node.type === "tag" && node.name === "a")) return false;
+
+            // 必须直接或间接包着 img
+            return (node.children || []).some(
+                (child) => child.type === "tag" && child.name === "img"
+            );
+        },
+
+        component: "img",
+        renderChildren: false,
+        propsMapper(node) {
+            // 找到第一个 img
+            const img = (node.children || []).find(
+                (c) => c.type === "tag" && c.name === "img"
+            );
+
+            if (!img) return {};
+
+            // 原始 src：优先 img.src，其次 a.href
+            const rawSrc = img.attrs?.src || node.attrs?.href || "";
+            const nuxtImg = useNuxtImg(rawSrc);
+            return {
+                // 保留 img 原有属性
+                ...img.attrs,
+                
+                // src 替换为 Nuxt Image 计算后的链接
+                src: nuxtImg,
+                // 打灯箱标记
+                "data-zoomable": "",
             };
         },
     },

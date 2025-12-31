@@ -76,7 +76,7 @@ const resolvedListeners = computed(() => {
             v-bind="resolvedProps"
             v-on="resolvedListeners"
         >
-            <template #default>
+            <template v-if="matchedRule?.renderChildren || true" #default>
                 <HtmlNodeRender
                     v-for="(c, i) in node.children"
                     :key="i"
