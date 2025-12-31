@@ -17,7 +17,10 @@
 
 ## 如何使用
 
-你需要为你的WordPress安装该插件:[hachimi_rest](https://github.com/nicocatxzc/hachimi_rest)
+你需要为你的WordPress安装并启用以下两个插件才能正常使用本主题:
+
+- [hachimi_rest](https://github.com/nicocatxzc/hachimi_rest)
+- [WPGraphQL](https://github.com/wp-graphql/wp-graphql)
 
 然后编辑项目中的.env.example,将其中的配置项改为你的WordPress连接信息,并保存为.env
 或者随后在你的运行环境添加以下变量,其中对应的值换成你自己的站点连接信息,管理员名称,以及管理员的应用程序密码:
@@ -40,3 +43,6 @@ NUXT_WORDPRESS_AUTH_TOKEN="yourAdminToken"
 应用程序启动完成后放行其监听端口,为其创建正确的反代服务器即可正常使用
 
 第一次使用请使用你的wordpress管理员账户登录应用并初始化主题设置
+
+在后台的`外观——导航栏`中你可以看到插件自行创建或分配的导航栏，你可以编辑菜单来修改导航栏的内容（最大两层），
+如果你没有给主题导航栏分配菜单，那么插件将自动创建或给自己分配一个可用的菜单
