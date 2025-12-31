@@ -20,7 +20,7 @@ export default function getThemeCss() {
     --widget-background-color: rgba(var(--widget-background), var(--widget-transparency));
     --widget-shadow-shine: 0 0.1rem 1.8rem -0.25rem rgb(232, 232, 232);
     --widget-shadow-shining: 0 0.1rem 1.8rem 0.7rem rgb(232, 232, 232);
-    --widget-shadow-shadow: 0 -0.3rem 1rem rgba(0,0,0,0.1);
+    --widget-shadow-shadow: 0 0.3rem 1rem rgba(0,0,0,0.1);
     --border-color-sketch: 0, 0, 0 ;
     --border-color-shine: 255, 255, 255;
     --border-sketch: 0.1rem solid rgba(var(--border-color-sketch),0.1);
@@ -41,7 +41,7 @@ export default function getThemeCss() {
     --widget-background-color: rgba(var(--widget-background), var(--widget-transparency));
     --widget-shadow-shine: 0 0.1rem 1.2rem -0.25rem rgba(26, 26, 26, 0.8);
     --widget-shadow-shining: 0 0.1rem 2rem -0.25rem var(--active-color);
-    --widget-shadow-shadow: 0 -0.3rem 1rem rgba(0,0,0,0.2);
+    --widget-shadow-shadow: 0 0.3rem 1rem rgba(0,0,0,0.2);
     --border-color-sketch: rgba(255,255,255,0.1);
     --border-color-shine: #7d7d7d30;
     --border-sketch: 0.1rem solid var(--border-color-sketch);
