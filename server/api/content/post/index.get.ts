@@ -46,7 +46,7 @@ export default defineEventHandler(async (event) => {
         const query = getQuery(event);
         if (query.id) {
             let content = await useWPGraphql(GetPost, { postId: query.id });
-            return content.data;
+            return JSON.parse(replaceWP(JSON.stringify(content.data), event));
         }
     } catch (error) {
         throw createError({

@@ -1,4 +1,6 @@
-export default function replaceDomain(input: string | object) {
+import type { H3Event,EventHandlerRequest } from 'h3'
+
+export default function replaceDomain(input: string | object,event:H3Event<EventHandlerRequest> | null=null) {
     const nuxtconfig = useRuntimeConfig();
     const wpUrl = nuxtconfig.wordpressURL.replace(/\/+$/, "");
 
@@ -8,7 +10,7 @@ export default function replaceDomain(input: string | object) {
         result = result.replaceAll(`${wpUrl}/wp-includes`, "/includes");
         result = result.replaceAll(`${wpUrl}/wp-content`, "/content");
         result = result.replaceAll(`${wpUrl}/sitemap`, "/sitemap");
-        result = result.replaceAll(`${wpUrl}/`,"/");
+        result = result.replaceAll(`${wpUrl}/`,event ? useSiteOrigin(event).baseURL : "/");
         return result;
     };
 

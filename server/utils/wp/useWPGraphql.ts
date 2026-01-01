@@ -6,7 +6,7 @@ export default async function (query: string,variables?:Record<string, any>,data
             ...data,
         });
         delete res.data.extensions;
-        return JSON.parse(replaceWP(JSON.stringify(res.data)));
+        return res.data;
 
     } catch (error) {
         console.error("请求失败",query);
