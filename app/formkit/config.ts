@@ -99,6 +99,18 @@ export default [
                         },
                     },
                     {
+                        $formkit: elSlider,
+                        name: "backgroundBlur",
+                        label: "背景模糊度",
+                        value: 0.7,
+                        min: 0,
+                        max: 1,
+                        step: 0.01,
+                        props: {
+                            showInput: true,
+                        },
+                    },
+                    {
                         $el: "div",
                         attrs: {
                             innerHTML: "<h3>深色模式</h3>",
@@ -191,6 +203,14 @@ export default [
                     },
 
                     {
+                        $formkit: elText,
+                        name: "globalDefalutFount",
+                        label: "默认字体",
+                        value: "",
+                        placeholder: "字体名称",
+                    },
+
+                    {
                         $formkit: SortableList,
                         name: "extraFonts",
                         label: "额外字体",
@@ -269,6 +289,49 @@ export default [
                         props: {
                             showInput: true,
                         },
+                    },
+
+                    {
+                        $formkit: elSwitch,
+                        name: "navbarUserMenu",
+                        label: "导航栏用户栏",
+                        value: true,
+                    },
+                ],
+            },
+            {
+                key: "frontend",
+                title: "前台设置",
+                schema: [
+                    {
+                        $formkit: elText,
+                        name: "frontendDefaultBackground",
+                        label: "前台默认背景",
+                        value: "",
+                        placeholder: "填写图像链接",
+                    },
+
+                    {
+                        $formkit: SortableList,
+                        name: "toolbarFontsChoice",
+                        label: "工具栏可选字体",
+                        innerSchema: [
+                            {
+                                $formkit: elText,
+                                name: "iconUrl",
+                                label: "字体名称",
+                                value: "",
+                                placeholder: "请输入图片链接",
+                            },
+                        ],
+                    },
+
+                    {
+                        $formkit: CodeEditor,
+                        name: "footerHTML",
+                        label: "页尾html代码",
+                        value: "<b>Powered by Nuxt</b>",
+                        language: "js",
                     },
                 ],
             },
