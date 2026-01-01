@@ -1,15 +1,11 @@
 <script setup>
-import { computed } from "vue";
-import { useRouter } from "vue-router";
-
 const props = defineProps({
     error: {
         type: Object,
         default: () => ({}),
     },
 });
-
-const router = useRouter();
+const sysConfig = useSysConfig()
 
 // 计算属性
 const statusCode = computed(() => props.error.statusCode || 500);
@@ -21,309 +17,212 @@ const defaultMessage = computed(() =>
 );
 const errorDescription = computed(() => {
     if (statusCode.value === 404) {
-        return "抱歉，您访问的页面不存在。可能是链接错误或页面已被移除。";
+        return "你要查找的页面可能已被删除、更名或暂时不可用。";
     } else if (statusCode.value === 500) {
         return "服务器内部错误，请稍后重试。";
     } else {
         return props.error.message || "发生了一个意外错误，请稍后重试。";
     }
 });
-
-// 方法
-const goBack = () => {
-    if (window.history.length > 1) {
-        router.go(-1);
-    } else {
-        router.push("/");
-    }
-};
-
-const goHome = () => {
-    router.push("/");
-};
-
-const copyErrorDetails = async () => {
-    const errorDetails = {
-        url: window.location.href,
-        statusCode: statusCode.value,
-        message: statusMessage.value,
-        timestamp: new Date().toISOString(),
-    };
-
-    const text = `错误详情:
-URL: ${errorDetails.url}
-状态码: ${errorDetails.statusCode}
-消息: ${errorDetails.message}
-时间: ${errorDetails.timestamp}`;
-
-    try {
-        await navigator.clipboard.writeText(text);
-        alert("错误详情已复制到剪贴板");
-    } catch (err) {
-        console.error("复制失败:", err);
-        alert("复制失败，请手动记录错误信息");
-    }
-};
 </script>
 
 <template>
-    <div class="error-container">
-        <div class="error-content">
-            <!-- 错误图标 -->
-            <div class="error-icon">
-                <svg
-                    v-if="statusCode === 404"
-                    width="80"
-                    height="80"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                >
-                    <path
-                        d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
-                        stroke="currentColor"
-                        stroke-width="2"
-                    />
-                    <path
-                        d="M15 9L9 15"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                    />
-                    <path
-                        d="M9 9L15 15"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                    />
-                </svg>
-                <svg
-                    v-else
-                    width="80"
-                    height="80"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                >
-                    <path
-                        d="M12 8V12"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                    />
-                    <path
-                        d="M12 16H12.01"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                    />
-                    <path
-                        d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
-                        stroke="currentColor"
-                        stroke-width="2"
-                    />
-                </svg>
+    <div class="page-404">
+        <div class="page-404-container">
+            <div class="page-404-header">
+                <h1 class="page-404-number">{{ statusCode }}</h1>
             </div>
 
-            <!-- 错误标题 -->
-            <h1 class="error-title">
-                {{ statusCode }} - {{ statusMessage || defaultMessage }}
-            </h1>
+            <h2 class="page-404-title">{{ statusMessage ?? defaultMessage }}</h2>
 
-            <!-- 错误描述 -->
-            <p class="error-description">
+            <p class="page-404-message">
                 {{ errorDescription }}
             </p>
 
-            <!-- 操作按钮 -->
-            <div class="error-actions">
-                <button class="btn-back" @click="goBack">
-                    <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
-                        <path
-                            d="M19 12H5"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                        />
-                        <path
-                            d="M12 19L5 12L12 5"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                        />
-                    </svg>
-                    返回上一页
-                </button>
-
-                <button class="btn-home" @click="goHome">
-                    <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
-                        <path
-                            d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                        />
-                        <path
-                            d="M9 22V12H15V22"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                        />
-                    </svg>
-                    返回首页
-                </button>
+            <div class="page-404-actions">
+                <a
+                    id="golast"
+                    href="javascript:history.go(-1);"
+                    class="page-404-button"
+                >
+                    <Icon :name="'fa7-solid:rotate-left'" />
+                </a>
+                <NuxtLink
+                    id="gohome"
+                    :to="'/'"
+                    class="page-404-button"
+                >
+                    <Icon name="fa7-solid:house" />
+                </NuxtLink>
+                <form
+                    class="page-404-search-form"
+                    method="get"
+                    action="/search"
+                    role="search"
+                >
+                    <input
+                        class="page-404-search-input"
+                        type="search"
+                        name="keyword"
+                        placeholder="搜索..."
+                        required
+                    />
+                </form>
             </div>
 
-            <!-- 技术支持信息 -->
-            <div class="error-support">
-                <p>如果问题持续存在，请联系技术支持</p>
-                <button class="btn-copy" @click="copyErrorDetails">
-                    复制错误详情
-                </button>
-            </div>
+            <div class="page-404-footer">{{ sysConfig?.site_name ?? '' }}</div>
         </div>
     </div>
 </template>
 
 <style scoped>
-.error-container {
+.page-404 {
+    --primary: #00b0f0;
+    --text: #303030;
+    --background: #f5f7fa;
+    --card-bg: #ffffff;
+    --shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+
+    height: 100dvh;
+    width: 100dvw;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
     min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    margin: 0;
     padding: 20px;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    position: relative;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        Helvetica, Arial, sans-serif;
+    color: var(--text);
 }
 
-.error-content {
-    text-align: center;
-    background: white;
-    padding: 40px;
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    max-width: 500px;
+.page-404-container {
     width: 100%;
+    max-width: 580px;
+    background-color: rgba(255, 255, 255, 0.85);
+    box-shadow: var(--shadow);
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    padding: 40px;
+    text-align: center;
+    z-index: 1;
+    -webkit-backdrop-filter: saturate(180%) blur(10px);
+    backdrop-filter: saturate(180%) blur(10px);
 }
 
-.error-icon {
-    margin-bottom: 24px;
-    color: #e74c3c;
+.page-404-header {
+    position: relative;
+    margin-bottom: 30px;
 }
 
-.error-title {
-    font-size: 1.8rem;
-    color: #2c3e50;
-    margin-bottom: 16px;
+.page-404-number {
+    font-size: 120px;
+    font-weight: 700;
+    line-height: 1;
+    margin: 0;
+    background-color: var(--primary);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    letter-spacing: -5px;
+}
+
+.page-404-title {
+    font-size: 28px;
     font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: var(--text);
 }
 
-.error-description {
-    color: #7f8c8d;
+.page-404-message {
+    font-size: 16px;
     line-height: 1.6;
-    margin-bottom: 32px;
-    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 30px;
 }
 
-.error-actions {
+.page-404-actions {
     display: flex;
-    gap: 16px;
-    justify-content: center;
-    margin-bottom: 32px;
     flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 35px;
 }
 
-button {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 12px 24px;
-    border: none;
-    border-radius: 6px;
-    font-size: 1rem;
+.page-404-button {
+    box-shadow: 0 1px 30px -4px #e8e8e8;
+    color: #505050;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 10px;
+    border: 1px solid #ffffff;
+    font-size: 14px;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 20px;
+    max-width: 60px;
+    height: 42px;
 }
 
-.btn-back {
-    background-color: #3498db;
-    color: white;
+.page-404-button:hover {
+    color: #ffffff;
+    background-color: var(--primary);
+    border: 1px solid var(--primary);
+    box-shadow: 0 1px 20px 10px #e8e8e8;
 }
 
-.btn-back:hover {
-    background-color: #2980b9;
-    transform: translateY(-2px);
+.page-404-search-form {
+    position: relative;
+    display: flex;
 }
 
-.btn-home {
-    background-color: #2ecc71;
-    color: white;
+.page-404-search-input {
+    flex: 1;
+    padding: 10px 12px !important;
+    font-size: 14px;
+    width: 100%;
+    box-shadow: 0 1px 30px -4px #e8e8e8 !important;
+    color: #505050 !important;
+    background: rgba(255, 255, 255, 0.6) !important;
+    border-radius: 10px !important;
+    border: 1px solid #ffffff !important;
+    height: 42px;
 }
 
-.btn-home:hover {
-    background-color: #27ae60;
-    transform: translateY(-2px);
+.page-404-search-input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(142, 149, 251, 0.2);
 }
 
-.error-support {
-    border-top: 1px solid #ecf0f1;
-    padding-top: 24px;
+.page-404-footer {
+    margin-top: 30px;
+    font-size: 13px;
+    color: #999;
 }
 
-.error-support p {
-    color: #95a5a6;
-    margin-bottom: 12px;
-    font-size: 0.9rem;
-}
-
-.btn-copy {
-    background-color: #95a5a6;
-    color: white;
-    font-size: 0.9rem;
-    padding: 8px 16px;
-}
-
-.btn-copy:hover {
-    background-color: #7f8c8d;
-}
-
-/* 响应式设计 */
-@media (max-width: 600px) {
-    .error-content {
-        padding: 24px;
-        margin: 0 10px;
+@media (max-width: 580px) {
+    .page-404-container {
+        padding: 30px 20px;
     }
 
-    .error-title {
-        font-size: 1.5rem;
+    .page-404-number {
+        font-size: 90px;
     }
 
-    .error-actions {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    button {
-        width: 100%;
-        max-width: 250px;
-        justify-content: center;
+    .page-404-title {
+        font-size: 24px;
     }
 }
 </style>
