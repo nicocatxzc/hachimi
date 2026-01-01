@@ -7,14 +7,11 @@ const darkmode = useDarkmodeStore();
 // 初始化样式
 const extraFontsCss = getExtraFontsCss();
 const themeCss = getThemeCss();
-const { data } = await useCachedFetch(
-    "global-block-style",
-    "/api/system/settings"
-);
+const sysConfig = useSysConfig();
 useHead({
     style: [
         {
-            innerHTML: data.value?.global_style,
+            innerHTML: sysConfig.value?.global_style,
         },
         {
             innerHTML: `

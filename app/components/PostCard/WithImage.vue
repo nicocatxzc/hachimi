@@ -5,6 +5,7 @@ let { post } = defineProps({
         required: true,
     },
 });
+const localeTime = useLocalTime(post.modifiedGmt).format("LLL")
 </script>
 
 <!-- eslint-disable vue/no-v-html -->
@@ -22,7 +23,7 @@ let { post } = defineProps({
 
         <div class="post-date">
             <time :datetime="post.modifiedGmt">
-                更新于:{{ post.modifiedGmt }}
+                更新于:{{ localeTime }}
             </time>
         </div>
 

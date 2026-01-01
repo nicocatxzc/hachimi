@@ -6,6 +6,7 @@ const props = defineProps({
     },
 });
 const post = computed(() => props?.post);
+const localeTime = useLocalTime(post.value?.modifiedGmt).format("LLL")
 </script>
 
 <template>
@@ -17,7 +18,7 @@ const post = computed(() => props?.post);
         <header class="post-header">
             <h1 class="post-title">{{ post?.title }}</h1>
             <div class="post-metas">
-                <span class="meta-time">{{ post?.modifiedGmt }}</span>
+                <span class="meta-time">更新于：{{ localeTime }}</span>
                 <NuxtLink :to="`/author/${post?.author.node.slug}`">
                     <span class="meta-author">
                         <ElAvatar

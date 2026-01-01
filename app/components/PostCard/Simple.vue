@@ -5,6 +5,7 @@ let { post } = defineProps({
         required: true,
     },
 });
+const localeTime = useLocalTime(post.modifiedGmt).format("LLL")
 </script>
 
 <!-- eslint-disable vue/no-v-html -->
@@ -19,7 +20,7 @@ let { post } = defineProps({
         <div class="post-metas">
             <div class="post-meta-date">
                 <Icon :name="'fa7-solid:calendar'" class="icon" />
-                <time :datetime="post.modifiedGmt">{{ post.modifiedGmt }}</time>
+                <time :datetime="post.modifiedGmt">更新于:{{ localeTime }}</time>
             </div>
             <div v-if="post.categories?.nodes.length != 0" class="post-meta-categories">
                 <Icon :name="'fa7-solid:folder-open'" />
