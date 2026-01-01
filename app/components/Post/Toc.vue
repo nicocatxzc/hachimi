@@ -58,6 +58,9 @@ onMounted(() => {
         border: var(--border-shine);
 
         overflow-y: auto;
+        &:empty{
+            display: none;
+        }
     }
 }
 #toc .toc-list {
