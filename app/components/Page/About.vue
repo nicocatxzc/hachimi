@@ -1,7 +1,5 @@
 <script setup>
-import markdownit from "markdown-it";
-const md = markdownit();
-const about = md.render(/* markdown */`
+const about = useMarkdown(/* markdown */`
 # Theme Hachimi
 ## 关于主题
 

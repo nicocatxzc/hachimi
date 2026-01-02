@@ -837,13 +837,43 @@ export default [
         subGroup: [
             {
                 key: "articlePage",
-                title: "文章页面设置",
-                schema: [],
+                title: "文章与页面设置",
+                schema: [
+                    {
+                        $formkit: elSwitch,
+                        name: "postTableOfContent",
+                        label: "文章目录",
+                        help: "在文章页显示目录(检测到内容有标题会自动生成大纲并显示)",
+                        value: false,
+                    },
+                    {
+                        $formkit: elSwitch,
+                        name: "pageTableOfContent",
+                        label: "页面目录",
+                        help: "在页面显示目录",
+                        value: false,
+                    },
+                ],
             },
             {
                 key: "commentsArea",
                 title: "评论区设置",
-                schema: [],
+                schema: [
+                    {
+                        $formkit: elText,
+                        name: "commentInputPlaceHolder",
+                        label: "评论区输入框占位符",
+                        value: "要来喵一句吗？",
+                        placeholder: "请输入文本",
+                    },
+                    {
+                        $formkit: elText,
+                        name: "commentSubmitButtonText",
+                        label: "评论区提交按钮文本",
+                        value: "提交",
+                        placeholder: "请输入文本",
+                    },
+                ],
             },
             {
                 key: "templates",
@@ -865,4 +895,9 @@ export default [
             },
         ],
     },
+    {
+        key: "about",
+        title: "关于",
+        schema:[]
+    }
 ];
