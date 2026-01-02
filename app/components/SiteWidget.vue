@@ -24,8 +24,8 @@ onMounted(() => {
 function scrollToTop() {
     scrollTo(0, 0);
 }
-let fontStyleEl = null;
 
+let fontStyleEl = null;
 function switchFont(font = themeStore?.font ?? "") {
     if (!font) return;
 

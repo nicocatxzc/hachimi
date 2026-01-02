@@ -67,12 +67,6 @@ onMounted(() => {
     </div>
 </template>
 
-<style>
-body {
-    background-image: url("https://files.nicocat.cc/wp-content/uploads/2024/10/1729668103-433.webp");
-}
-</style>
-
 <style lang="scss" scoped>
 .homepage-cover,
 .cover,

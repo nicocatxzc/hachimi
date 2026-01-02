@@ -6,6 +6,9 @@ export default function getThemeCss() {
     --global-font-size:${themeConfig.value?.globalFontSize || 16}px;
     --global-font-weight:${themeConfig.value?.globalFontWeight || 300};
 }
+body {
+    background-image: url("${themeConfig.value?.frontendDefaultBackground}");
+}
 :root {
     --active-color: ${themeConfig.value?.activeColor || "#00b0f0"};
     --widget-transparency: ${themeConfig.value?.widgetTransparency || 0.8};
