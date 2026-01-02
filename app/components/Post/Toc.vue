@@ -40,7 +40,7 @@ onMounted(() => {
 .toc-container {
     position: absolute;
     top: 20%;
-    height: 100%;
+    height: 80%;
     width: 12rem;
     left: calc(100% + .5rem);
     #toc {
