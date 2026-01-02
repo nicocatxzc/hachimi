@@ -5,11 +5,12 @@ export const useThemeConfigStore = defineStore(
     () => {
         let config = reactive({});
         let tempConfig = reactive({});
-        return { config,tempConfig };
+        let font = ref("");
+        return { config,tempConfig,font };
     },
     {
         persist: {
-            pick: ["config","tempConfig"],
+            pick: ["config","tempConfig","font"],
             storage: {
                 getItem: (key) =>
                     import.meta.client ? localStorage.getItem(key) : null,

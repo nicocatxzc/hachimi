@@ -1,7 +1,9 @@
-<script lang="ts" setup>
+<script setup>
 let isPanelShow = ref(false);
 let darkmode = useDarkmodeStore();
 let scroll = useScrollStore();
+const config = useThemeConfig();
+const themeStore = useThemeConfigStore();
 
 const darkmodeToggleIcon = computed(() =>
     darkmode.auto
@@ -17,9 +19,27 @@ onMounted(() => {
             isPanelShow.value = false;
         }
     );
+    switchFont();
 });
 function scrollToTop() {
     scrollTo(0, 0);
+}
+let fontStyleEl = null;
+
+function switchFont(font = themeStore?.font ?? "") {
+    if (!font) return;
+
+    if (!fontStyleEl) {
+        fontStyleEl = document.createElement('style');
+        fontStyleEl.id = 'theme-font-style';
+        document.head.appendChild(fontStyleEl);
+    }
+
+    fontStyleEl.textContent = `
+        html {
+            font-family: ${font} !important;
+        }
+    `;
 }
 </script>
 
@@ -31,7 +51,7 @@ function scrollToTop() {
                 hide: scroll.progress == 0,
             }"
         >
-            <button @click="scrollToTop" id="goToTop" title="回到顶部">
+            <button id="goToTop" title="回到顶部" @click="scrollToTop">
                 <Icon class="icon" name="fluent:caret-up-20-filled" />
             </button>
             <button
@@ -45,27 +65,32 @@ function scrollToTop() {
         <div class="panel" :class="{ hide: !isPanelShow }">
             <div class="theme-controls widget-groups">
                 <div class="darkmode group">
-                    <button class="darkmodeToggle" @click="darkmode.toggleMode">
+                    <button
+                        class="darkmode-toggle"
+                        @click="darkmode.toggleMode"
+                    >
                         <Icon class="icon" :name="darkmodeToggleIcon" />
                     </button>
                 </div>
 
-                <div class="font-controls group">
+                <div
+                    v-if="
+                        config?.toolbarFontsChoice?.length &&
+                        config.toolbarFontsChoice.length > 0
+                    "
+                    class="font-controls group"
+                >
                     <button
+                        v-for="(font, index) in config?.toolbarFontsChoice ??
+                        []"
+                        :key="index"
                         type="button"
                         class="control-btn-serif selected"
-                        title="切换到字体 A"
+                        :title="`切换到字体 ${font?.name}`"
                         data-name="serif"
+                        @click="switchFont(font?.name)"
                     >
-                        字
-                    </button>
-                    <button
-                        type="button"
-                        class="control-btn-sans-serif"
-                        title="切换到字体 B"
-                        data-name="sans-serif"
-                    >
-                        字
+                        {{ font?.name ?? "字" }}
                     </button>
                 </div>
             </div>
@@ -175,7 +200,6 @@ function scrollToTop() {
                     margin: 0.15rem;
                     width: 3.125rem;
                     height: 3.125rem;
-                    line-height: 3.125rem;
                     display: flex;
                     justify-content: center;
                     align-items: center;
@@ -198,6 +222,13 @@ function scrollToTop() {
                         background-color: var(--active-color);
                     }
                 }
+                .darkmode-toggle {
+                    height: 100%;
+                }
+            }
+            .font-controls {
+                flex-wrap: wrap;
+                width: 8rem;
             }
         }
     }

@@ -315,13 +315,14 @@ export default [
                         $formkit: SortableList,
                         name: "toolbarFontsChoice",
                         label: "工具栏可选字体",
+                        help: "请使用有效的字体名称，需要在全局字体设置中添加对应名称的额外字体才能生效",
                         innerSchema: [
                             {
                                 $formkit: elText,
-                                name: "iconUrl",
+                                name: "name",
                                 label: "字体名称",
                                 value: "",
-                                placeholder: "请输入图片链接",
+                                placeholder: "请输入字体名称",
                             },
                         ],
                     },
