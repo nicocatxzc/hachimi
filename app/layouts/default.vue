@@ -24,6 +24,7 @@ onMounted(() => {
             <div class="background-filter" />
             <slot />
             <SiteFooter class="site-footer" />
+            <Particle class="particle"/>
         </div>
 
         <!-- 小组件 -->
@@ -65,11 +66,15 @@ onMounted(() => {
             background-color: var(--page-background-color);
             backdrop-filter: saturate(120%) blur(8px);
 
-            z-index: -1;
+            z-index: -2;
         }
 
         .site-footer {
             z-index: 1;
+        }
+        .particle {
+            pointer-events: none;
+            z-index: -1;
         }
     }
     .site-widget {

@@ -327,10 +327,79 @@ export default [
                     },
 
                     {
+                        $formkit: elSelect,
+                        name: "frontendParticle",
+                        label: "前台背景粒子特效",
+                        help: "粒子特效调整仅对内嵌的樱花和雪生效",
+                        value: "off",
+                        options: [
+                            { label: "关闭", value: "off" },
+                            { label: "樱花", value: "sakura" },
+                            { label: "雪", value: "snow" },
+                            {
+                                label: "自定义",
+                                value: "custom",
+                            },
+                        ],
+                    },
+
+                    {
+                        $formkit: elSlider,
+                        name: "particleAmount",
+                        label: "粒子数量",
+                        value: 10,
+                        min: 10,
+                        max: 100,
+                        step: 1,
+                        props: {
+                            showInput: true,
+                        },
+                    },
+
+                    {
+                        $formkit: elSlider,
+                        name: "particleMinSize",
+                        label: "粒子最小大小",
+                        value: 10,
+                        min: 1,
+                        max: 100,
+                        step: 1,
+                        props: {
+                            showInput: true,
+                        },
+                    },
+
+                    {
+                        $formkit: elSlider,
+                        name: "particleMaxSize",
+                        label: "粒子最大大小",
+                        value: 30,
+                        min: 1,
+                        max: 100,
+                        step: 1,
+                        props: {
+                            showInput: true,
+                        },
+                    },
+
+                    {
+                        $formkit: elSlider,
+                        name: "particleSpeed",
+                        label: "粒子速度",
+                        value: 30,
+                        min: 1,
+                        max: 100,
+                        step: 1,
+                        props: {
+                            showInput: true,
+                        },
+                    },
+
+                    {
                         $formkit: CodeEditor,
-                        name: "footerHTML",
-                        label: "页尾html代码",
-                        value: "<b>Powered by Nuxt</b>",
+                        name: "particleConfig",
+                        label: "自定义粒子特效实现",
+                        value: "{}",
                         language: "js",
                     },
                 ],
@@ -376,7 +445,7 @@ export default [
                         $formkit: elSwitch,
                         name: "liveSearchLocalIndex",
                         label: "实时搜索功能",
-                        help:"启用本功能会发送全部文章数据到用户客户端,如果文章数据过多会严重浪费流量",
+                        help: "启用本功能会发送全部文章数据到用户客户端,如果文章数据过多会严重浪费流量",
                         value: true,
                     },
                 ],
