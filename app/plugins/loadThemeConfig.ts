@@ -7,7 +7,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
     themeConfig.config = data.value as object;
 
     if (import.meta.client) {
-        if (!data.value?.activeColor ?? "") {
+        if (!data.value?.activeColor) {
             ElMessage.primary("未检测到主题配置，请登录并初始化设置！");
             document.addEventListener("pjax:complete",()=>{
                 navigateTo("/dashboard")
