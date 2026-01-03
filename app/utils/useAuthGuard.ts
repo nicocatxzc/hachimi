@@ -72,16 +72,19 @@ export async function validateUserInfo() {
     });
 
     // 无登录信息
-    if (!res || !res.id) {
+    if (!res || !res.verify) {
         console.log("没有登录信息");
         stopAuthGuard()
         return false;
     }
     // 已登录用户,自动更新免验证码
-    auth.updateUser(res);
-    auth.secret = res.token;
-    auth.verify = res.verify;
-    auth.needCaptcha = false;
+    auth.$patch({
+        secret:res.token,
+        verify:res.verify,
+        needCaptcha:false,
+    })
+
+    console.log("123",auth)
 
     return true;
 }
