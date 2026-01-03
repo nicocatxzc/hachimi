@@ -1,13 +1,7 @@
 export default defineEventHandler(async (event) => {
     let auth;
     try {
-        const token = getCookie(event, "auth_token");
-        if (!token) {
-            return;
-        }
-        auth = await useWP.post("/wp-json/hachimi/v1/auth/validate", {
-            token,
-        });
+        const auth = await useValidate(event);
     } catch (e) {
         throw createError({
             statusCode: 401,
@@ -17,7 +11,7 @@ export default defineEventHandler(async (event) => {
     }
     const pair = await getVerifyPair();
     return {
-        ...auth.data,
+        ...auth,
         token: pair.daily,
         verify: pair.verify,
     };

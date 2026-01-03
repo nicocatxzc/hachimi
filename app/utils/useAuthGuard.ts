@@ -55,7 +55,7 @@ export function startAuthGuard() {
     validate();
     console.log("登录信息验证成功");
 
-    timer = setInterval(validate, 54_000);
+    timer = setInterval(validate, 54000);
 }
 
 export function stopAuthGuard() {
@@ -74,6 +74,7 @@ export async function validateUserInfo() {
     // 无登录信息
     if (!res || !res.id) {
         console.log("没有登录信息");
+        stopAuthGuard()
         return false;
     }
     // 已登录用户,自动更新免验证码

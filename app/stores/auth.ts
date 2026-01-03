@@ -31,6 +31,7 @@ export const useAuth = defineStore(
                 slug: userInfo.slug,
                 management: userInfo?.management,
             };
+            startAuthGuard()
         }
 
         async function clearAuth() {
@@ -44,6 +45,7 @@ export const useAuth = defineStore(
             user.value = {};
             expire.value = 0;
             ElMessage.success("登录信息清除成功");
+            stopAuthGuard()
         }
 
         return {
