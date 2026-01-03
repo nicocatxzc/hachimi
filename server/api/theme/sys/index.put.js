@@ -3,7 +3,7 @@ export default defineEventHandler(async (event) => {
 
     const option = useOptionAPI();
 
-    const res = option.set("theme_config",event);
+    const res = option.set("theme_sys",event);
 
     return res;
 });

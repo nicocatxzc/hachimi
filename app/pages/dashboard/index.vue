@@ -2,7 +2,7 @@
 import formSchema from "@/formkit/config";
 import { useThemeConfigStore } from "#imports";
 definePageMeta({
-    layout: false,
+    layout: "dashboard",
 });
 const themeConfig = useThemeConfigStore();
 const formData = ref(themeConfig.tempConfig); // 表单数据
@@ -22,11 +22,22 @@ const postPreviewConfig = useDebounceFn(() => {
     );
 }, 10);
 
-onMounted(() => {
-    Object.assign(
-        themeConfig.tempConfig,
-        JSON.parse(JSON.stringify(toRaw(themeConfig.config)))
-    );
+const initDone = ref(false);
+onMounted(async () => {
+    try {
+        Object.assign(
+            themeConfig.tempConfig,
+            JSON.parse(JSON.stringify(toRaw(themeConfig.config)))
+        );
+        const sysConfig = await $fetch("/api/theme/sys");
+        Object.assign(themeConfig.tempConfig, sysConfig);
+
+        initDone.value = true;
+    } catch (e) {
+        ElMessage.error(`配置初始化失败，请刷新重试！`)
+        console.error(e)
+    }
+
     const stopwatch = watch(
         () => themeConfig.tempConfig,
         () => postPreviewConfig(),
@@ -37,19 +48,50 @@ onMounted(() => {
     });
 });
 async function saveSettings() {
+    if (!initDone.value) {
+        ElMessage.error("配置尚未初始化完成，禁止保存");
+        return;
+    }
     try {
-        let data = await useEncrypt(JSON.stringify(toRaw(formData.value)));
-        let res = await $fetch("/api/theme/themeConfig", {
+        const rawData = JSON.parse(JSON.stringify(toRaw(formData.value)));
+        const { sysConfig, normalConfig } = splitSysConfig(rawData);
+        const encryptedTheme = await useEncrypt(JSON.stringify(normalConfig));
+
+        const themeRes = await $fetch("/api/theme/themeConfig", {
             method: "PUT",
-            body: data,
+            body: encryptedTheme,
         });
-        if (res.success) {
+
+        const encryptedSys = await useEncrypt(JSON.stringify(sysConfig));
+
+        const sysRes = await $fetch("/api/theme/sys", {
+            method: "PUT",
+            body: encryptedSys,
+        });
+
+        if (themeRes.success && sysRes.success) {
             ElMessage.success("配置已成功保存");
+
+            themeConfig.config = rawData;
         }
-        themeConfig.config = formData.value;
     } catch (error) {
         ElMessage.error(`保存失败,错误详情${error}`);
     }
+}
+
+function splitSysConfig(source) {
+    const sysConfig = {};
+    const normalConfig = {};
+
+    for (const [key, value] of Object.entries(source)) {
+        if (key.startsWith("sys")) {
+            sysConfig[key] = value;
+        } else {
+            normalConfig[key] = value;
+        }
+    }
+
+    return { sysConfig, normalConfig };
 }
 
 function navigateBack() {
@@ -82,9 +124,13 @@ function navigateBack() {
                         <h2>{{ title || "主题" }}</h2>
                     </span>
                     <div class="controls">
-                        <ElButton class="button" @click="saveSettings"
-                            >保存</ElButton
+                        <ElButton
+                            class="button"
+                            :disabled="!initDone"
+                            @click="saveSettings"
                         >
+                            保存
+                        </ElButton>
                         <ElButton class="button" @click="expand = !expand">{{
                             expand ? "<<<" : ">>>"
                         }}</ElButton>
@@ -170,7 +216,7 @@ function navigateBack() {
                                     </div>
                                 </template>
                             </template>
-                            <PageAbout v-show="current === 'about'"/>
+                            <PageAbout v-show="current === 'about'" />
                         </FormKit>
                     </div>
                 </div>
@@ -310,8 +356,8 @@ function navigateBack() {
 :deep(.el-collapse-item__content) {
     padding: 0;
 }
-:deep(.formkit-help){
-    font-size: .8rem;
+:deep(.formkit-help) {
+    font-size: 0.8rem;
     color: grey;
 }
 </style>
