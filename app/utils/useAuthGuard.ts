@@ -55,7 +55,7 @@ export function startAuthGuard() {
     validate();
     console.log("登录信息验证成功");
 
-    timer = setInterval(validate, 54000);
+    timer = setInterval(validate, 540000);
 }
 
 export function stopAuthGuard() {
@@ -83,8 +83,6 @@ export async function validateUserInfo() {
         verify:res.verify,
         needCaptcha:false,
     })
-
-    console.log("123",auth)
 
     return true;
 }
