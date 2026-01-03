@@ -31,6 +31,9 @@ export const useAuth = defineStore(
                 slug: userInfo.slug,
                 management: userInfo?.management,
             };
+            if(userInfo?.expire) {
+                expire.value = userInfo?.expire
+            }
             startAuthGuard()
         }
 
