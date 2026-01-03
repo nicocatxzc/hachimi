@@ -11,7 +11,7 @@ export function getDailySecret(masterSecret: string, date = new Date()) {
 export async function createVerifyToken(
     masterSecretHex: string,
     dailySecret: string,
-    expiresIn = "24h"
+    expiresIn = "10M"
 ) {
     const key = Buffer.from(masterSecretHex, "hex"); // KeyLike for HS256
     const jwt = await new SignJWT({ dailySecret })
@@ -87,7 +87,7 @@ export async function getVerifyPair() {
     const daily = getDailySecret(config.commSecret);
 
     // 生成签名令牌
-    const verify = await createVerifyToken(config.commSecret, daily, "24h");
+    const verify = await createVerifyToken(config.commSecret, daily, "10M");
 
     return {
         daily,
