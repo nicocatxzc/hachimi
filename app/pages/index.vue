@@ -62,7 +62,7 @@ useHead({
                 </h2>
                 <HomepageShow />
             </template>
-            <template v-if="block == 'postlist'">
+            <template v-if="block == 'postList'">
                 <h2 class="block-title flex-center">
                     {{ themeConfig?.postListBlockTitle || "文章" }}
                 </h2>
