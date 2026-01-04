@@ -1,12 +1,20 @@
 <script setup>
-const route=useRoute()
+const route = useRoute();
+const config = useThemeConfig()
 
 const headerKey = ref(0); // 在父级使用key重建容易水合失败的组件，防止失联
 onMounted(() => {
     headerKey.value = 1;
 });
+
+const headHtml = config.value?.customHeader ?? ""
+if(headHtml != "") {
+    useHead(useHeadAst(headHtml))
+}
 </script>
 
+<!-- eslint-disable vue/no-v-html -->
+<!-- eslint-disable vue/no-v-text-v-html-on-component -->
 <template>
     <div class="background">
         <!-- 导航区域 -->
@@ -17,14 +25,14 @@ onMounted(() => {
         <NavBarMobile :key="headerKey" class="nav-bar-mobile" />
 
         <!-- 主页封面 -->
-        <HomepageCover v-if="route.path=='/'" />
+        <HomepageCover v-if="route.path == '/'" />
 
         <!-- 内容区域 -->
         <div class="layout-slot">
             <div class="background-filter" />
             <slot />
             <SiteFooter class="site-footer" />
-            <Particle class="particle"/>
+            <Particle class="particle" />
         </div>
 
         <!-- 小组件 -->
