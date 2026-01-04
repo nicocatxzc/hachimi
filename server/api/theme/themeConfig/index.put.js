@@ -1,9 +1,12 @@
 export default defineEventHandler(async (event) => {
-    await useValidate(event)
+    const auth = await useValidate(event);
+    if (auth?.role != "administrator") {
+        throw new Error("非管理员禁止操作");
+    }
 
     const option = useOptionAPI();
 
-    const res = option.set("theme_config",event);
+    const res = option.set("theme_config", event);
 
     return res;
 });

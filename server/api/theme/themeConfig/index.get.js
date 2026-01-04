@@ -1,6 +1,5 @@
 export default defineEventHandler(async () => {
-    const option = useOptionAPI();
-    const themeConfig = option.get("theme_config");
+    const themeConfig = await useThemeConfig();
 
     return themeConfig;
 });

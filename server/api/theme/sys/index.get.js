@@ -1,6 +1,8 @@
-export default defineEventHandler(async () => {
-    const option = useOptionAPI();
-    const themeConfig = option.get("theme_sys");
-
-    return themeConfig;
+export default defineEventHandler(async (event) => {
+    const auth = await useValidate(event);
+    if (auth?.role != "administrator") {
+        return {};
+    }
+    const config = await useThemeSysConfig();
+    return config;
 });
