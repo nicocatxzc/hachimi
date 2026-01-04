@@ -9,6 +9,7 @@ import RadioGroup from "./RadioGroup";
 import Slider from "./Slider";
 import Switch from "./Switch";
 import Sortable from "./SortableList.vue";
+import SortableCheckboxes from "./SortableCheckboxes.vue";
 
 export const elText = createInput(Input);
 export const elTextarea = createInput(Textarea);
@@ -23,3 +24,4 @@ export const elRadioGroup = createInput(RadioGroup);
 export const elSlider = createInput(Slider);
 export const elSwitch = createInput(Switch);
 export const SortableList = createInput(Sortable, { props: ["innerSchema"]});
+export const SortableOptions = createInput(SortableCheckboxes,{props:["options"]});

@@ -12,6 +12,7 @@ import {
     elSlider,
     elSwitch,
     SortableList,
+    SortableOptions,
 } from "./inputs/index";
 
 export default [
@@ -640,37 +641,14 @@ export default [
                 title: "首页布局",
                 schema: [
                     {
-                        $formkit: "list",
+                        $formkit: SortableOptions,
                         name: "homepageBlock",
-                        value: ["show", "postlist", "post"],
-                        children: [
-                            {
-                                $formkit: elSelect,
-                                label: "区域1",
-                                options: [
-                                    { label: "文章区域", value: "postlist" },
-                                    { label: "展示区域", value: "show" },
-                                    { label: "自定义页面", value: "custom" },
-                                ],
-                            },
-                            {
-                                $formkit: elSelect,
-                                label: "区域2",
-                                options: [
-                                    { label: "文章区域", value: "postlist" },
-                                    { label: "展示区域", value: "show" },
-                                    { label: "自定义页面", value: "custom" },
-                                ],
-                            },
-                            {
-                                $formkit: elSelect,
-                                label: "区域3",
-                                options: [
-                                    { label: "文章区域", value: "postlist" },
-                                    { label: "展示区域", value: "show" },
-                                    { label: "自定义页面", value: "custom" },
-                                ],
-                            },
+                        label: "首页布局",
+                        value: ["show", "postlist",],
+                        options: [
+                            { label: "展示区域", value: "show" },
+                            { label: "文章区域", value: "postList" },
+                            { label: "自定义页面", value: "custom" },
                         ],
                     },
                     {
@@ -752,14 +730,16 @@ export default [
                 title: "文章区域设置",
                 schema: [
                     {
-                        $formkit: elCheckboxGroup,
+                        $formkit: SortableOptions,
                         name: "postCardMetas",
                         label: "文章卡片显示信息",
+                        help: "点击可反选，长按可排序",
                         value: ["category", "commentCounts"],
                         options: [
                             { label: "作者", value: "author" },
                             { label: "分类", value: "category" },
                             { label: "评论数量", value: "commentCounts" },
+                            { label: "浏览量", value: "views" },
                         ],
                     },
                     {
@@ -905,6 +885,6 @@ export default [
     {
         key: "about",
         title: "关于",
-        schema:[]
-    }
+        schema: [],
+    },
 ];
