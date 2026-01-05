@@ -47,6 +47,7 @@
         "markdown-it-texmath": "^1.0.0",
         "md5": "^2.3.0",
         "medium-zoom": "^1.1.0",
+        "mitt": "^3.0.1",
         "monaco-editor": "^0.55.1",
         "motion-v": "^1.7.4",
         "nuxt": "^4.2.2",
