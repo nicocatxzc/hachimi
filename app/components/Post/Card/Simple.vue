@@ -74,7 +74,6 @@ const localeTime = useLocalTime(post.modifiedGmt).format("LLL");
 <style lang="scss" scoped>
 .post-card {
     --meta-background: #33333360;
-    --meta-color: rgba(255, 255, 255, 0.8);
 
     animation: loading-animation 0.5s;
     width: 100%;
@@ -111,12 +110,13 @@ const localeTime = useLocalTime(post.modifiedGmt).format("LLL");
 }
 
 .post-metas {
-    display: flex;
+    font-size: 0.9rem;
     gap: 1rem;
     margin-top: 0.2rem;
 
-    font-size: 0.9rem;
-    color: var(--meta-color);
+    display: flex;
+
+    color: var(--word-color-first);
 
     overflow: hidden;
     text-overflow: ellipsis;
