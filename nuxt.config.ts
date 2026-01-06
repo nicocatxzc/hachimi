@@ -1,10 +1,5 @@
 import { randomBytes } from "crypto";
 
-const captchaSecret = randomBytes(32).toString("hex");
-const commSecret = randomBytes(32).toString("hex");
-console.log("验证码种子", captchaSecret);
-console.log("通用种子", commSecret);
-
 export default defineNuxtConfig({
     compatibilityDate: "2025-07-15",
     devtools: { enabled: true },
@@ -15,8 +10,9 @@ export default defineNuxtConfig({
         wordpressAuthToken: process.env.wordpressAuthToken,
 
         // totp种子
-        captchaSecret,
-        commSecret,
+        captchaSecret:
+            process.env.CAPTCHA_SECRET || randomBytes(32).toString("hex"),
+        commSecret: process.env.COMM_SECRET || randomBytes(32).toString("hex"),
         // 公开配置
         public: {
             apiBase: "/api",
