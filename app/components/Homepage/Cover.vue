@@ -14,15 +14,18 @@ const typedRef = useTemplateRef("typedRef");
 onMounted(() => {
     let typed;
     try {
-        if(config.value?.coverTypedjs) {
-            typed = new Typed(typedRef.value, JSON.parse(config.value?.coverTypedjsConfig));
+        if (config.value?.coverTypedjs) {
+            typed = new Typed(
+                typedRef.value,
+                JSON.parse(config.value?.coverTypedjsConfig)
+            );
         }
     } catch (e) {
         ElMessage.error(`typedjs初始化失败,错误详情${e}`);
     }
 
     onUnmounted(() => {
-        if(typed?.destroy()) {
+        if (typed?.destroy()) {
             typed.destroy();
         }
     });
@@ -34,7 +37,7 @@ onMounted(() => {
         <figure
             class="cover"
             :class="{
-                transparent:config?.coverAsBackground || false
+                transparent: config?.coverAsBackground || false,
             }"
             :style="{
                 '--background-img-pc': `url(${coverPc})`,
@@ -53,7 +56,10 @@ onMounted(() => {
                         {{ config?.coverTitle }}
                     </h1>
                     <div class="socials">
-                        <div v-if="config?.coverTypedjs ?? false" class="typed-container">
+                        <div
+                            v-if="config?.coverTypedjs ?? false"
+                            class="typed-container"
+                        >
                             <Icon :name="'fa7-solid:quote-left'" />
                             <span ref="typedRef" class="typed" />
                             <Icon :name="'fa7-solid:quote-right'" />
@@ -101,21 +107,21 @@ onMounted(() => {
     display: flex;
     justify-content: center;
     align-items: center;
-}
-.cover-info .center {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    max-width: 50rem;
-}
-.cover-title {
-    color: #fff;
-    mix-blend-mode: lighten;
+    .center {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        max-width: 50rem;
+        .cover-title {
+            color: #fff;
+            mix-blend-mode: lighten;
+        }
+    }
 }
 </style>
 
-<style scoped>
+<style lang="scss" scoped>
 .cover-info .socials {
     width: 65%;
     padding: 1rem;
@@ -139,5 +145,9 @@ onMounted(() => {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+.typed-container,
+.signature p {
+    color: var(--word-color-first);
 }
 </style>

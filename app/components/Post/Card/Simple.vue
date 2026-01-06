@@ -5,6 +5,7 @@ let { post } = defineProps({
         required: true,
     },
 });
+const config = useThemeConfig();
 const localeTime = useLocalTime(post.modifiedGmt).format("LLL");
 </script>
 
