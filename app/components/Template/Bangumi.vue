@@ -23,9 +23,8 @@ async function requestBangumi() {
             });
             await res.promise;
             list.value = [...list.value, ...res.data.value.data];
-            haveNextPage.value = res.data.value.pagination.has_next
+            haveNextPage.value = res.data.value.pagination.has_next;
             page = page + 1;
-            console.log(page);
         }
     } catch (e) {
         ElMessage.error("加载出错，请重试！");
@@ -36,13 +35,20 @@ await requestBangumi();
 async function loadMore() {
     await requestBangumi();
 }
+
+const bangumiCard = useTemplateRef("bangumi-card");
 </script>
 
 <template>
     <div class="page-bangumi flex-center">
         <ol class="anime-list">
-            <li v-for="(item, index) in list" :key="index" class="anime-item">
-                <a
+            <li
+                v-for="(item, index) in list"
+                :key="index"
+                class="anime-item"
+                @click="() => bangumiCard.showAnime(item)"
+            >
+                <div
                     class="anime-content"
                     href="https://bgm.tv/subject/260772"
                     target="_blank"
@@ -77,13 +83,16 @@ async function loadMore() {
                             {{ item?.summary }}
                         </div>
                     </div>
-                </a>
+                </div>
             </li>
         </ol>
         <div class="pagenation flex-center">
             <button v-if="haveNextPage" @click="loadMore">加载更多</button>
             <p v-else>没有更多了</p>
         </div>
+        <ClientOnly>
+            <TemplateBangumiCard ref="bangumi-card" />
+        </ClientOnly>
     </div>
 </template>
 
@@ -181,7 +190,7 @@ async function loadMore() {
     margin-top: 1rem;
     button {
         font-size: 1.5rem;
-        padding: .5rem;
+        padding: 0.5rem;
 
         color: var(--word-color-second);
     }
