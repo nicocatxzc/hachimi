@@ -13,5 +13,8 @@ export default defineNuxtPlugin(async (nuxtApp) => {
                 navigateTo("/dashboard")
             },{once:true})
         }
+        if (useRoute().query?.preview) {
+            window.__hachimiPreview__ = true
+        }
     }
 });

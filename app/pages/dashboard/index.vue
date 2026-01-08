@@ -4,6 +4,7 @@ import { useThemeConfigStore } from "#imports";
 definePageMeta({
     layout: "dashboard",
 });
+const isNotPreview = window?.__hachimiPreview__ != true
 const themeConfig = useThemeConfigStore();
 const formData = ref(themeConfig.tempConfig); // 表单数据
 const groups = formSchema;
@@ -24,6 +25,10 @@ const postPreviewConfig = useDebounceFn(() => {
 
 const initDone = ref(false);
 onMounted(async () => {
+    if(!isNotPreview) {
+        ElMessage.error("请不要重复开启设置页！")
+        navigateBack()
+    }
     try {
         Object.assign(
             themeConfig.tempConfig,
@@ -34,8 +39,8 @@ onMounted(async () => {
 
         initDone.value = true;
     } catch (e) {
-        ElMessage.error(`配置初始化失败，请刷新重试！`)
-        console.error(e)
+        ElMessage.error(`配置初始化失败，请刷新重试！`);
+        console.error(e);
     }
 
     const stopwatch = watch(
@@ -107,7 +112,7 @@ function navigateBack() {
 </script>
 
 <template>
-    <ClientOnly>
+    <ClientOnly v-if="isNotPreview">
         <div class="dashboard">
             <div
                 class="settings"
@@ -224,7 +229,7 @@ function navigateBack() {
             <iframe
                 ref="preview"
                 class="preview"
-                src="/"
+                src="/?preview=true"
                 frameborder="0"
                 :class="{
                     show: expand !== true,
