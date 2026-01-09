@@ -74,15 +74,16 @@ export async function validateUserInfo() {
     // 无登录信息
     if (!res || !res.verify) {
         console.log("没有登录信息");
-        stopAuthGuard()
+        stopAuthGuard();
         return false;
     }
     // 已登录用户,自动更新免验证码
+    auth.updateUser(res);
     auth.$patch({
-        secret:res.token,
-        verify:res.verify,
-        needCaptcha:false,
-    })
+        secret: res.token,
+        verify: res.verify,
+        needCaptcha: false,
+    });
 
     return true;
 }
