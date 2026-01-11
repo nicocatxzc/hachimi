@@ -142,12 +142,12 @@ function collpase() {
             </NuxtLink>
         </div>
 
-        <div class="user-toggle flex-center" @click="toggleMenu('user')">
+        <div v-if="themeConfig?.navbarUserMenu ?? true" class="user-toggle flex-center" @click="toggleMenu('user')">
             <Icon class="icon" :name="'fluent:bookmark-16-regular'"></Icon>
         </div>
 
         <nav ref="menuScope" class="menu-wrapper">
-            <div v-if="themeConfig?.navbarSearch || true" class="search-form">
+            <div v-if="themeConfig?.navbarSearch ?? true" class="search-form">
                 <ElInput
                     v-model="searchKeyword"
                     class="search-input"
@@ -200,7 +200,7 @@ function collpase() {
         </nav>
 
         <ClientOnly>
-            <div ref="userScope" class="user-wrapper">
+            <div v-if="themeConfig?.navbarUserMenu ?? true" ref="userScope" class="user-wrapper">
                 <div class="user-menu-container">
                     <div class="user-menu flex-center">
                         <ElAvatar size="default" class="avatar">

@@ -128,15 +128,14 @@ const menuItems = computed(() =>
             </nav>
         </div>
         <div
-            v-if="themeConfig?.navbarSearch || true"
+            v-if="themeConfig?.navbarSearch ?? true"
             class="button search flex-center"
             @click="modelStore.search = true"
         >
             <Icon :name="'fa7-solid:search'" class="icon" />
         </div>
-
         <ClientOnly>
-            <div class="user">
+            <div v-if="themeConfig?.navbarUserMenu ?? true" class="user">
                 <ElAvatar size="default" class="avatar">
                     <NuxtPicture
                         :placeholder="
