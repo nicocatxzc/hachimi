@@ -3,17 +3,18 @@ export default function getThemeCss() {
     const themeCss = computed(() => {
         return /*css */ `
 :root {
-    --global-font-size:${themeConfig.value?.globalFontSize || 16}px;
-    --global-font-weight:${themeConfig.value?.globalFontWeight || 300};
+    --global-font-size:${themeConfig.value?.globalFontSize ?? 16}px;
+    --global-font-weight:${themeConfig.value?.globalFontWeight ?? 300};
+    ${(themeConfig.value?.globalDefaultFont ?? false) ? 'font-family:'+themeConfig.value?.globalDefaultFont : ''}
 }
 body {
     background-image: url("${themeConfig.value?.frontendDefaultBackground}");
 }
 :root {
     --active-color: ${themeConfig.value?.activeColor || "#00b0f0"};
-    --widget-transparency: ${themeConfig.value?.widgetTransparency || 0.8};
+    --widget-transparency: ${themeConfig.value?.widgetTransparency ?? 0.8};
     --background-transparency: ${
-        themeConfig.value?.backgroundTransparency || 0.8
+        themeConfig.value?.backgroundTransparency ?? 0.8
     };
     --word-color-first: ${themeConfig.value?.wordColorFirst || "#505050"};
     --word-color-second: ${themeConfig.value?.WordColorSecond || "#00000080"};
@@ -34,8 +35,8 @@ body {
 :root.dark {
     --active-color: ${themeConfig.value?.activeColorDark || 
 "#FCCD00"};
-    --widget-transparency: ${themeConfig.value?.widgetTransparencyDark || 0.8};
-    --background-transparency: ${themeConfig.value?.backgroundTransparencyDark || 0.7};
+    --widget-transparency: ${themeConfig.value?.widgetTransparencyDark ?? 0.8};
+    --background-transparency: ${themeConfig.value?.backgroundTransparencyDark ?? 0.7};
     --word-color-first: ${themeConfig.value?.wordColorFirstDark || "#CCCCCC"};
     --word-color-second: ${themeConfig.value?.wordColorSecondDark || "#7d7d7d"};
     --word-color-third: #7d7d7d;
@@ -51,7 +52,7 @@ body {
     --border-shine: 0.1rem solid var(--border-color-shine);
     --page-background-color: rgba(51, 51, 51, var(--background-transparency));
     --code-background: #24292e;
-    --image-bright:${themeConfig.value?.imgBrightDark || 0.7};
+    --image-bright:${themeConfig.value?.imgBrightDark ?? 0.7};
 }
 :root {
     --border-active: 0.1rem solid var(--active-color);

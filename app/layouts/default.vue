@@ -11,6 +11,34 @@ const headHtml = config.value?.customHeader ?? "";
 if (headHtml != "") {
     useHead(useHeadAst(headHtml));
 }
+
+const extraFontsCss = getExtraFontsCss();
+const themeCss = getThemeCss();
+const sysConfig = useSysConfig();
+useHead({
+    htmlAttrs: {
+        lang: "zh-CN",
+        dir: "ltr",
+    },
+    style: [
+        {
+            innerHTML: sysConfig.value?.global_style,
+        },
+        {
+            innerHTML: `
+        ${extraFontsCss.value}
+        ${themeCss.value}`,
+        },
+    ],
+});
+useStyleTag(
+    computed(
+        () => `
+        ${extraFontsCss.value}
+        ${themeCss.value}
+        `
+    )
+);
 </script>
 
 <!-- eslint-disable vue/no-v-html -->

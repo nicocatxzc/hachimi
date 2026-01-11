@@ -5,9 +5,6 @@ const themeConfig = useThemeConfig();
 const darkmode = useDarkmodeStore();
 
 // 初始化样式
-const extraFontsCss = getExtraFontsCss();
-const themeCss = getThemeCss();
-const sysConfig = useSysConfig();
 if((themeConfig.value?.siteLogo ?? false) != '') {
     const logo = useNuxtImg(themeConfig.value.siteLogo)
     useHead({
@@ -19,30 +16,6 @@ if((themeConfig.value?.siteLogo ?? false) != '') {
         ]
     })
 }
-useHead({
-    htmlAttrs: {
-        lang: "zh-CN",
-        dir: "ltr",
-    },
-    style: [
-        {
-            innerHTML: sysConfig.value?.global_style,
-        },
-        {
-            innerHTML: `
-        ${extraFontsCss.value}
-        ${themeCss.value}`,
-        },
-    ],
-});
-useStyleTag(
-    computed(
-        () => `
-        ${extraFontsCss.value}
-        ${themeCss.value}
-        `
-    )
-);
 
 // 初始化客户端逻辑
 onBeforeMount(() => {
