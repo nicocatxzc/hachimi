@@ -520,11 +520,35 @@ export default [
                 title: "首页封面",
                 schema: [
                     {
+                        $formkit: elRadioGroup,
+                        name: "coverFocusStyle",
+                        label: "首页聚焦显示内容",
+                        value: "title",
+                        options: [
+                            {
+                                label: "显示头像",
+                                value: "avatar",
+                            },
+                            {
+                                label: "显示标题",
+                                value: "title",
+                            },
+                        ],
+                    },
+
+                    {
+                        $formkit: elText,
+                        name: "coverAvatar",
+                        label: "封面头像",
+                        placeholder: "请输入图像链接",
+                    },
+
+                    {
                         $formkit: elText,
                         name: "coverTitle",
                         label: "封面标题内容",
                         help: "显示在封面正中央的文本",
-                        value: "默认单行文本",
+                        value: "Hachimi",
                         placeholder: "请输入封面标题内容",
                     },
 

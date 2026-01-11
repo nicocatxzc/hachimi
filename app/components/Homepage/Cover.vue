@@ -46,15 +46,33 @@ onMounted(() => {
         >
             <div class="cover-info">
                 <div class="center">
-                    <h1
-                        class="cover-title"
-                        :style="{
-                            fontFamily: config?.coverTitleFont,
-                            fontSize: `${config?.coverTitleFontSize}rem`,
-                        }"
+                    <template
+                        v-if="
+                            config?.coverFocusStyle == 'avatar' &&
+                            config?.coverAvatar != ''
+                        "
                     >
-                        {{ config?.coverTitle }}
-                    </h1>
+                        <NuxtPicture
+                            :src="config.coverAvatar"
+                            class="nuxtpic cover-avatar"
+                        />
+                    </template>
+                    <template
+                        v-if="(config?.coverFocusStyle ?? 'title') == 'title'"
+                    >
+                        <h1
+                            class="cover-title"
+                            :style="{
+                                fontFamily: config?.coverTitleFont,
+                                fontSize: `${
+                                    config?.coverTitleFontSize || 6
+                                }rem`,
+                            }"
+                        >
+                            {{ config?.coverTitle ?? "hachimi" }}
+                        </h1>
+                    </template>
+
                     <div class="socials">
                         <div
                             v-if="config?.coverTypedjs ?? false"
@@ -116,6 +134,18 @@ onMounted(() => {
         .cover-title {
             color: #fff;
             mix-blend-mode: lighten;
+        }
+        .cover-avatar {
+            height: 7.5rem;
+            width: 7.5rem;
+
+            border-radius: 50%;
+            overflow: hidden;
+
+            transition: transform 0.5s ease;
+            &:hover {
+                transform: rotate(360deg);
+            }
         }
     }
 }
