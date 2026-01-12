@@ -1,6 +1,7 @@
 onlyBuiltDependencies:
-  - '@parcel/watcher'
-  - esbuild
-  - sharp
-  - unrs-resolver
-  - vue-demi
+    - "@tsparticles/engine"
+    - "@parcel/watcher"
+    - esbuild
+    - sharp
+    - unrs-resolver
+    - vue-demi

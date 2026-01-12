@@ -4,7 +4,7 @@
     "private": true,
     "scripts": {
         "build": "nuxt build",
-        "build:linux": "cross-env npm_config_platform=linux npm_config_arch=x64 pnpm run build",
+        "build:docker": "docker build -t nicocat/hachimi:dev .",
         "dev": "nuxt dev",
         "generate": "nuxt generate",
         "preview": "nuxt preview",

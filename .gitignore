@@ -23,6 +23,3 @@ logs
 .env.*
 !.env.example
 dev.bat
-
-# other
-bun.lock
