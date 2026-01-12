@@ -20,7 +20,7 @@ import katex from "katex";
  * 那个流水线包含iso-dompurify清洗
  * 
  */
-export default function useMarkdown(text) {
+export default function parseMarkdown(text) {
     const md = new MarkdownIt({ html: true }).use(texmath, {
         engine: katex,
         delimiters: "dollars", // $...$ 和 $$...$$

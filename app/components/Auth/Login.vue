@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { onClickOutside } from "@vueuse/core";
-import { useAuth } from "@/stores/auth";
+import { useAuthStore } from "@/stores/auth";
 
-const auth = useAuth();
+const auth = useAuthStore();
 const loginModel = computed(() => auth.loginFormState);
 
 let username = ref("");

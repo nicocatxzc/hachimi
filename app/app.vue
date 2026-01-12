@@ -6,7 +6,7 @@ const darkmode = useDarkmodeStore();
 
 // 初始化样式
 if((themeConfig.value?.siteLogo ?? false) != '') {
-    const logo = useNuxtImg(themeConfig.value.siteLogo)
+    const logo = getNuxtImg(themeConfig.value.siteLogo)
     useHead({
         link: [
             {

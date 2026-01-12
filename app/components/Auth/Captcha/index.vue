@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 const config = useThemeConfig();
-const auth = useAuth();
+const auth = useAuthStore();
 const captchaSelect = config.value?.captchaSelect ?? "builtIn";
 </script>
 

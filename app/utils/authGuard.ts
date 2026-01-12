@@ -1,4 +1,4 @@
-import { useAuth } from "@/stores/auth";
+import { useAuthStore } from "@/stores/auth";
 
 let timer: ReturnType<typeof setInterval> | null = null;
 let validating = false;
@@ -6,7 +6,7 @@ let validating = false;
 export function startAuthGuard() {
     if (timer) return; // 防止重复启动
 
-    const auth = useAuth();
+    const auth = useAuthStore();
 
     const validate = async () => {
         if (validating) return;
@@ -66,7 +66,7 @@ export function stopAuthGuard() {
 }
 
 export async function validateUserInfo() {
-    const auth = useAuth();
+    const auth = useAuthStore();
     const res: any = await $fetch("/api/auth/validate", {
         method: "POST",
     });

@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 
-export const useAuth = defineStore(
+export const useAuthStore = defineStore(
     "auth",
     () => {
         const secret = ref(""); // 交换令牌，仅用于人机验证

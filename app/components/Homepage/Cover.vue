@@ -3,10 +3,10 @@ import Typed from "typed.js";
 
 let config = useThemeConfig();
 
-const coverPc = useNuxtImg(
+const coverPc = getNuxtImg(
     config.value?.randomPicUrlPc || config.value?.randomPicUrlMb || ""
 );
-const coverMb = useNuxtImg(
+const coverMb = getNuxtImg(
     config.value?.randomPicUrlMb || config.value?.randomPicUrlPc || ""
 );
 

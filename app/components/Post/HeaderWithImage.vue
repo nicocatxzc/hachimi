@@ -6,7 +6,7 @@ const props = defineProps({
     },
 });
 const post = computed(() => props?.post);
-const localeTime = useLocalTime(post.value?.modifiedGmt).format("LLL")
+const localeTime = getLocalTime(post.value?.modifiedGmt).format("LLL")
 </script>
 
 <template>

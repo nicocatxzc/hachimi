@@ -27,7 +27,7 @@ let inited = false;
 async function initData() {
     if (inited) return;
     if (!config?.liveSearchLocalIndex) return
-    localSearch = await useLocalSearch();
+    localSearch = await LocalSearch();
     inited = true;
 }
 </script>

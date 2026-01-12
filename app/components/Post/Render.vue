@@ -29,7 +29,7 @@ function mapSrcsetToIPX(srcset) {
             const seg = part.trim().split(/\s+/);
             const url = seg[0];
             const descriptor = seg[1] || "";
-            const ipxUrl = useNuxtImg(url);
+            const ipxUrl = getNuxtImg(url);
             return descriptor ? `${ipxUrl} ${descriptor}` : ipxUrl;
         })
         .join(", ");
@@ -155,7 +155,7 @@ const componentsMap = {
 
             // 原始 src：优先 img.src，其次 a.href
             const rawSrc = img.attrs?.src || node.attrs?.href || "";
-            const nuxtImg = useNuxtImg(rawSrc);
+            const nuxtImg = getNuxtImg(rawSrc);
 
             return {
                 // 保留 img 原有属性
@@ -180,7 +180,7 @@ const componentsMap = {
         component: "img",
 
         propsMapper(node) {
-            const nuxtImg = useNuxtImg(node.attrs?.src || "");
+            const nuxtImg = getNuxtImg(node.attrs?.src || "");
             return {
                 ...node.attrs,
                 srcset: mapSrcsetToIPX(node.attrs?.srcset),

@@ -6,7 +6,7 @@ let { post } = defineProps({
     },
 });
 const config = useThemeConfig();
-const localeTime = useLocalTime(post.modifiedGmt).format("LLL");
+const localeTime = getLocalTime(post.modifiedGmt).format("LLL");
 function useRandom(url) {
     if(url=='') return url;
     const separator = url.includes('?') ? '&' : '?';

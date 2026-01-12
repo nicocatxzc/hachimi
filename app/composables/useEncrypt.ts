@@ -1,9 +1,9 @@
 import * as OTPAuth from "otpauth";
-import { useAuth } from "#imports";
+import { useAuthStore } from "#imports";
 import { CompactEncrypt } from "jose";
 
 export async function useEncrypt(payload: string) {
-    const auth = useAuth();
+    const auth = useAuthStore();
     const dailySecret = auth.secret as string;
 
     const totp = new OTPAuth.TOTP({

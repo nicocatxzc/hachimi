@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 onMounted(() => {
-    const auth = useAuth();
+    const auth = useAuthStore();
     if (auth.expire == 0) {
         ElMessage.info("请先登录！");
         auth.loginFormState = true;

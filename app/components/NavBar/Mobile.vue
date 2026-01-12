@@ -2,7 +2,7 @@
 import { useAnimate } from "motion-v";
 import { onClickOutside } from "#imports";
 import { Search } from "@element-plus/icons-vue";
-const authStore = useAuth();
+const authStore = useAuthStore();
 const user = computed(() => authStore.user);
 const openLoginForm = authStore.openLoginForm;
 const themeConfig = useThemeConfig();

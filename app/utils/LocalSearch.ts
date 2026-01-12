@@ -1,4 +1,4 @@
-export default async function useLocalSearch() {
+export default async function LocalSearch() {
     const data = await $fetch("/api/content/search-index");
     const posts = (data?.posts?.nodes || []).map(
         (post: {

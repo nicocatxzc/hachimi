@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import { useAuth } from "@/stores/auth";
+import { useAuthStore } from "@/stores/auth";
 import { storeToRefs } from "pinia";
 import { useScrollLock } from "@vueuse/core";
 
-const { loginFormState } = storeToRefs(useAuth());
+const { loginFormState } = storeToRefs(useAuthStore());
 
 let openCount = ref(0);
 const showBackground = computed(() => {

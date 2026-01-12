@@ -1,8 +1,8 @@
 <script setup>
-import { useAuth } from "@/stores/auth";
+import { useAuthStore } from "@/stores/auth";
 import { useTimeout } from "@vueuse/core";
 const captcha = useCaptcha();
-const auth = useAuth();
+const auth = useAuthStore();
 let token = ref("");
 let hash = ref("");
 let image = ref("");

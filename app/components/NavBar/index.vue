@@ -1,8 +1,8 @@
 <script setup>
 import { useScrollStore } from "~/stores/progress";
-import { useAuth } from "@/stores/auth";
+import { useAuthStore } from "@/stores/auth";
 
-const authStore = useAuth();
+const authStore = useAuthStore();
 const user = computed(() => authStore.user);
 const openLoginForm = authStore.openLoginForm;
 const themeConfig = useThemeConfig();

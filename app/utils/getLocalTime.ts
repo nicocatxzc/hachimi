@@ -11,7 +11,7 @@ dayjs.extend(timezone);
 dayjs.extend(localeData);
 dayjs.extend(localizedFormat);
 
-export default function useLocalTime(time:string) {
+export default function getLocalTime(time:string) {
 
     const browserLocale = navigator?.language ?? 'zh-CN';
 

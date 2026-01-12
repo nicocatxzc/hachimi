@@ -1,5 +1,5 @@
 <script setup>
-const about = useMarkdown(/* markdown */`
+const about = parseMarkdown(/* markdown */`
 # Theme Hachimi
 ## 关于主题
 

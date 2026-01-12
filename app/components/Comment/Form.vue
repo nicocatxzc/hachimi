@@ -13,7 +13,7 @@ const { postId, reply } = defineProps({
 const emit = defineEmits(["submit"]);
 
 let config = useThemeConfig();
-const auth = useAuth();
+const auth = useAuthStore();
 let comment = ref("");
 let name = ref("");
 let email = ref("");

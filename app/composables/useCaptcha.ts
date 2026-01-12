@@ -1,5 +1,5 @@
 export const useCaptcha = () => {
-    const auth = useAuth();
+    const auth = useAuthStore();
     async function get() {
         const res = await $fetch("/api/auth/captcha");
         return res;
