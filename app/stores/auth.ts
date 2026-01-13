@@ -34,7 +34,6 @@ export const useAuthStore = defineStore(
             if(userInfo?.expire) {
                 expire.value = userInfo?.expire
             }
-            startAuthGuard()
         }
 
         async function clearAuth() {
@@ -48,7 +47,6 @@ export const useAuthStore = defineStore(
             user.value = {};
             expire.value = 0;
             ElMessage.success("登录信息清除成功");
-            stopAuthGuard()
         }
 
         return {

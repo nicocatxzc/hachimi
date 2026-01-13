@@ -24,7 +24,6 @@ onMounted(async () => {
             status.value = "success";
             message.value = "认证成功，正在跳转首页...";
             await validateUserInfo();
-            startAuthGuard();
             setTimeout(() => {
                 navigateTo("/")
             }, redirectDelay);
