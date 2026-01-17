@@ -43,7 +43,7 @@ export default defineEventHandler(async (event) => {
                         Referer: "https://space.bilibili.com/",
                     },
                     params: {
-                        vmid: sysConfig.sysBilibiliUserId,
+                        vmid: userID,
                         pn: page,
                         ps: perPage,
                         type: query?.type == "movie" ? 2 : 1,

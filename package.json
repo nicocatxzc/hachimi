@@ -43,7 +43,7 @@
         "medium-zoom": "^1.1.0",
         "mitt": "^3.0.1",
         "monaco-editor": "^0.55.1",
-        "motion-v": "^1.7.6",
+        "motion-v": "^1.9.0",
         "nuxt": "^4.2.2",
         "nuxt-monaco-editor": "1.4.0",
         "otpauth": "^9.4.1",
@@ -56,7 +56,7 @@
         "vue": "^3.5.26",
         "vue-cloudflare-turnstile": "^1.0.3",
         "vue-color": "^3.3.3",
-        "vue-draggable-plus": "^0.6.0",
+        "vue-draggable-plus": "^0.6.1",
         "vue-router": "^4.6.4"
     },
     "devDependencies": {
