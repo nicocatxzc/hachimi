@@ -910,9 +910,15 @@ export default [
                 title: "页面模板设置",
                 schema: [
                     {
+                        $el: "div",
+                        attrs: {
+                            innerHTML: "<h3>追番</h3>",
+                        },
+                    },
+                    {
                         $formkit: elRadioGroup,
                         name: "bangumiAPIsource",
-                        label: "文章卡片图片",
+                        label: "追番数据来源",
                         value: "bangumi",
                         options: [
                             {
@@ -943,6 +949,19 @@ export default [
                         label: "bilibili用户cookie",
                         help: "观看进度和隐私内容需要认证信息查询，请妥善保管cookie",
                         placeholder: "请输入cookie",
+                    },
+                    {
+                        $el: "div",
+                        attrs: {
+                            innerHTML: "<h3>收藏</h3>",
+                        },
+                    },
+                    {
+                        $formkit: elSwitch,
+                        name: "sysShowPrivateFavlist",
+                        label: "显示隐私收藏夹",
+                        help: "开启后将会显示非公开收藏夹的内容",
+                        value: false,
                     },
                 ],
             },
