@@ -4,7 +4,7 @@
     "private": true,
     "scripts": {
         "build": "nuxt build",
-        "build:docker": "docker build -t nicocat/hachimi:dev .",
+        "build:docker": "docker build -t nicocatxzc/hachimi:dev .",
         "dev": "nuxt dev",
         "generate": "nuxt generate",
         "preview": "nuxt preview",

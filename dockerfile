@@ -1,5 +1,5 @@
 # 构建
-FROM node:krypton-trixie AS builder
+FROM node:24.13.0-trixie AS builder
 
 # 设置工作目录
 WORKDIR /opt/hachimi
@@ -15,7 +15,7 @@ COPY . .
 RUN pnpm run build
 
 # 运行时
-FROM node:krypton-trixie-slim
+FROM node:24.13.0-trixie-slim
 
 WORKDIR /opt/hachimi
 

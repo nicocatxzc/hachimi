@@ -1,0 +1,23 @@
+version: "3.9"
+
+services:
+  hachimi:
+    image: nicocatxzc/hachimi:dev
+    container_name: hachimi
+    restart: always
+
+    network_mode: bridge
+
+    ports:
+      - "8886:3000"
+
+    environment:
+      NUXT_WORDPRESS_URL: ""
+      NUXT_WORDPRESS_USER_NAME: ""
+      NUXT_WORDPRESS_AUTH_TOKEN: ""
+
+    deploy:
+      resources:
+        limits:
+          cpus: "2.0"
+          memory: 2g
