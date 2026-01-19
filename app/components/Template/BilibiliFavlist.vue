@@ -9,6 +9,7 @@ const favlistAllData = await useCachedFetch(
         promise: true,
     },
 );
+await favlistAllData.promise
 const favlistAll = computed(() => favlistAllData.data.value.list ?? []);
 
 // 载入分类
