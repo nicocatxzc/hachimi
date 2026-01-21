@@ -1,6 +1,6 @@
 import { JSDOM } from "jsdom";
 
-export default async function useWPPageStyles(path) {
+export default async function getWPPageStyles(path) {
     try {
         const head = await useWP.get(path, {
             params: { headless: true },

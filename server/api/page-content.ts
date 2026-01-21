@@ -76,7 +76,7 @@ export default defineEventHandler(async (event) => {
                     },
                 });
 
-                const styles = await useWPPageStyles(path);
+                const styles = await getWPPageStyles(path);
 
                 return {
                     ...page,
@@ -93,7 +93,7 @@ export default defineEventHandler(async (event) => {
                     },
                 });
 
-                const styles = await useWPPageStyles(path);
+                const styles = await getWPPageStyles(path);
 
                 return {
                     ...page,
