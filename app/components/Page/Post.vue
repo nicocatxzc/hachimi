@@ -30,18 +30,27 @@ function generateDescription(content, length = 125) {
 }
 
 function getDesc() {
-    let desc;
-    if (post.value?.excerpt && post.value?.excerpt != "")
-        desc = post.value?.excerpt;
-    if (post.value?.content && post.value?.content != "")
-        desc = generateDescription(post.value?.content);
-    if (themeConfig.value?.siteSeoDesc && themeConfig.value?.siteSeoDesc != "")
-        desc = themeConfig.value?.siteSeoDesc;
-    if (themeConfig.value?.siteDesc && themeConfig.value?.siteDesc != "")
-        desc = themeConfig.value?.siteDesc;
-
-    if (!desc) desc = "这家伙很懒,什么都没有写";
-    return desc;
+    // 摘要
+    if (post.value?.excerpt && post.value.excerpt.trim() !== "") {
+        return post.value.excerpt.replace(/<[^>]*>/g, '');
+    }
+    
+    // 正文截取
+    if (post.value?.content && post.value.content.trim() !== "") {
+        return generateDescription(post.value.content);
+    }
+    
+    // 站点配置描述
+    if (themeConfig.value?.siteSeoDesc && themeConfig.value.siteSeoDesc.trim() !== "") {
+        return themeConfig.value.siteSeoDesc;
+    }
+    
+    // 站点原始描述
+    if (themeConfig.value?.siteDesc && themeConfig.value.siteDesc.trim() !== "") {
+        return themeConfig.value.siteDesc;
+    }
+    
+    return "这家伙很懒,什么都没有写";
 }
 
 const $img = useImage();
