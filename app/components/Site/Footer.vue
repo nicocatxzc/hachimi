@@ -42,8 +42,15 @@ p-id="5240"
 
 <!-- eslint-disable vue/no-v-html -->
 <template>
-    <footer class="site-footer flex-center">
-        <div v-if="config?.footerSakura || true" class="sakura-icon flex-center" v-html="sakura"></div>
+    <footer
+        class="site-footer flex-center"
+        :style="{ fontFamily: config?.footerFont || '' }"
+    >
+        <div
+            v-if="config?.footerSakura || true"
+            class="sakura-icon flex-center"
+            v-html="sakura"
+        ></div>
         <div class="site-info" v-html="config?.footerHTML || ''" />
         <div class="theme-info">
             <a
