@@ -153,6 +153,7 @@ function collpase() {
                     class="search-input"
                     placeholder="想找点什么呢?"
                     :prefix-icon="Search"
+                    inputmode="search"
                     @keyup.enter="gotoSearch()"
                 />
             </div>

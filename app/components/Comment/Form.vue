@@ -145,6 +145,7 @@ async function submit() {
                     type="text"
                     placeholder="邮箱"
                     class="input email"
+                    inputmode="email"
                     required
                     @blur="setAvatar(email)"
                 />
