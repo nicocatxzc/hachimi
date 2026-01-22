@@ -20,7 +20,8 @@ function useCommentQuery(query = {}) {
                     ${
                         query?.postId
                             ? `contentId: ${Number(query.postId)}
-                                contentType: POST`
+                                # contentType: POST
+                                `
                             : ""
                     }
                     orderby: COMMENT_DATE
