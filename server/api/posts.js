@@ -1,4 +1,4 @@
-function usePostQuery(settings, query = {}) {
+async function usePostQuery(settings, query = {}) {
     let queryPart = "";
     if (query?.after || query?.search) {
         queryPart = `
@@ -86,7 +86,8 @@ function usePostQuery(settings, query = {}) {
     if (query?.search) {
         queryVar.search = query.search;
     }
-    return useWPGraphql(GetPosts, queryVar);
+    const res = await useWPGraphql(GetPosts, queryVar)
+    return replaceWP(res);
 }
 
 export default defineEventHandler(async (event) => {
