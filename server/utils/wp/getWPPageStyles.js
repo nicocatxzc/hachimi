@@ -1,12 +1,13 @@
 import { JSDOM } from "jsdom";
 
 export default async function getWPPageStyles(path) {
+    let dom;
     try {
         const head = await useWP.get(path, {
             params: { headless: true },
         });
 
-        const dom = new JSDOM(head.data);
+        dom = new JSDOM(head.data);
         const { document } = dom.window;
 
         // 内联样式
@@ -14,7 +15,7 @@ export default async function getWPPageStyles(path) {
             .filter(
                 (el) =>
                     !el.id.includes("admin-bar") &&
-                    !el.id.includes("global-styles-inline-css")
+                    !el.id.includes("global-styles-inline-css"),
             )
             .map((el) => ({
                 id: el.id,
@@ -42,7 +43,13 @@ export default async function getWPPageStyles(path) {
             style,
         };
     } catch (error) {
-        console.log(`获取页面${path}的样式时遇到问题,错误信息:`)
-        console.log(error)
+        console.log(`获取页面${path}的样式时遇到问题,错误信息:`);
+        console.log(error);
+    } finally {
+        // 清理JSDOM实例
+        if (dom?.window) {
+            dom.window.close();
+        }
+        dom = null;
     }
 }
