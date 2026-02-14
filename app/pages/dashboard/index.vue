@@ -13,8 +13,9 @@ const themeConfig = useThemeConfigStore();
 const formData = ref(themeConfig.tempConfig); // 表单数据
 const groups = formSchema;
 let current = ref("basicSettings");
-let title = ref("");
+let title = ref("基础设置");
 let expand = ref(true);
+const showMode = ref("wide");
 
 let preview = useTemplateRef("preview");
 const postPreviewConfig = useDebounceFn(() => {
@@ -23,7 +24,7 @@ const postPreviewConfig = useDebounceFn(() => {
             type: "previewData",
             data: JSON.parse(JSON.stringify(toRaw(formData.value))),
         },
-        "*"
+        "*",
     );
 }, 10);
 
@@ -36,7 +37,7 @@ onMounted(async () => {
     try {
         Object.assign(
             themeConfig.tempConfig,
-            JSON.parse(JSON.stringify(toRaw(themeConfig.config)))
+            JSON.parse(JSON.stringify(toRaw(themeConfig.config))),
         );
         const sysConfig = await $fetch("/api/theme/sys");
         Object.assign(themeConfig.tempConfig, sysConfig);
@@ -47,15 +48,26 @@ onMounted(async () => {
         console.error(e);
     }
 
-    const stopwatch = watch(
+    watch(
         () => themeConfig.tempConfig,
         () => postPreviewConfig(),
-        { deep: true }
+        { deep: true },
     );
-    onUnmounted(() => {
-        stopwatch();
-    });
+
+    watch(
+        [() => preview.value, () => current.value, () => expand.value],
+        () => {
+            showMode.value =
+                getComputedStyle(preview.value).getPropertyValue(
+                    "--hachimi-preview-mode",
+                ) ?? "wide";
+        },
+        {
+            immediate: true,
+        },
+    );
 });
+
 async function saveSettings() {
     if (!initDone.value) {
         ElMessage.error("配置尚未初始化完成，禁止保存");
@@ -109,7 +121,7 @@ function navigateBack() {
     } else {
         navigateTo("/");
     }
-    if (expand.value == true) {
+    if (expand.value == true && showMode == "narrow") {
         navigateTo("/");
     }
 }
@@ -140,16 +152,18 @@ function navigateBack() {
                         >
                             保存
                         </ElButton>
-                        <ElButton class="button" @click="expand = !expand">{{
-                            expand ? "<<<" : ">>>"
-                        }}</ElButton>
+                        <ElButton class="button" @click="expand = !expand">
+                            {{ expand ? "<<<" : ">>>" }}
+                        </ElButton>
                     </div>
                 </div>
                 <div class="settings-form">
                     <aside
                         class="settings-menu"
                         :class="{
-                            show: title == '' || expand == true,
+                            show:
+                                title == '' ||
+                                (expand === true && showMode == 'wide'),
                         }"
                     >
                         <ElMenu
@@ -158,7 +172,6 @@ function navigateBack() {
                             unique-opened
                             @select="
                                 (key) => {
-                                    showForm = true;
                                     current = key;
                                 }
                             "
@@ -197,7 +210,9 @@ function navigateBack() {
                     <div
                         class="settings-area"
                         :class="{
-                            show: title != '' || expand == true,
+                            show:
+                                title != '' ||
+                                (expand === true && showMode == 'wide'),
                         }"
                     >
                         <FormKit
@@ -226,7 +241,11 @@ function navigateBack() {
                                 </template>
                             </template>
                             <PageAbout v-show="current === 'about'" />
-                            <PageBackup v-show="current === 'backup'" v-model="formData" @submit="saveSettings"/>
+                            <PageBackup
+                                v-show="current === 'backup'"
+                                v-model="formData"
+                                @submit="saveSettings"
+                            />
                         </FormKit>
                     </div>
                 </div>
@@ -245,122 +264,127 @@ function navigateBack() {
 </template>
 
 <style lang="scss" scoped>
-.dashboard {
-    display: flex;
-    width: 100dvw;
-    height: 100dvh;
-    overflow: hidden;
-}
-.settings {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-
-    width: 20dvw;
-    height: 100%;
-
-    background: whitesmoke;
-    transition: width 0.5s ease;
-
-    &.expand {
+@media (min-aspect-ratio: 4/3) {
+    .dashboard {
+        display: flex;
         width: 100dvw;
+        height: 100dvh;
+        overflow: hidden;
     }
-}
-.settings-info {
-    position: sticky;
-    top: 0;
-    z-index: 10;
+    .settings {
+        position: relative;
+        display: flex;
+        flex-direction: column;
 
-    display: flex;
-    align-items: stretch;
-
-    height: 4.5rem;
-    background: inherit;
-}
-.back {
-    width: 3rem;
-    min-width: 3rem;
-    height: 100%;
-
-    .icon {
-        transform: scale(1.5);
-    }
-}
-.info {
-    flex: 1;
-    padding: 0.5rem 1rem;
-
-    h2 {
-        margin: 0;
-        font-size: 1.1rem;
-    }
-}
-.controls {
-    width: 5rem;
-    display: flex;
-    flex-direction: column;
-
-    .button {
-        width: 100%;
-        margin: 0;
-    }
-}
-.settings-form {
-    position: relative;
-    flex: 1;
-    overflow: hidden;
-}
-.settings-menu,
-.settings-area {
-    position: absolute;
-    top: 0;
-    left: 0;
-
-    width: 100%;
-    height: 100%;
-
-    overflow: auto;
-    background: whitesmoke;
-
-    transition: transform 0.5s ease, width 0.5s ease;
-}
-.settings-menu {
-    transform: translateX(-100%);
-
-    &.show {
-        transform: translateX(0);
-    }
-}
-.settings-area {
-    transform: translateX(100%);
-    padding: 0;
-
-    &.show {
-        transform: translateX(0);
-        padding: 3%;
-    }
-}
-.settings.expand {
-    .settings-menu.show {
         width: 20dvw;
-        transform: translateX(0);
+        height: 100%;
+
+        background: whitesmoke;
+        transition: width 0.5s ease;
+
+        &.expand {
+            width: 100dvw;
+        }
     }
+    .settings-info {
+        position: sticky;
+        top: 0;
+        z-index: 10;
 
-    .settings-area.show {
-        width: 80dvw;
-        transform: translateX(20dvw);
+        display: flex;
+        align-items: stretch;
+
+        height: 4.5rem;
+        background: inherit;
     }
-}
-.preview {
-    flex: 1;
-    height: 100%;
-    width: 0;
+    .back {
+        width: 3rem;
+        min-width: 3rem;
+        height: 100%;
 
-    border: none;
-    transition: width 0.5s ease;
+        .icon {
+            transform: scale(1.5);
+        }
+    }
+    .info {
+        flex: 1;
+        padding: 0.5rem 1rem;
 
-    &.show {
-        width: auto;
+        h2 {
+            margin: 0;
+            font-size: 1.1rem;
+        }
+    }
+    .controls {
+        width: 5rem;
+        display: flex;
+        flex-direction: column;
+
+        .button {
+            width: 100%;
+            margin: 0;
+        }
+    }
+    .settings-form {
+        position: relative;
+        flex: 1;
+        overflow: hidden;
+    }
+    .settings-menu,
+    .settings-area {
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        width: 100%;
+        height: 100%;
+
+        overflow: auto;
+        background: whitesmoke;
+
+        transition:
+            transform 0.5s ease,
+            width 0.5s ease;
+    }
+    .settings-menu {
+        transform: translateX(-100%);
+
+        &.show {
+            transform: translateX(0);
+        }
+    }
+    .settings-area {
+        transform: translateX(100%);
+        padding: 0;
+
+        &.show {
+            transform: translateX(0);
+            padding: 3%;
+        }
+    }
+    .settings.expand {
+        .settings-menu.show {
+            width: 20dvw;
+            transform: translateX(0);
+        }
+
+        .settings-area.show {
+            width: 80dvw;
+            transform: translateX(20dvw);
+        }
+    }
+    .preview {
+        --hachimi-preview-mode: wide;
+        flex: 1;
+        height: 100%;
+        width: 0;
+
+        border: none;
+        transition: width 0.5s ease;
+
+        &.show {
+            width: auto;
+        }
     }
 }
 :deep(.el-collapse-item__content) {
@@ -369,5 +393,144 @@ function navigateBack() {
 :deep(.formkit-help) {
     font-size: 0.8rem;
     color: grey;
+}
+</style>
+<style lang="scss" scoped>
+@media (max-aspect-ratio: 4/3) {
+    .dashboard {
+        width: 100dvw;
+        height: 100dvh;
+
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+    .settings {
+        width: 100%;
+        height: 4.5rem;
+
+        display: flex;
+        flex-direction: column;
+        flex-shrink: 0;
+
+        background: whitesmoke;
+
+        transition: height 0.35s ease;
+
+        overflow: hidden;
+        &.expand {
+            height: 100dvh;
+            overflow: auto;
+        }
+    }
+
+    .settings-info {
+        position: relative;
+        top: 0;
+        z-index: 20;
+
+        display: flex;
+        align-items: center;
+
+        height: 4.5rem;
+        background: whitesmoke;
+        border-bottom: 1px solid #e5e5e5;
+    }
+
+    .back {
+        width: 3rem;
+        min-width: 3rem;
+        height: 100%;
+
+        .icon {
+            transform: scale(1.5);
+        }
+    }
+    .info {
+        flex: 1;
+        padding: 0.5rem 1rem;
+
+        h2 {
+            margin: 0;
+            font-size: 1.1rem;
+        }
+    }
+    .controls {
+        display: flex;
+        flex-direction: row;
+        gap: 0.4rem;
+        width: auto;
+        padding-right: 0.5rem;
+
+        .button {
+            width: auto;
+            margin: 0;
+        }
+    }
+
+    .settings-form {
+        flex: 1;
+        overflow: hidden;
+        height: calc(100dvh - 4.5rem);
+        transform: translateY(-100%);
+        transition: transform 0.35s ease;
+    }
+    .settings.expand {
+        .settings-form {
+            transform: translateY(0);
+        }
+    }
+
+    .settings-menu,
+    .settings-area {
+        position: absolute;
+        inset: 0;
+
+        width: 100%;
+        height: 100%;
+
+        overflow: auto;
+        background: whitesmoke;
+
+        transition: transform 0.25s ease;
+    }
+    .settings-menu {
+        transform: translateX(-100%);
+
+        &.show {
+            transform: translateX(0);
+        }
+    }
+    .settings-area {
+        transform: translateX(100%);
+        padding: 0;
+
+        &.show {
+            transform: translateX(0);
+            padding: 3%;
+        }
+    }
+
+    .settings-area {
+        transform: translateX(100%);
+        padding: 0;
+
+        &.show {
+            transform: translateX(0);
+            padding: 3%;
+        }
+    }
+
+    .preview {
+        --hachimi-preview-mode: narrow;
+        width: 100%;
+        height: calc(100dvh - 4.5rem);
+        margin-top: 4.5rem;
+        position: fixed;
+
+        border: none;
+
+        z-index: -1;
+    }
 }
 </style>
