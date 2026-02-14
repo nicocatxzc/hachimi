@@ -1,6 +1,7 @@
 <script setup>
 import formSchema from "@/formkit/config";
 import { useThemeConfigStore } from "#imports";
+import _ from "lodash-es"
 definePageMeta({
     layout: "dashboard",
 });
@@ -34,6 +35,7 @@ onMounted(async () => {
         ElMessage.error("请不要重复开启设置页！");
         navigateBack();
     }
+    // 回填设置项
     try {
         Object.assign(
             themeConfig.tempConfig,
@@ -48,24 +50,28 @@ onMounted(async () => {
         console.error(e);
     }
 
+    // 更新预览
     watch(
         () => themeConfig.tempConfig,
         () => postPreviewConfig(),
         { deep: true },
     );
 
-    watch(
-        [() => preview.value, () => current.value, () => expand.value],
-        () => {
-            showMode.value =
-                getComputedStyle(preview.value).getPropertyValue(
-                    "--hachimi-preview-mode",
-                ) ?? "wide";
-        },
-        {
-            immediate: true,
-        },
-    );
+    // 显示模式
+    const updateShowMode = () => {
+        const el = preview.value;
+        if (!el) return;
+
+        showMode.value =
+            getComputedStyle(el).getPropertyValue("--hachimi-preview-mode") ||
+            "wide";
+    };
+
+    const throttledUpdate = _.throttle(updateShowMode, 100);
+
+    updateShowMode();
+
+    useEventListener(window, "resize", throttledUpdate);
 });
 
 async function saveSettings() {
