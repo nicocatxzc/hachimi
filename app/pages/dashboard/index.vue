@@ -127,7 +127,7 @@ function navigateBack() {
     } else {
         navigateTo("/");
     }
-    if (expand.value == true && showMode == "narrow") {
+    if (expand.value == true && showMode == "wide") {
         navigateTo("/");
     }
 }
