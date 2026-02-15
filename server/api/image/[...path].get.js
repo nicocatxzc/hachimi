@@ -79,6 +79,8 @@ export default defineEventHandler(async (event) => {
 
     const ipxHandler = createIPXNodeServer(ipx);
 
+    res.setHeader('Cache-Control', 'public, max-age=86400')
+
     // 交给 IPX 处理
     // return event.path
     await ipxHandler(req, res);
