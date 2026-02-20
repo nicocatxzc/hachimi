@@ -91,5 +91,6 @@ NUXT_WORDPRESS_AUTH_TOKEN="yourAdminToken"
 - [friend_link] 友情链接
 - [bangumi] 追番
 - [favlist] bilibili收藏
+- [archive] 时光轴归档
 
-你可以继续使用古腾堡编辑器排版，插入任何内容以及下载链接，本主题完全支持渲染
+你可以继续使用古腾堡编辑器排版，插入任何内容以及下载链接，以及Sakurairo原版主题的短代码和区块，本主题完全支持渲染
