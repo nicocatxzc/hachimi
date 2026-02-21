@@ -1,30 +1,36 @@
 import type { H3Event, EventHandlerRequest } from "h3";
 
-export default function useOptionAPI() {
+export default function useOptionAPI(event:H3Event) {
+
+    if (!event.context._optionCache) {
+        event.context._optionCache = new Map();
+    }
+
+    const cache = event.context._optionCache;
+
     return {
         async get(key: string) {
-            try {
-                let config;
-                config = await useWP.get("/wp-json/hachimi/v1/option", {
-                    params: {
-                        key,
-                    },
-                });
+            if (!cache.has(key)) {
+                const promise = (async () => {
+                    const raw = await useWP.get("/wp-json/hachimi/v1/option", {
+                        params: { key },
+                    });
 
-                let siteConfig = await getWPsettings();
-                config = replaceWP(config.data.value);
-                return {
-                    ...config,
-                    siteName: siteConfig?.site_name,
-                    siteDesc: siteConfig?.site_description,
-                };
-            } catch (error) {
-                throw createError({
-                    statusCode: 500,
-                    statusMessage: "Internal Server Error",
-                    message: error?.toString() || "请求出错",
-                });
+                    const siteConfig = await getWPsettings();
+
+                    const config = replaceWP(raw.data.value);
+
+                    return {
+                        ...config,
+                        siteName: siteConfig?.site_name,
+                        siteDesc: siteConfig?.site_description,
+                    };
+                })();
+
+                cache.set(key, promise);
             }
+
+            return await cache.get(key)!;
         },
         async set(key: string, event: H3Event<EventHandlerRequest>) {
             try {

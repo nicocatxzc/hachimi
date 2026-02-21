@@ -32,19 +32,30 @@ function parseIPXPath(pathname) {
                 .join("_");
         }
     }
-
+    
     return { modifiers, id };
 }
+const nuxtconfig = useRuntimeConfig();
+const wp = new URL(nuxtconfig.wordpressURL);
+
+const ipx = createIPX({
+    storage: ipxFSStorage({ dir: "./public" }),
+    httpStorage: ipxHttpStorage({ domains: [wp.host] }),
+    alias: { "/content": `${wp.origin}/wp-content` },
+});
+
+const ipxHandler = createIPXNodeServer(ipx);
 
 export default defineEventHandler(async (event) => {
-    const nuxtconfig = useRuntimeConfig();
     const { req, res } = event.node;
 
-    const wp = new URL(nuxtconfig.wordpressURL);
     const allowedDomains = new Set([wp.host]);
 
     // 修改请求路径，移除 /api/image 前缀
-    const url = event.path.replace(/^\/api\/image/, "") || "/";
+    const url =
+        event.path
+            .replace(/^\/api\/image/, "")
+            .replace(/^\/static\/image/, "") || "/";
     req.url = url;
 
     const { modifiers, id } = parseIPXPath(url);
@@ -58,7 +69,9 @@ export default defineEventHandler(async (event) => {
             isAllowed = allowedDomains.has(parsed.host);
         } else {
             // 本地 alias
-            isAllowed = originalSrc.startsWith("content/") || originalSrc.startsWith("/content/");
+            isAllowed =
+                originalSrc.startsWith("content/") ||
+                originalSrc.startsWith("/content/");
         }
     } catch {
         isAllowed = false;
@@ -71,15 +84,8 @@ export default defineEventHandler(async (event) => {
         return;
     }
 
-    const ipx = createIPX({
-        storage: ipxFSStorage({ dir: "./public" }),
-        httpStorage: ipxHttpStorage({ domains: [wp.host] }),
-        alias: { "/content": `${wp.origin}/wp-content` },
-    });
 
-    const ipxHandler = createIPXNodeServer(ipx);
-
-    res.setHeader('Cache-Control', 'public, max-age=86400')
+    res.setHeader("Cache-Control", "public, max-age=86400");
 
     // 交给 IPX 处理
     // return event.path

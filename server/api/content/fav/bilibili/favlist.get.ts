@@ -4,7 +4,7 @@ const DEFAULT_PAGE_SIZE = 20;
 
 export default defineEventHandler(async (event) => {
     try {
-        const sysConfig = await getThemeSysConfig();
+        const sysConfig = await getThemeSysConfig(event);
         const userID = sysConfig?.sysBilibiliUserId ?? null;
 
         if (!userID) return;

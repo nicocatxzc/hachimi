@@ -4,7 +4,7 @@ export default defineEventHandler(async (event) => {
         throw new Error("非管理员禁止操作");
     }
 
-    const option = useOptionAPI();
+    const option = useOptionAPI(event);
 
     const res = option.set("theme_config", event);
 

@@ -2,7 +2,7 @@ import axios from "axios";
 export default defineEventHandler(async (event) => {
     const method = event.method;
     const config = useRuntimeConfig();
-    const themeConfig = await getThemeConfig();
+    const themeConfig = await getThemeConfig(event);
 
     if (method == "GET") {
         switch (themeConfig.captchaSelect ?? "builtIn") {
@@ -20,8 +20,8 @@ export default defineEventHandler(async (event) => {
     }
 
     if (method == "POST") {
-        const themeConfig = await getThemeConfig();
-        const sysConfig = await getThemeSysConfig();
+        const themeConfig = await getThemeConfig(event);
+        const sysConfig = await getThemeSysConfig(event);
 
         const body = await readBody(event);
 
