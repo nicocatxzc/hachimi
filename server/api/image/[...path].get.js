@@ -32,7 +32,7 @@ function parseIPXPath(pathname) {
                 .join("_");
         }
     }
-    
+
     return { modifiers, id };
 }
 const nuxtconfig = useRuntimeConfig();
@@ -84,6 +84,9 @@ export default defineEventHandler(async (event) => {
         return;
     }
 
+    if (originalSrc.endsWith(".gif") || originalSrc.endsWith(".webp")) {
+        return proxyRequest(event, originalSrc);
+    }
 
     res.setHeader("Cache-Control", "public, max-age=86400");
 
