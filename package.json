@@ -4,11 +4,13 @@
     "private": true,
     "scripts": {
         "build": "nuxt build",
-        "build:docker": "docker build -t nicocatxzc/hachimi:dev .",
         "dev": "nuxt dev",
         "generate": "nuxt generate",
         "preview": "nuxt preview",
-        "postinstall": "nuxt prepare"
+        "postinstall": "nuxt prepare",
+        "build:docker": "docker build -t nicocatxzc/hachimi:dev . && pnpm run push:dev",
+        "push:dev":"docker push nicocatxzc/hachimi:dev",
+        "push:all":"docker tag nicocatxzc/hachimi:dev nicocatxzc/hachimi:latest && docker push nicocatxzc/hachimi:dev && docker push nicocatxzc/hachimi:latest"
     },
     "dependencies": {
         "@element-plus/icons-vue": "^2.3.2",
